@@ -1,9 +1,16 @@
 #include <stdlib.h>
 #include <iostream>
 
+#include <core/Application.h>
+
 int main(int argc, char* args[]) {
 
-    std::cout << "Hello" << std::endl;
+    Gengine::Application app;
+
+    app.Initialise();
+
+    app.Run();
+
 
     return 0;
 }
