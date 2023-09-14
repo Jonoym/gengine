@@ -8,4 +8,13 @@ namespace Gengine
 
     void EntityService::Update() {
     }
+
+    void EntityService::Dispose() {
+        
+    }
+
+    void EntityService::RegisterEntity(Entity& entity) {
+        mEntities.push_back(entity);
+    }
+
 }

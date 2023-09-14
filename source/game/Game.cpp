@@ -24,13 +24,16 @@ namespace Gengine
     void Game::MainLoop()
     {
         L_INFO("[GAME]", "Starting Game Main Loop");
+
+        mScene->Initialise();
+        
         bool running = true;
         while (running)
         {
             bool shouldQuit = mScene->Update();
 
             if (shouldQuit) {
-                L_INFO("[GAME]", "Main Game Loop should quit");
+                L_INFO("[GAME]", "Main Game Loop is Exiting");
                 running = false;
             }
         }

@@ -14,13 +14,25 @@ namespace Gengine
     {
     
     public:
-        ServiceManager();
-        ~ServiceManager();
+
+        static ServiceManager& getServiceManager() {
+            static ServiceManager serviceManager;
+            return serviceManager;
+        }
+
+        ServiceManager (const ServiceManager&) = delete;
+        ServiceManager& operator=(const ServiceManager&) = delete;
 
         bool Update();
         void Dispose();
 
+        EntityService& GetEntityService();
+
     private:
+
+        ServiceManager() {};
+        ~ServiceManager() {};
+
         PhysicsService mPhysicsService;
         RenderService mRenderService;
         EntityService mEntityService;

@@ -8,4 +8,8 @@ namespace Gengine
 
     void PhysicsService::Update() {
     }
+
+    void PhysicsService::Dispose() {
+        
+    }
 }

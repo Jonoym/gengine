@@ -2,8 +2,6 @@
 
 namespace Gengine
 {
-    ServiceManager::ServiceManager() {}
-    ServiceManager::~ServiceManager() {}
 
     bool ServiceManager::Update() {
         
@@ -16,5 +14,13 @@ namespace Gengine
 
         return shouldQuit;
     }
-    void ServiceManager::Dispose() {}
+
+    void ServiceManager::Dispose() {
+        mEntityService.Dispose();
+    }
+
+    EntityService& ServiceManager::GetEntityService() {
+        return mEntityService;
+    }
+
 }

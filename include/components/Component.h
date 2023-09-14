@@ -5,9 +5,7 @@
 namespace Gengine 
 {
 
-    struct IComponent {
-
-        virtual ~IComponent() = 0;
+    struct Component {
 
         virtual void Create() = 0;
         virtual void Update() = 0;

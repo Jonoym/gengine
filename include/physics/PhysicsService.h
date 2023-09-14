@@ -9,6 +9,8 @@ namespace Gengine
     public:
         PhysicsService();
         ~PhysicsService();
+
         void Update() override;
+        void Dispose() override;
     };
 }

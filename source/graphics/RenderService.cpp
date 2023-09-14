@@ -1,11 +1,17 @@
 #include <graphics/RenderService.h>
 
-namespace Gengine {
+namespace Gengine
+{
     RenderService::RenderService() {}
 
     RenderService::~RenderService() {}
 
-    void RenderService::Update() {
+    void RenderService::Update()
+    {
+    }
+
+    void RenderService::Dispose()
+    {
     }
 
     void RenderService::Render(const std::string &assetName, const Gengine::Vector2D &position) {}

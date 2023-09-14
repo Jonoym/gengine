@@ -6,11 +6,12 @@ namespace Gengine
 {
     class Map : public IMap
     {
-        public:
-            Map();
-            ~Map();
+    public:
+        Map();
+        ~Map();
 
-            void Initialise() override;
-            void Dispose() override;
+        void Initialise() override;
+        void Dispose() override;
+        void SpawnEntityAt(Entity& entity, const Vector2D &position) override;
     };
 }
