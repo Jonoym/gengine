@@ -6,5 +6,6 @@ namespace Gengine
 
     PhysicsService::~PhysicsService() {}
 
-    void PhysicsService::Update() {}
+    void PhysicsService::Update() {
+    }
 }

@@ -4,9 +4,7 @@
 
 namespace Gengine
 {
-    struct IInputService {
-
+    struct IService{
         virtual void Update() = 0;
-
     };
 }

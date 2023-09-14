@@ -27,9 +27,12 @@ namespace Gengine
         bool running = true;
         while (running)
         {
-            mScene->Update();
+            bool shouldQuit = mScene->Update();
 
-            running = false;
+            if (shouldQuit) {
+                L_INFO("[GAME]", "Main Game Loop should quit");
+                running = false;
+            }
         }
     }
 

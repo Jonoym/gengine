@@ -34,6 +34,8 @@ namespace Gengine
 
         mGame->MainLoop();
 
+        mGame->Dispose();
+
         mScreen->Exit();
     }
 

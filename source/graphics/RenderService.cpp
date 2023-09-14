@@ -5,7 +5,8 @@ namespace Gengine {
 
     RenderService::~RenderService() {}
 
-    void RenderService::Update() {}
+    void RenderService::Update() {
+    }
 
     void RenderService::Render(const std::string &assetName, const Gengine::Vector2D &position) {}
 

@@ -2,12 +2,11 @@
 
 #include <Includes.h>
 
-namespace Gengine {
-
-    struct IScene {
-
+namespace Gengine
+{
+    struct IMap
+    {
         virtual void Initialise() = 0;
-        virtual bool Update() = 0;
         virtual void Dispose() = 0;
     };
 }

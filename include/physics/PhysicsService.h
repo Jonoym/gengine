@@ -1,12 +1,14 @@
 #pragma once
 
+#include <services/IService.h>
+
 namespace Gengine
 {
-    class PhysicsService
+    class PhysicsService : public IService
     {
     public:
         PhysicsService();
         ~PhysicsService();
-        void Update();
+        void Update() override;
     };
 }

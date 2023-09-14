@@ -1,6 +1,7 @@
 #pragma once
 
 #include <scenes/IScene.h>
+#include <services/ServiceManager.h>
 
 namespace Gengine
 {
@@ -11,7 +12,11 @@ namespace Gengine
         ~Scene();
 
         void Initialise() override;
-        void Update() override;
+        bool Update() override;
         void Dispose() override;
+
+    private:
+        ServiceManager mServiceManager;
+        int counter = 0;
     };
 }

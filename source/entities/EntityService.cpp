@@ -6,5 +6,6 @@ namespace Gengine
 
     EntityService::~EntityService() {}
 
-    void EntityService::Update() {}
+    void EntityService::Update() {
+    }
 }

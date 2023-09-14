@@ -3,27 +3,24 @@
 
 namespace Gengine
 {
-    Scene::Scene() {}
+    Scene::Scene() : counter(0) {}
 
     Scene::~Scene() {}
 
     void Scene::Initialise() {
         L_INFO("[SCENE]", "Initialising Scene");
-
-        mPhysicsService = std::make_unique<PhysicsService>();
-        mRenderService = std::make_unique<RenderService>();
-        mEntityService = std::make_unique<EntityService>();
     }
 
-    void Scene::Update() {
+    bool Scene::Update() {
         L_INFO("[SCENE]", "Starting Scene Update");
 
-        mPhysicsService->Update();
+        bool shouldQuit = mServiceManager.Update();
 
-        mRenderService->Update();
-
-        mEntityService->Update();
+        return shouldQuit;
     }
 
-    void Scene::Dispose() {}
+    void Scene::Dispose() {
+        L_INFO("[SCENE]", "Disposing Scene");
+
+    }
 }
