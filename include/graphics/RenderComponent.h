@@ -10,13 +10,14 @@ namespace Gengine
     public:
 
         RenderComponent();
-        RenderComponent(std::string assetName, std::string path);
+        RenderComponent(std::string assetName, std::string path, const Vector2D& size);
         RenderComponent(const RenderComponent& other);
         ~RenderComponent();
 
         void Create() override;
         void Update() override;
         void Dispose() override;
+        void UpdateSize(const Vector2D& size);
     
         void Render();
 

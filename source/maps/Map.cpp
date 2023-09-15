@@ -14,8 +14,8 @@ namespace Gengine
         L_INFO("[MAP]", "Initialising Map Area");
 
         Entity entity;
-        entity.AddComponent(std::make_shared<RenderComponent>("dog", "assets/dog.png"), ComponentType::RENDER);
-        // SpawnEntityAt(entity, Vector2D(0, 0));
+        entity.AddComponent(std::make_shared<RenderComponent>("dog", "assets/dog.png", Vector2D(100,100)), ComponentType::RENDER);
+        SpawnEntityAt(entity, Vector2D(0, 0));
     }
 
     void Map::Dispose() {

@@ -22,8 +22,18 @@ namespace Gengine
         }
     }
 
+    void InputHandler::DispatchInputEvent(const Input& input)
+    {
+        
+    }
+
     bool InputHandler::ShouldQuit()
     {
         return mQuit;
     }
+
+    void InputHandler::Register(const std::shared_ptr<Component> component) {
+
+    }
+
 }

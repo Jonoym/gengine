@@ -9,9 +9,9 @@ namespace Gengine
         , mSize(Vector2D(1,1))
         {}
 
-    RenderComponent::RenderComponent(std::string assetName, std::string path)
+    RenderComponent::RenderComponent(std::string assetName, std::string path, const Vector2D& size)
         : mAssetName(assetName)
-        , mSize(Vector2D(1, 1)) 
+        , mSize(size) 
     {
         L_INFO("[RENDER COMPONENT]", "Creating Render Component with Asset Name: %s at Path: %s", assetName.c_str(), path.c_str());
         ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, path);
@@ -27,8 +27,12 @@ namespace Gengine
     
     void RenderComponent::Dispose() {}
 
+    void RenderComponent::UpdateSize(const Vector2D& size) {
+        mSize = size;
+    }
+
     void RenderComponent::Render() {
         L_TRACE("[RENDER COMPONENT]", "Rendering Component");
-        ServiceManager::GetServiceManager().GetRenderService().Render(mAssetName, mEntity->mPosition);
+        ServiceManager::GetServiceManager().GetRenderService().Render(mAssetName, mSize, mEntity->mPosition);
     }
 }

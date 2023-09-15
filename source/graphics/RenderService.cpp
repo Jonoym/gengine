@@ -16,7 +16,7 @@ namespace Gengine
         SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
         SDL_RenderClear(mRenderer);
 
-        for (const auto& component: mRenderComponents)
+        for (const auto &component : mRenderComponents)
         {
             L_TRACE("[RENDER SERVICE]", "Updating Render Component");
             component->Render();
@@ -37,13 +37,27 @@ namespace Gengine
         mAssets.clear();
     }
 
-    void RenderService::Render(const std::string &assetName, const Vector2D &position) {
+    void RenderService::Render(const std::string &assetName, const Vector2D &size, const Vector2D &position)
+    {
 
         L_TRACE("[RENDER SERVICE]", "Attempting to Render Asset: %s", assetName.c_str());
         auto asset = mAssets.find(assetName);
-        if (asset != nullptr) {
+        if (asset != nullptr)
+        {
             L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %s", assetName.c_str());
-            SDL_RenderCopy(mRenderer, asset->second, NULL, NULL);
+            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %f", size.x);
+            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %f", size.y);
+            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %f", position.x);
+            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %f", position.y);
+
+            SDL_Rect dest = {
+                static_cast<int>(position.x),
+                static_cast<int>(position.y),
+                static_cast<int>(size.x),
+                static_cast<int>(size.y)
+            };
+
+            SDL_RenderCopy(mRenderer, asset->second, NULL, &dest);
         }
     }
 

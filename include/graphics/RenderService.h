@@ -14,7 +14,7 @@ namespace Gengine
 
         void Update() override;
         void Dispose() override;
-        void Render(const std::string &assetName, const Vector2D &position) override;
+        void Render(const std::string &assetName, const Vector2D& size, const Vector2D &position) override;
         void RegisterAsset(const std::string &assetName, const std::string &path) override;
         void Register(const std::shared_ptr<Component> component) override;
 
