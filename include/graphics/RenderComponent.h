@@ -1,6 +1,7 @@
 #pragma once
 
 #include <components/Component.h>
+#include <utils/Vector2D.h>
 
 namespace Gengine
 {
@@ -9,6 +10,7 @@ namespace Gengine
     public:
 
         RenderComponent();
+        RenderComponent(std::string assetName, std::string path);
         RenderComponent(const RenderComponent& other);
         ~RenderComponent();
 
@@ -19,6 +21,8 @@ namespace Gengine
         void Render();
 
     private:
+        std::string mAssetName;
+        Vector2D mSize;
     
     };
 }

@@ -1,4 +1,5 @@
 #include <entities/EntityService.h>
+#include <core/Logger.h>
 
 namespace Gengine
 {
@@ -14,6 +15,7 @@ namespace Gengine
     }
 
     void EntityService::RegisterEntity(Entity& entity) {
+        L_INFO("[ENTITY SERVICE]", "Registering Entity");
         mEntities.push_back(entity);
     }
 

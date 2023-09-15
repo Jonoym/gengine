@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Includes.h>
-#include <screen/Screen.h>
+#include <gui/Interface.h>
 #include <game/Game.h>
 
 namespace Gengine
@@ -19,7 +19,7 @@ namespace Gengine
         void Run();
 
     private:
-        std::unique_ptr<IScreen> mScreen = nullptr;
+        IInterface* mScreen = nullptr;
         std::unique_ptr<IGame> mGame = nullptr;
     };
 

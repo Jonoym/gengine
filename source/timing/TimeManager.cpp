@@ -60,17 +60,17 @@ namespace Gengine
         {
             if (mPaused)
             {
-                L_INFO("[TIMER]", "Getting Game Ticks for Paused Game: %d", mPausedTicks);
+                L_TRACE("[TIMER]", "Getting Game Ticks for Paused Game: %d", mPausedTicks);
                 return mPausedTicks;
             }
             else
             {
-                L_INFO("[TIMER]", "Getting Game Ticks for Running Game: %d", SDL_GetTicks() - mStartTicks);
+                L_TRACE("[TIMER]", "Getting Game Ticks for Running Game: %d", SDL_GetTicks() - mStartTicks);
                 return SDL_GetTicks() - mStartTicks;
             }
         }
 
-        L_INFO("[TIMER]", "Timer Manager has not been started");
+        L_WARN("[TIMER]", "Timer Manager has not been started");
         return 0;
     }
 

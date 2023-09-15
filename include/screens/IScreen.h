@@ -6,7 +6,7 @@
 
 namespace Gengine {
 
-    struct IScene {
+    struct IScreen {
 
         virtual void Initialise() = 0;
         virtual bool Update() = 0;

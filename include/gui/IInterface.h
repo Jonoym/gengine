@@ -4,7 +4,7 @@
 
 namespace Gengine 
 {
-    struct IScreen
+    struct IInterface
     {
         virtual bool Initialise() = 0;
         virtual void Exit() = 0;

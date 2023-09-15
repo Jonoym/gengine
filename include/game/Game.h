@@ -16,12 +16,12 @@ namespace Gengine
 
         void Initialise() override;
         void MainLoop() override;
-        void SetScene(std::unique_ptr<IScene> scene) override;
+        void SetScreen(std::unique_ptr<IScreen> screen) override;
 
         void Dispose() override;
 
-        // void ChangeScene(const std::string &sceneId) override;
-        // void AddScene(const std::string &sceneId, const IScene &scene) override;
+        void ChangeScreen(const std::string &screenId) override;
+        void AddScreen(const std::string &screenId, const IScreen &screen) override;
     };
 
 }

@@ -1,7 +1,8 @@
+#include <SDL2/SDL.h>
+
 #include <core/Application.h>
 #include <core/Logger.h>
 
-#include <SDL2/SDL.h>
 
 namespace Gengine
 {
@@ -16,8 +17,11 @@ namespace Gengine
     
     void Application::Initialise()
     {
-        L_INFO("[APPLICATION]", "Initialising Application");
-        mScreen = std::make_unique<Gengine::Screen>();
+        L_INFO("[APPLICATION]", "Initialising Application")
+
+        Interface& interface = Interface::GetInterface();
+        mScreen = &interface;
+
         mGame = std::make_unique<Gengine::Game>();
     }
 

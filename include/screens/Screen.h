@@ -1,14 +1,14 @@
 #pragma once
 
-#include <scenes/IScene.h>
+#include <screens/IScreen.h>
 
 namespace Gengine
 {
-    class Scene : public IScene
+    class Screen : public IScreen
     {
     public:
-        Scene();
-        ~Scene();
+        Screen();
+        ~Screen();
 
         void Initialise() override;
         bool Update() override;

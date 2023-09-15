@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Includes.h>
 #include <Types.h>
 
 namespace Gengine
@@ -16,9 +17,7 @@ namespace Gengine
         Vector2D operator+ (const Vector2D& other);
         Vector2D operator- (const Vector2D& other);
     
-    private:
         float32 x;
         float32 y;
-
     };
 }

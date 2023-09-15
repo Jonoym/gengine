@@ -1,5 +1,5 @@
 #include <game/Game.h>
-#include <scenes/Scene.h>
+#include <screens/Screen.h>
 #include <core/Logger.h>
 
 namespace Gengine
@@ -12,25 +12,25 @@ namespace Gengine
     {
         L_INFO("[GAME]", "Initialising Game");
 
-        SetScene(std::make_unique<Scene>());
+        SetScreen(std::make_unique<Screen>());
     }
 
-    void Game::SetScene(std::unique_ptr<IScene> scene)
+    void Game::SetScreen(std::unique_ptr<IScreen> screen)
     {
-        L_INFO("[GAME]", "Setting the current scene");
-        mScene = std::move(scene);
+        L_INFO("[GAME]", "Setting the Current Screen");
+        mScreen = std::move(screen);
     }
 
     void Game::MainLoop()
     {
         L_INFO("[GAME]", "Starting Game Main Loop");
 
-        mScene->Initialise();
+        mScreen->Initialise();
         
         bool running = true;
         while (running)
         {
-            bool shouldQuit = mScene->Update();
+            bool shouldQuit = mScreen->Update();
 
             if (shouldQuit) {
                 L_INFO("[GAME]", "Main Game Loop is Exiting");
@@ -43,13 +43,14 @@ namespace Gengine
     {
         L_INFO("[GAME]", "Disposing Game");
 
+        ServiceManager::GetServiceManager().Dispose();
     }
 
-    // void Game::ChangeScene(const std::string &sceneId)
-    // {
-    // }
+    void Game::ChangeScreen(const std::string &screenId) {
 
-    // void Game::AddScene(const std::string &sceneId, const IScene &scene)
-    // {
-    // }
+    }
+    
+    void Game::AddScreen(const std::string &screenId, const IScreen &screen) {
+
+    }
 }

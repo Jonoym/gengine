@@ -1,44 +1,34 @@
-#include <screen/Screen.h>
+#include <screens/Screen.h>
 #include <core/Logger.h>
 
+#include <maps/Map.h>
 
-namespace Gengine 
+namespace Gengine
 {
-    Screen::Screen()
-    {
+    Screen::Screen() {}
 
-    }
+    Screen::~Screen() {}
 
-    Screen::~Screen()
-    {
-
-    }
-
-    bool Screen::Initialise()
-    {
+    void Screen::Initialise() {
         L_INFO("[SCREEN]", "Initialising Screen");
 
-        if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
-            L_FATAL("[SCREEN]", "Failed to initialise SDL: %s", SDL_GetError());
-            return false;
-        } 
+        mMap = std::make_unique<Map>();
+        ServiceManager& serviceManager = ServiceManager::GetServiceManager();
+        mServiceManager = &serviceManager;
 
-        mWindow = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
-        if (!mWindow) 
-        {
-            L_FATAL("[SCREEN]", "Failed to create wthe window SDL: %s", SDL_GetError());
-            return false;
-        }
-
-        return true;
-    }
-    
-    void Screen::Exit()
-    {
-        L_INFO("[SCREEN]", "Destroying and Exiting Screen");
-
-	    SDL_DestroyWindow( mWindow );
-        SDL_Quit();
+        mMap->Initialise();
     }
 
+    bool Screen::Update() {
+        L_TRACE("[SCREEN]", "Starting Screen Update");
+        
+        bool shouldQuit = mServiceManager->Update();
+
+        return shouldQuit;
+    }
+
+    void Screen::Dispose() {
+        L_INFO("[SCREEN]", "Disposing Screen");
+
+    }
 }

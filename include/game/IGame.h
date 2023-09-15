@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Includes.h>
-#include <scenes/IScene.h>
+#include <screens/IScreen.h>
 
 namespace Gengine
 {
@@ -13,13 +13,13 @@ namespace Gengine
 
         virtual void Initialise() = 0;
         virtual void MainLoop() = 0;
-        virtual void SetScene(std::unique_ptr<IScene> scene) = 0;
+        virtual void SetScreen(std::unique_ptr<IScreen> screen) = 0;
 
         virtual void Dispose() = 0;
         
-        // virtual void ChangeScene(const std::string &sceneId) = 0;
-        // virtual void AddScene(const std::string &sceneId, const IScene &scene) = 0;
+        virtual void ChangeScreen(const std::string &screenId) = 0;
+        virtual void AddScreen(const std::string &screenId, const IScreen &screen) = 0;
 
-        std::unique_ptr<IScene> mScene = nullptr;
+        std::unique_ptr<IScreen> mScreen = nullptr;
     };
 }

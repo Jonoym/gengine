@@ -15,7 +15,7 @@ namespace Gengine
     
     public:
 
-        static ServiceManager& getServiceManager() {
+        static ServiceManager& GetServiceManager() {
             static ServiceManager serviceManager;
             return serviceManager;
         }
@@ -27,6 +27,7 @@ namespace Gengine
         void Dispose();
 
         EntityService& GetEntityService();
+        RenderService& GetRenderService();
 
     private:
 
