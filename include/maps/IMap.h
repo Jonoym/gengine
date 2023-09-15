@@ -10,6 +10,6 @@ namespace Gengine
     {
         virtual void Initialise() = 0;
         virtual void Dispose() = 0;
-        virtual void SpawnEntityAt(Entity& entity, const Vector2D &position) = 0;
+        virtual void SpawnEntityAt(std::unique_ptr<Entity> entity, const Vector2D &position) = 0;
     };
 }

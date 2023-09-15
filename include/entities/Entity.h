@@ -19,7 +19,7 @@ namespace Gengine
         ~Entity();
 
         void AddComponent(std::shared_ptr<Component> component, ComponentType type);
-        void SetPosition(const Vector2D &newPosition);
+        void SetPosition(Vector2D newPosition);
         const Vector2D &GetPosition();
 
         void Dispose();

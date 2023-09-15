@@ -4,11 +4,6 @@
 
 namespace Gengine
 {
-    RenderComponent::RenderComponent()
-        : mAssetName("")
-        , mSize(Vector2D(1,1))
-        {}
-
     RenderComponent::RenderComponent(std::string assetName, std::string path, const Vector2D& size)
         : mAssetName(assetName)
         , mSize(size) 
@@ -33,6 +28,7 @@ namespace Gengine
 
     void RenderComponent::Render() {
         L_TRACE("[RENDER COMPONENT]", "Rendering Component");
-        ServiceManager::GetServiceManager().GetRenderService().Render(mAssetName, mSize, mEntity->mPosition);
+
+        ServiceManager::GetServiceManager().GetRenderService().Render(mAssetName, mSize, mEntity->GetPosition());
     }
 }

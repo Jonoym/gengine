@@ -9,7 +9,8 @@ namespace Gengine
 
     public:
         Vector2D();
-        Vector2D(float xCoord, float yCoord);
+        Vector2D(int32 xCoord, int32 yCoord);
+        Vector2D(float32 xCoord, float32 yCoord);
         Vector2D(const Vector2D& vector);
         Vector2D& operator= (const Vector2D& other);
 

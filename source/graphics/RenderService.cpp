@@ -30,7 +30,7 @@ namespace Gengine
         L_INFO("[RENDER SERVICE]", "Disposing Assets");
         for (auto &asset : mAssets)
         {
-            L_INFO("[RENDER SERVICE]", "Disposing Asset");
+            L_INFO("[RENDER SERVICE]", "Disposing Asset %s", asset.first);
             SDL_DestroyTexture(asset.second);
         }
 
@@ -44,11 +44,7 @@ namespace Gengine
         auto asset = mAssets.find(assetName);
         if (asset != nullptr)
         {
-            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %s", assetName.c_str());
-            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %f", size.x);
-            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %f", size.y);
-            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %f", position.x);
-            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset: %f", position.y);
+            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f }", size.x, size.y, position.x, position.y);
 
             SDL_Rect dest = {
                 static_cast<int>(position.x),
@@ -86,6 +82,7 @@ namespace Gengine
 
     void RenderService::Register(std::shared_ptr<Component> component)
     {
+        L_INFO("[INPUT HANDLER]", "Registering Render Component");
         mRenderComponents.push_back(std::static_pointer_cast<RenderComponent>(component));
     }
 }

@@ -14,9 +14,9 @@ namespace Gengine
         
     }
 
-    void EntityService::RegisterEntity(Entity& entity) {
+    void EntityService::RegisterEntity(std::unique_ptr<Entity> entity) {
         L_INFO("[ENTITY SERVICE]", "Registering Entity");
-        mEntities.push_back(entity);
+        mEntities.push_back(std::move(entity));
     }
 
 }

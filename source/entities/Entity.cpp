@@ -4,11 +4,12 @@
 
 namespace Gengine
 {
-    Entity::Entity() {}
+    Entity::Entity()
+        : mPosition(Vector2D(0.0f, 0.0f)) {}
 
     Entity::Entity(const Entity &other)
+        : mPosition(Vector2D(other.mPosition.x, other.mPosition.y))
     {
-        this->mPosition = other.mPosition;
         this->mEventHandler = other.mEventHandler;
 
         this->mComponents = std::move(other.mComponents);
@@ -26,19 +27,23 @@ namespace Gengine
         {
             case ComponentType::RENDER:
                 ServiceManager::GetServiceManager().GetRenderService().Register(component);
+                break;
+            case ComponentType::INPUT:
+                ServiceManager::GetServiceManager().GetInputHandler().Register(component);
+                break;
         }
     }
 
-    void Entity::SetPosition(const Vector2D &newPosition)
+    void Entity::SetPosition(Vector2D newPosition)
     {
-        L_INFO("[ENTITY]", "Setting the Entity Position");
+        L_INFO("[ENTITY]", "Setting the Entity Position: { %f, %f }", newPosition.x, newPosition.y);
 
         mPosition = newPosition;
     }
 
     const Vector2D &Entity::GetPosition()
     {
-        L_TRACE("[ENTITY]", "Getting the Entity Position");
+        L_TRACE("[ENTITY]", "Getting the Entity Position: { %f, %f }", mPosition.x, mPosition.y);
 
         return mPosition;
     }

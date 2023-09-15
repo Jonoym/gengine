@@ -31,4 +31,8 @@ namespace Gengine
         return mRenderService;
     }
 
+    InputHandler& ServiceManager::GetInputHandler() {
+        return mInputHandler;
+    }
+
 }

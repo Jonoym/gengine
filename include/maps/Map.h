@@ -12,6 +12,6 @@ namespace Gengine
 
         void Initialise() override;
         void Dispose() override;
-        void SpawnEntityAt(Entity& entity, const Vector2D &position) override;
+        void SpawnEntityAt(std::unique_ptr<Entity> entity, const Vector2D &position) override;
     };
 }

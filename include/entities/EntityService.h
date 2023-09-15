@@ -14,9 +14,9 @@ namespace Gengine
 
         void Update() override;
         void Dispose() override;
-        void RegisterEntity(Entity& entity);
+        void RegisterEntity(std::unique_ptr<Entity> entity);
 
     private:
-        std::vector<Entity> mEntities;
+        std::vector<std::unique_ptr<Entity>> mEntities;
     };
 }

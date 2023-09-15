@@ -1,5 +1,7 @@
 #include <utils/Vector2D.h>
 
+#include <core/Logger.h>
+
 namespace Gengine
 {
     Vector2D::Vector2D()
@@ -7,7 +9,12 @@ namespace Gengine
     {
     }
 
-    Vector2D::Vector2D(float xCoord, float yCoord)
+    Vector2D::Vector2D(int32 xCoord, int32 yCoord)
+        : x(static_cast<float32>(xCoord)), y(static_cast<float32>(yCoord))
+    {
+    }
+
+    Vector2D::Vector2D(float32 xCoord, float32 yCoord)
         : x(xCoord), y(yCoord)
     {
     }

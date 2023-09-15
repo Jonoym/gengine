@@ -9,7 +9,6 @@ namespace Gengine
     {
     public:
 
-        RenderComponent();
         RenderComponent(std::string assetName, std::string path, const Vector2D& size);
         RenderComponent(const RenderComponent& other);
         ~RenderComponent();
@@ -24,6 +23,5 @@ namespace Gengine
     private:
         std::string mAssetName;
         Vector2D mSize;
-    
     };
 }

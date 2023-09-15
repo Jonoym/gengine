@@ -1,15 +1,20 @@
 #pragma once
 
 #include <components/Component.h>
+#include <input/Input.h>
 
 namespace Gengine
 {
-    class InputComponent
+    class InputComponent : public Component
     {
         public:
 
-        virtual void HandleInput() = 0;
-        virtual bool ShouldQuit() = 0;
-        virtual void Register(const std::shared_ptr<Component> component) = 0;
+        InputComponent();
+        ~InputComponent();
+
+        void Create() override;
+        void Update() override;
+        void Dispose() override;
+        void HandleInput(const InputType& type);
     };
 }

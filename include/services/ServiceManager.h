@@ -28,6 +28,7 @@ namespace Gengine
 
         EntityService& GetEntityService();
         RenderService& GetRenderService();
+        InputHandler& GetInputHandler();
 
     private:
 
