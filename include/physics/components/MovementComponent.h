@@ -8,7 +8,6 @@ namespace Gengine
     class MovementComponent : public Component
     {
     public:
-
         MovementComponent();
         ~MovementComponent();
 
@@ -16,7 +15,10 @@ namespace Gengine
         void Update() override;
         void Dispose() override;
 
-        void Trigger();
-    
+    private:
+        void MoveLeft();
+        void MoveRight();
+        void MoveUp();
+        void MoveDown();
     };
 }

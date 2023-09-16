@@ -30,7 +30,7 @@ namespace Gengine
         L_INFO("[RENDER SERVICE]", "Disposing Assets");
         for (auto &asset : mAssets)
         {
-            L_INFO("[RENDER SERVICE]", "Disposing Asset %s", asset.first);
+            L_INFO("[RENDER SERVICE]", "Disposing Asset: { '%s' }", asset.first.c_str());
             SDL_DestroyTexture(asset.second);
         }
 
@@ -40,9 +40,9 @@ namespace Gengine
     void RenderService::Render(const std::string &assetName, const Vector2D &size, const Vector2D &position)
     {
 
-        L_TRACE("[RENDER SERVICE]", "Attempting to Render Asset: %s", assetName.c_str());
+        L_TRACE("[RENDER SERVICE]", "Attempting to Render Asset: { '%s' }", assetName.c_str());
         auto asset = mAssets.find(assetName);
-        if (asset != nullptr)
+        if (asset != mAssets.end())
         {
             L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f }", size.x, size.y, position.x, position.y);
 
@@ -60,19 +60,22 @@ namespace Gengine
     void RenderService::RegisterAsset(const std::string &assetName, const std::string &path)
     {
 
-        L_INFO("[RENDER SERVICE]", "Registering Asset: %s", assetName.c_str());
+        L_INFO("[RENDER SERVICE]", "Registering Asset: { '%s' }", assetName.c_str());
+
+        auto asset = mAssets.find(assetName);
+        if (asset != mAssets.end()) return;
 
         SDL_Surface *buffer = IMG_Load(path.c_str());
         if (!buffer)
         {
-            L_ERROR("[RENDER SERVICE]", "Failed to Register Asset: %s", assetName.c_str());
+            L_ERROR("[RENDER SERVICE]", "Failed to Register Asset: { '%s' }", assetName.c_str());
             return;
         }
 
         SDL_Texture *texture = SDL_CreateTextureFromSurface(mRenderer, buffer);
         if (!texture)
         {
-            L_ERROR("[RENDER SERVICE]", "Failed to Create Texture for Asset: %s", assetName.c_str());
+            L_ERROR("[RENDER SERVICE]", "Failed to Create Texture for Asset: { %s }", assetName.c_str());
             return;
         }
         SDL_FreeSurface(buffer);

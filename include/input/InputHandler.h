@@ -12,7 +12,7 @@ namespace Gengine
         InputHandler();
         ~InputHandler();
         void HandleInput();
-        void DispatchInputEvent(const Input& input);
+        void DispatchInputEvent(const Input& e);
         bool ShouldQuit();
 
         void Register(const std::shared_ptr<Component> component) override;

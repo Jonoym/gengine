@@ -1,6 +1,8 @@
 #include <maps/Map.h>
 #include <services/ServiceManager.h>
 #include <entities/Entity.h>
+#include <input/InputMovementComponent.h>
+#include <physics/components/MovementComponent.h>
 
 #include <core/Logger.h>
 
@@ -14,17 +16,16 @@ namespace Gengine
         L_INFO("[MAP]", "Initialising Map Area");
 
         std::unique_ptr<Entity> entity = std::make_unique<Entity>();
-        entity->AddComponent(std::make_shared<RenderComponent>("dog", "assets/dog.png", Vector2D(100.0f, 100.0f)), ComponentType::RENDER);
-        SpawnEntityAt(std::move(entity), Vector2D(200.0f, 200.0f));
+        entity->AddComponent(std::make_shared<RenderComponent>("dog", "assets/dog.png", Vector2D(400.0f, 400.0f)), ComponentType::RENDER);
+        entity->AddComponent(std::make_shared<InputMovementComponent>(), ComponentType::INPUT);
+        entity->AddComponent(std::make_shared<MovementComponent>(), ComponentType::OTHER);
+        SpawnEntityAt(std::move(entity), Vector2D(0.0f, 0.0f));
 
-        for (float i = 0; i < 600; i += 100)
-        {
-            std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
-            entity2->AddComponent(std::make_shared<RenderComponent>("snake", "assets/snake.png", Vector2D(100.0f, 100.0f)), ComponentType::RENDER);
-            entity2->AddComponent(std::make_shared<InputComponent>(), ComponentType::INPUT);
-            SpawnEntityAt(std::move(entity2), Vector2D(i, i));
-        }
-
+        std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
+        entity2->AddComponent(std::make_shared<RenderComponent>("snake", "assets/snake.png", Vector2D(200.0f, 200.0f)), ComponentType::RENDER);
+        entity2->AddComponent(std::make_shared<InputMovementComponent>(), ComponentType::INPUT);
+        entity2->AddComponent(std::make_shared<MovementComponent>(), ComponentType::OTHER);
+        SpawnEntityAt(std::move(entity2), Vector2D(200.0f, 200.0f));
     }
 
     void Map::Dispose() {

@@ -20,7 +20,8 @@ namespace Gengine
     void Entity::AddComponent(std::shared_ptr<Component> component, ComponentType type)
     {
         L_INFO("[ENTITY]", "Adding Component");
-        component.get()->Attach(this);
+        component->Attach(this);
+        component->Create();
         mComponents.push_back(component);
 
         switch (type)

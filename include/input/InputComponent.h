@@ -7,14 +7,13 @@ namespace Gengine
 {
     class InputComponent : public Component
     {
-        public:
-
+    public:
         InputComponent();
         ~InputComponent();
 
         void Create() override;
         void Update() override;
         void Dispose() override;
-        void HandleInput(const InputType& type);
+        virtual void HandleInput(const Input &input);
     };
 }

@@ -24,6 +24,14 @@ namespace Gengine
     {
     }
 
+    Vector2D& Vector2D::operator+=(const Vector2D &other)
+    {
+        this->x += other.x;
+        this->y += other.y;
+
+        return *this;
+    }
+
     Vector2D &Vector2D::operator=(const Vector2D &other)
     {
         if (this != &other)
@@ -49,4 +57,5 @@ namespace Gengine
     {
         return Vector2D(x - other.x, y - other.y);
     }
+
 }

@@ -12,6 +12,7 @@ namespace Gengine
         Vector2D(int32 xCoord, int32 yCoord);
         Vector2D(float32 xCoord, float32 yCoord);
         Vector2D(const Vector2D& vector);
+        Vector2D& operator+= (const Vector2D& other);
         Vector2D& operator= (const Vector2D& other);
 
         bool operator== (const Vector2D& other);

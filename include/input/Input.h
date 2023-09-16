@@ -34,6 +34,12 @@ namespace Gengine
         INPUT_CATEGORY_MOUSE_BUTTON = BIT(5)
     };
 
+#define EVENT_CLASS_TYPE(type) static InputType GetStaticType() { return InputType::type; }\
+								virtual InputType GetInputType() const override { return GetStaticType(); }\
+								virtual const char* GetName() const override { return #type; }
+
+#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
+
     class Input
     {
     public:
