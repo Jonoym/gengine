@@ -26,6 +26,7 @@ namespace Gengine
         bool Update();
         void Dispose();
 
+        PhysicsService& GetPhysicsService();
         EntityService& GetEntityService();
         RenderService& GetRenderService();
         InputHandler& GetInputHandler();

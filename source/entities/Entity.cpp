@@ -8,7 +8,7 @@ namespace Gengine
         : mPosition(Vector2D(0.0f, 0.0f)) {}
 
     Entity::Entity(const Entity &other)
-        : mPosition(Vector2D(other.mPosition.x, other.mPosition.y))
+        : mPosition(Vector2D(other.mPosition.mX, other.mPosition.mY))
     {
         this->mEventHandler = other.mEventHandler;
 
@@ -32,19 +32,25 @@ namespace Gengine
             case ComponentType::INPUT:
                 ServiceManager::GetServiceManager().GetInputHandler().Register(component);
                 break;
+            case ComponentType::PHYSICS:
+                ServiceManager::GetServiceManager().GetPhysicsService().Register(component);
+                break;
+            case ComponentType::COLLISION:
+                ServiceManager::GetServiceManager().GetPhysicsService().RegisterCollider(component);
+                break;
         }
     }
 
     void Entity::SetPosition(Vector2D newPosition)
     {
-        L_INFO("[ENTITY]", "Setting the Entity Position: { %f, %f }", newPosition.x, newPosition.y);
+        L_INFO("[ENTITY]", "Setting the Entity Position: { %f, %f }", newPosition.mX, newPosition.mY);
 
         mPosition = newPosition;
     }
 
     const Vector2D &Entity::GetPosition()
     {
-        L_TRACE("[ENTITY]", "Getting the Entity Position: { %f, %f }", mPosition.x, mPosition.y);
+        L_TRACE("[ENTITY]", "Getting the Entity Position: { %f, %f }", mPosition.mX, mPosition.mY);
 
         return mPosition;
     }

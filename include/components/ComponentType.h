@@ -3,6 +3,7 @@
 enum class ComponentType
 {
     PHYSICS,
+    COLLISION,
     RENDER,
     INPUT,
     ANIMATE,

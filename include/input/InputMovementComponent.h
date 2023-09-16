@@ -18,5 +18,8 @@ namespace Gengine
         void Update() override;
         void Dispose() override;
         void HandleInput(const Input &input) override;
+    private:
+        void HandleKeyPressed(const Input &input);
+        void HandleKeyReleased(const Input &input);
     };
 }

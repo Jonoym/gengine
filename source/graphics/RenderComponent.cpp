@@ -26,6 +26,11 @@ namespace Gengine
         mSize = size;
     }
 
+    const Vector2D& RenderComponent::GetSize()
+    {
+        return mSize;
+    }
+
     void RenderComponent::Render() {
         L_TRACE("[RENDER COMPONENT]", "Rendering Component");
 

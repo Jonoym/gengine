@@ -1,5 +1,8 @@
 #include <graphics/RenderService.h>
+#include <utils/Box2D.h>
 #include <core/Logger.h>
+#include <entities/Entity.h>
+#include<algorithm>
 
 namespace Gengine
 {
@@ -16,6 +19,8 @@ namespace Gengine
         SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
         SDL_RenderClear(mRenderer);
 
+        OrderTextures();
+
         for (const auto &component : mRenderComponents)
         {
             L_TRACE("[RENDER SERVICE]", "Updating Render Component");
@@ -23,6 +28,14 @@ namespace Gengine
         }
 
         SDL_RenderPresent(mRenderer);
+    }
+
+    void RenderService::OrderTextures() {
+        std::sort(mRenderComponents.begin(), mRenderComponents.end(),
+            [](std::shared_ptr<RenderComponent> a, std::shared_ptr<RenderComponent> b) {
+                return (b->mEntity->mPosition.mY + b->GetSize().mY / 2) > (a->mEntity->mPosition.mY + a->GetSize().mY / 2);
+            }
+        );
     }
 
     void RenderService::Dispose()
@@ -44,14 +57,17 @@ namespace Gengine
         auto asset = mAssets.find(assetName);
         if (asset != mAssets.end())
         {
-            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f }", size.x, size.y, position.x, position.y);
+
+            Box2D boundingRect(position.mX, position.mY, size.mX, size.mY);
 
             SDL_Rect dest = {
-                static_cast<int>(position.x),
-                static_cast<int>(position.y),
-                static_cast<int>(size.x),
-                static_cast<int>(size.y)
+                static_cast<int>(boundingRect.mX),
+                static_cast<int>(boundingRect.mY),
+                static_cast<int>(boundingRect.mW),
+                static_cast<int>(boundingRect.mH)
             };
+            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f }",
+                boundingRect.mW, boundingRect.mH, boundingRect.mX, boundingRect.mY);
 
             SDL_RenderCopy(mRenderer, asset->second, NULL, &dest);
         }

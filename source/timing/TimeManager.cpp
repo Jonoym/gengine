@@ -7,7 +7,14 @@ namespace Gengine
 {
 
     TimeManager::TimeManager()
-        : mStartTicks(0), mPausedTicks(0), mStarted(false), mPaused(false)
+        : mStartTicks(0)
+        , mPausedTicks(0)
+        , mStarted(false)
+        , mPaused(false)
+        , mFrames(0)
+        , mCurrentTicks(0)
+        , mPreviousTicks(SDL_GetTicks())
+        , mDeltaTime(0.0f)
     {
         L_INFO("[TIMER]", "Initialising Time Manager");
     }
@@ -74,4 +81,16 @@ namespace Gengine
         return 0;
     }
 
+    float32 TimeManager::GetDeltaTime()
+    {
+        return mDeltaTime;
+    }
+
+    void TimeManager::Tick()
+    {
+        mCurrentTicks = SDL_GetTicks();
+        mDeltaTime = (mCurrentTicks - mPreviousTicks);
+        mPreviousTicks = mCurrentTicks;
+        mFrames++;
+    }
 }

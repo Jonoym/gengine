@@ -8,7 +8,8 @@ namespace Gengine
         L_TRACE("[SERVICES]", "Starting Service Updates");
 
         mInputHandler.HandleInput();
-        mPhysicsService.Update();
+        mTimeManager.Tick();
+        mPhysicsService.Update(mTimeManager.GetDeltaTime());
         mEntityService.Update();
         mRenderService.Update();
 
@@ -21,6 +22,7 @@ namespace Gengine
         L_INFO("[SERVICES]", "Disposing Services");
         mEntityService.Dispose();
         mRenderService.Dispose();
+        mPhysicsService.Dispose();
     }
 
     EntityService& ServiceManager::GetEntityService() {
@@ -33,6 +35,10 @@ namespace Gengine
 
     InputHandler& ServiceManager::GetInputHandler() {
         return mInputHandler;
+    }
+
+    PhysicsService& ServiceManager::GetPhysicsService() {
+        return mPhysicsService;
     }
 
 }

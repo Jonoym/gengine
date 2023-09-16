@@ -27,7 +27,7 @@ namespace Gengine
             switch(e.type)
             {
                 case SDL_KEYDOWN:
-                    DispatchInputEvent(KeyPressedInput{e.key.keysym.sym, true});
+                    DispatchInputEvent(KeyPressedInput{e.key.keysym.sym, false});
                     break;
                 case SDL_KEYUP:
                     DispatchInputEvent(KeyReleasedInput{e.key.keysym.sym});
