@@ -13,9 +13,15 @@ namespace Gengine
     void PhysicsService::Update(float32 deltaTime)
     {
         L_TRACE("[PHYSICS SERVICE]", "Simulating Physics Update");
-        UpdatePositions(deltaTime);
 
-        SolveCollisions();
+        const uint8 subSteps = 8;
+        const float32 subDeltaTime = deltaTime / subSteps;
+
+        for (uint8 i = 0; i < subSteps; i++) {
+            UpdatePositions(subDeltaTime);
+            SolveCollisions();
+        }
+
     }
 
     void PhysicsService::Dispose()
@@ -66,15 +72,14 @@ namespace Gengine
 
                 if (distance < collisionRadius)
                 {
-                    L_INFO("[PHYSICS SERVICE]", "Handling Collision Collider1 Position: { x: %f, y: %f }, Collider2 Position: { x: %f, y: %f }",
+                    L_TRACE("[PHYSICS SERVICE]", "Handling Collision Collider1 Position: { x: %f, y: %f }, Collider2 Position: { x: %f, y: %f }",
                         colliderPosition1.mX, colliderPosition1.mY, colliderPosition2.mX, colliderPosition2.mY);
                         
-                    const float32 divisor = 1.0f;
                     const Vector2D strength = collisionAxis / distance;
 
                     const float32 delta = collisionRadius - distance;
-                    collider1->mEntity->mPosition += strength * 0.5f * delta / divisor / collider1->mMass;
-                    collider2->mEntity->mPosition -= strength * 0.5f * delta / divisor / collider2->mMass;
+                    collider1->mEntity->mPosition += strength * 0.5f * delta / collider1->mMass;
+                    collider2->mEntity->mPosition -= strength * 0.5f * delta / collider2->mMass;
                 }
             }
         }
