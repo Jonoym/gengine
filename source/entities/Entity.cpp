@@ -41,6 +41,7 @@ namespace Gengine
 
     void Entity::Update()
     {
+        L_TRACE("[ENTITY]", "Updating Entity Components");
         for (auto& component : mComponents)
         {
             component->Update();

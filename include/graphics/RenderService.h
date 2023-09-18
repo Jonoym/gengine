@@ -3,6 +3,7 @@
 
 #include <gui/Interface.h>
 #include <graphics/IRenderService.h>
+#include <graphics/Texture.h>
 
 namespace Gengine
 {
@@ -15,12 +16,12 @@ namespace Gengine
         void Update() override;
         void Dispose() override;
         void OrderTextures() override;
-        void Render(const std::string &assetName, const Vector2D& size, const Vector2D &position) override;
+        void Render(const std::string &assetName, const Vector2D& size, const Vector2D &position, const Vector2D& clipSize = Vector2D(), const Vector2D &clipPosition = Vector2D()) override;
         void RegisterAsset(const std::string &assetName, const std::string &path) override;
-        void Register(RenderComponent* component) override;
+        void Register(IRenderableComponent* component) override;
 
     private:
         SDL_Renderer* mRenderer;
-        std::unordered_map<std::string, SDL_Texture*> mAssets;
+        std::unordered_map<std::string, Texture> mAssets;
     };
 }

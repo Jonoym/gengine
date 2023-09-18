@@ -1,22 +1,23 @@
 #pragma once
 
+#include <graphics/IRenderableComponent.h>
 #include <components/Component.h>
 #include <utils/Vector2D.h>
 
 namespace Gengine
 {
-    class RenderComponent : public Component
+    class RenderComponent : public IRenderableComponent
     {
     public:
         RenderComponent(std::string assetName, std::string path, const Vector2D &size);
         RenderComponent(const RenderComponent &other);
         ~RenderComponent();
 
-        const Vector2D& GetSize();
+        const Vector2D& GetSize() override;
 
         void UpdateSize(const Vector2D &size);
 
-        void Render();
+        void Render() override;
         Vector2D mSize;
 
     private:

@@ -81,6 +81,11 @@ namespace Gengine
         return 0;
     }
 
+    uint32 TimeManager::GetTotalTicks()
+    {
+        return SDL_GetTicks();
+    }
+
     float32 TimeManager::GetDeltaTime()
     {
         return mDeltaTime;

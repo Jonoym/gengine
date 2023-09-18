@@ -16,6 +16,7 @@ namespace Gengine
         void Unpause();
 
         uint32 GetTicks();
+        uint32 GetTotalTicks();
         float32 GetDeltaTime();
         void Tick();
 

@@ -30,12 +30,13 @@ namespace Gengine
         SDL_RenderPresent(mRenderer);
     }
 
-    void RenderService::OrderTextures() {
+    void RenderService::OrderTextures()
+    {
         std::sort(mRenderComponents.begin(), mRenderComponents.end(),
-            [](RenderComponent* a, RenderComponent* b) {
-                return (b->mEntity->mPosition.mY + b->GetSize().mY / 2) > (a->mEntity->mPosition.mY + a->GetSize().mY / 2);
-            }
-        );
+                  [](IRenderableComponent *a, IRenderableComponent *b)
+                  {
+                      return (b->mEntity->mPosition.mY + b->GetSize().mY / 2) > (a->mEntity->mPosition.mY + a->GetSize().mY / 2);
+                  });
     }
 
     void RenderService::Dispose()
@@ -44,32 +45,48 @@ namespace Gengine
         for (auto &asset : mAssets)
         {
             L_INFO("[RENDER SERVICE]", "Disposing Asset: { '%s' }", asset.first.c_str());
-            SDL_DestroyTexture(asset.second);
+            SDL_DestroyTexture(asset.second.GetTexture());
         }
 
         mAssets.clear();
     }
 
-    void RenderService::Render(const std::string &assetName, const Vector2D &size, const Vector2D &position)
+    void RenderService::Render(const std::string &assetName, const Vector2D &size, const Vector2D &position, const Vector2D &clipSize, const Vector2D &clipPosition)
     {
-
         L_TRACE("[RENDER SERVICE]", "Attempting to Render Asset: { '%s' }", assetName.c_str());
         auto asset = mAssets.find(assetName);
         if (asset != mAssets.end())
         {
 
-            Box2D boundingRect(position.mX, position.mY, size.mX, size.mY);
+            Box2D boundingRect(position.mX, position.mY, size.mX, size.mY, true, true);
 
             SDL_Rect dest = {
                 static_cast<int>(boundingRect.mX),
                 static_cast<int>(boundingRect.mY),
                 static_cast<int>(boundingRect.mW),
-                static_cast<int>(boundingRect.mH)
-            };
-            L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f }",
-                boundingRect.mW, boundingRect.mH, boundingRect.mX, boundingRect.mY);
+                static_cast<int>(boundingRect.mH)};
 
-            SDL_RenderCopy(mRenderer, asset->second, NULL, &dest);
+            if (clipSize == Vector2D(0, 0) && clipPosition == Vector2D(0, 0))
+            {
+                L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f }",
+                        boundingRect.mW, boundingRect.mH, boundingRect.mX, boundingRect.mY);
+                SDL_RenderCopy(mRenderer, asset->second.GetTexture(), NULL, &dest);
+            }
+            else
+            {
+                Box2D clipRect(clipPosition.mX, clipPosition.mY, clipSize.mX, clipSize.mY, false, false);
+
+                SDL_Rect clip = {
+                    static_cast<int>(clipRect.mX),
+                    static_cast<int>(clipRect.mY),
+                    static_cast<int>(clipRect.mW),
+                    static_cast<int>(clipRect.mH)};
+
+                L_TRACE("[RENDER SERVICE]", "Successfully Rendering Clip Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f } Texture Clip SIze: { w: %f, h: %f }, Clip Position: { x: %f, y: %f }",
+                        boundingRect.mW, boundingRect.mH, boundingRect.mX, boundingRect.mY, clipRect.mW, clipRect.mH, clipRect.mX, clipRect.mY);
+
+                SDL_RenderCopy(mRenderer, asset->second.GetTexture(), &clip, &dest);
+            }
         }
     }
 
@@ -79,7 +96,8 @@ namespace Gengine
         L_INFO("[RENDER SERVICE]", "Registering Asset: { '%s' }", assetName.c_str());
 
         auto asset = mAssets.find(assetName);
-        if (asset != mAssets.end()) return;
+        if (asset != mAssets.end())
+            return;
 
         SDL_Surface *buffer = IMG_Load(path.c_str());
         if (!buffer)
@@ -96,10 +114,10 @@ namespace Gengine
         }
         SDL_FreeSurface(buffer);
 
-        mAssets.emplace(assetName, texture);
+        mAssets.emplace(assetName, Texture(texture));
     }
 
-    void RenderService::Register(RenderComponent* component)
+    void RenderService::Register(IRenderableComponent *component)
     {
         L_INFO("[INPUT HANDLER]", "Registering Render Component");
         mRenderComponents.push_back(component);

@@ -8,6 +8,7 @@ namespace Gengine
     EntityService::~EntityService() {}
 
     void EntityService::Update() {
+        L_TRACE("[ENTITY SERVICE]", "Updating all Entities");
         for (auto& entity : mEntities)
         {
             entity->Update();
@@ -16,6 +17,7 @@ namespace Gengine
 
     void EntityService::Dispose()
     {
+        L_INFO("[ENTITY SERVICE]", "Disposing all Entities");
         for (auto& entity : mEntities)
         {
             entity->Dispose();
