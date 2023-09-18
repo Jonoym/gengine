@@ -8,9 +8,9 @@ namespace Gengine
 
     struct Component {
 
-        virtual void Create() = 0;
-        virtual void Update() = 0;
-        virtual void Dispose() = 0;
+        virtual void Create() {}
+        virtual void Update() {}
+        virtual void Dispose() {}
 
         void Attach(Entity* entity) {
             mEntity = entity;

@@ -1,6 +1,7 @@
 #include <core/Logger.h>
 #include <entities/Entity.h>
 #include <physics/PhysicsService.h>
+#include <services/ServiceManager.h>
 
 namespace Gengine
 {
@@ -8,11 +9,10 @@ namespace Gengine
 
     PhysicsService::~PhysicsService() {}
 
-    void PhysicsService::Update() {}
-
-    void PhysicsService::Update(float32 deltaTime)
-    {
+    void PhysicsService::Update() {
         L_TRACE("[PHYSICS SERVICE]", "Simulating Physics Update");
+
+        float32 deltaTime = ServiceManager::GetServiceManager().GetTimeManager().GetDeltaTime();
 
         const uint8 subSteps = 8;
         const float32 subDeltaTime = deltaTime / subSteps;
@@ -21,23 +21,18 @@ namespace Gengine
             UpdatePositions(subDeltaTime);
             SolveCollisions();
         }
-
     }
 
-    void PhysicsService::Dispose()
-    {
-    }
-
-    void PhysicsService::Register(const std::shared_ptr<Component> component)
+    void PhysicsService::Register(PhysicsComponent* component)
     {
         L_INFO("[PHYSICS SERVICE]", "Registering Physics Component");
-        mPhysicsComponents.push_back(std::dynamic_pointer_cast<PhysicsComponent>(component));
+        mPhysicsComponents.push_back(component);
     }
 
-    void PhysicsService::RegisterCollider(const std::shared_ptr<Component> component)
+    void PhysicsService::RegisterCollider(CollisionComponent* component)
     {
         L_INFO("[PHYSICS SERVICE]", "Registering Physics Collider Component");
-        mColliderComponents.push_back(std::dynamic_pointer_cast<CollisionComponent>(component));
+        mColliderComponents.push_back(component);
     }
 
     void PhysicsService::UpdatePositions(float32 deltaTime)

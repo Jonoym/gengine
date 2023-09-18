@@ -4,7 +4,6 @@
 #include <events/EventHandler.h>
 #include <utils/Vector2D.h>
 #include <components/Component.h>
-#include <components/ComponentType.h>
 
 namespace Gengine
 {
@@ -18,10 +17,11 @@ namespace Gengine
         Entity(const Entity& other);
         ~Entity();
 
-        void AddComponent(std::shared_ptr<Component> component, ComponentType type);
+        void AddComponent(std::shared_ptr<Component> component);
         void SetPosition(Vector2D newPosition);
         const Vector2D &GetPosition();
 
+        void Update();
         void Dispose();
 
         Vector2D mPosition;

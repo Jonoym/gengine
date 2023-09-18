@@ -20,8 +20,6 @@ namespace Gengine
         ~MovementComponent();
 
         void Create() override;
-        void Update() override;
-        void Dispose() override;
         void PhysicsUpdate(float32 deltaTime) override;
         void UpdateMultipier(const Vector2D& multiplier);
 

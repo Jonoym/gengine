@@ -9,18 +9,13 @@ namespace Gengine
         , mSize(size) 
     {
         L_INFO("[RENDER COMPONENT]", "Creating Render Component with Asset Name: %s at Path: %s", assetName.c_str(), path.c_str());
+        ServiceManager::GetServiceManager().GetRenderService().Register(this);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, path);
     }
 
     RenderComponent::RenderComponent(const RenderComponent &other) {}
 
     RenderComponent::~RenderComponent() {}
-
-    void RenderComponent::Create() {}
-
-    void RenderComponent::Update() {}
-    
-    void RenderComponent::Dispose() {}
 
     void RenderComponent::UpdateSize(const Vector2D& size) {
         mSize = size;

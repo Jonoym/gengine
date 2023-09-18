@@ -12,9 +12,6 @@ namespace Gengine
         RenderComponent(const RenderComponent &other);
         ~RenderComponent();
 
-        void Create() override;
-        void Update() override;
-        void Dispose() override;
         const Vector2D& GetSize();
 
         void UpdateSize(const Vector2D &size);

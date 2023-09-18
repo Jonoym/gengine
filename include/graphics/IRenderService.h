@@ -14,8 +14,8 @@ namespace Gengine
         virtual void OrderTextures() = 0;
         virtual void Render(const std::string& assetName, const Vector2D& size, const Vector2D& position) = 0;
         virtual void RegisterAsset(const std::string& assetName, const std::string& path) = 0;
-        virtual void Register(const std::shared_ptr<Component> component) = 0;
+        virtual void Register(RenderComponent* component) = 0;
 
-        std::vector<std::shared_ptr<RenderComponent>> mRenderComponents;
+        std::vector<RenderComponent*> mRenderComponents;
     };
 }

@@ -30,6 +30,7 @@ namespace Gengine
         EntityService& GetEntityService();
         RenderService& GetRenderService();
         InputHandler& GetInputHandler();
+        TimeManager& GetTimeManager();
 
     private:
 

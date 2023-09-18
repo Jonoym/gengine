@@ -13,9 +13,7 @@ namespace Gengine
         ~CollisionComponent();
 
         void Create() override;
-        void Update() override;
-        void Dispose() override;
-
+        
         void PhysicsUpdate(float32 deltaTime) override;
         float32 mMass;
         float32 mRadius;

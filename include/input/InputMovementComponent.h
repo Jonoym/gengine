@@ -14,9 +14,6 @@ namespace Gengine
         InputMovementComponent();
         ~InputMovementComponent();
 
-        void Create() override;
-        void Update() override;
-        void Dispose() override;
         void HandleInput(const Input &input) override;
     private:
         void HandleKeyPressed(const Input &input);

@@ -2,7 +2,7 @@
 #include <utils/Box2D.h>
 #include <core/Logger.h>
 #include <entities/Entity.h>
-#include<algorithm>
+#include <algorithm>
 
 namespace Gengine
 {
@@ -32,7 +32,7 @@ namespace Gengine
 
     void RenderService::OrderTextures() {
         std::sort(mRenderComponents.begin(), mRenderComponents.end(),
-            [](std::shared_ptr<RenderComponent> a, std::shared_ptr<RenderComponent> b) {
+            [](RenderComponent* a, RenderComponent* b) {
                 return (b->mEntity->mPosition.mY + b->GetSize().mY / 2) > (a->mEntity->mPosition.mY + a->GetSize().mY / 2);
             }
         );
@@ -99,9 +99,9 @@ namespace Gengine
         mAssets.emplace(assetName, texture);
     }
 
-    void RenderService::Register(std::shared_ptr<Component> component)
+    void RenderService::Register(RenderComponent* component)
     {
         L_INFO("[INPUT HANDLER]", "Registering Render Component");
-        mRenderComponents.push_back(std::static_pointer_cast<RenderComponent>(component));
+        mRenderComponents.push_back(component);
     }
 }

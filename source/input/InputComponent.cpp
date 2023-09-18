@@ -4,15 +4,11 @@
 
 namespace Gengine
 {
-    InputComponent::InputComponent() {}
+    InputComponent::InputComponent() {
+        ServiceManager::GetServiceManager().GetInputHandler().Register(this);
+    }
 
     InputComponent::~InputComponent() {}
-
-    void InputComponent::Create() {}
-
-    void InputComponent::Update() {}
-
-    void InputComponent::Dispose() {}
 
     void InputComponent::HandleInput(const Input &input)
     {

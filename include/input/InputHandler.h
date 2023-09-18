@@ -15,7 +15,7 @@ namespace Gengine
         void DispatchInputEvent(const Input& e);
         bool ShouldQuit();
 
-        void Register(const std::shared_ptr<Component> component) override;
+        void Register(InputComponent* component) override;
 
     private:
         bool mQuit;

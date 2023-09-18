@@ -8,12 +8,6 @@ namespace Gengine
 
     InputMovementComponent::~InputMovementComponent() {}
 
-    void InputMovementComponent::Create() {}
-
-    void InputMovementComponent::Update() {}
-
-    void InputMovementComponent::Dispose() {}
-
     void InputMovementComponent::HandleInput(const Input &input)
     {
         L_INFO("[MOVEMENT INPUT COMPONENT]", "Receiving Input");

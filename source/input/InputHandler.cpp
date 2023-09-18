@@ -52,9 +52,9 @@ namespace Gengine
         return mQuit;
     }
 
-    void InputHandler::Register(const std::shared_ptr<Component> component) {
+    void InputHandler::Register(InputComponent* component) {
         L_INFO("[INPUT HANDLER]", "Registering Input Component");
-        mInputComponents.push_back(std::dynamic_pointer_cast<InputComponent>(component));
+        mInputComponents.push_back(component);
     }
 
 }

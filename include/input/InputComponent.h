@@ -11,9 +11,6 @@ namespace Gengine
         InputComponent();
         ~InputComponent();
 
-        void Create() override;
-        void Update() override;
-        void Dispose() override;
         virtual void HandleInput(const Input &input);
     };
 }

@@ -8,10 +8,18 @@ namespace Gengine
     EntityService::~EntityService() {}
 
     void EntityService::Update() {
+        for (auto& entity : mEntities)
+        {
+            entity->Update();
+        }
     }
 
-    void EntityService::Dispose() {
-        
+    void EntityService::Dispose()
+    {
+        for (auto& entity : mEntities)
+        {
+            entity->Dispose();
+        }
     }
 
     void EntityService::RegisterEntity(std::unique_ptr<Entity> entity) {

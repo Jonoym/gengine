@@ -17,28 +17,12 @@ namespace Gengine
 
     Entity::~Entity() {}
 
-    void Entity::AddComponent(std::shared_ptr<Component> component, ComponentType type)
+    void Entity::AddComponent(std::shared_ptr<Component> component)
     {
         L_INFO("[ENTITY]", "Adding Component");
         component->Attach(this);
         component->Create();
-        mComponents.push_back(component);
-
-        switch (type)
-        {
-            case ComponentType::RENDER:
-                ServiceManager::GetServiceManager().GetRenderService().Register(component);
-                break;
-            case ComponentType::INPUT:
-                ServiceManager::GetServiceManager().GetInputHandler().Register(component);
-                break;
-            case ComponentType::PHYSICS:
-                ServiceManager::GetServiceManager().GetPhysicsService().Register(component);
-                break;
-            case ComponentType::COLLISION:
-                ServiceManager::GetServiceManager().GetPhysicsService().RegisterCollider(component);
-                break;
-        }
+        mComponents.push_back(std::move(component));
     }
 
     void Entity::SetPosition(Vector2D newPosition)
@@ -53,6 +37,14 @@ namespace Gengine
         L_TRACE("[ENTITY]", "Getting the Entity Position: { %f, %f }", mPosition.mX, mPosition.mY);
 
         return mPosition;
+    }
+
+    void Entity::Update()
+    {
+        for (auto& component : mComponents)
+        {
+            component->Update();
+        }
     }
 
     void Entity::Dispose()

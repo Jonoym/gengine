@@ -1,34 +1,25 @@
 #include <core/Logger.h>
 #include <entities/Entity.h>
+#include <services/ServiceManager.h>
 #include <physics/components/CollisionComponent.h>
 
 namespace Gengine
 {
-    CollisionComponent::CollisionComponent()
-        : mCurrentPosition(nullptr)
-        , mMass(1.0f)
-        , mRadius(100.0f)
-    {}
+    CollisionComponent::CollisionComponent() : CollisionComponent(1.0f, 100.0f) {}
 
     CollisionComponent::CollisionComponent(const float32 mass, const float32 radius)
         : mCurrentPosition(nullptr)
         , mMass(mass)
         , mRadius(radius)
-    {}
+    {
+        ServiceManager::GetServiceManager().GetPhysicsService().RegisterCollider(this);
+    }
 
     CollisionComponent::~CollisionComponent() {}
 
     void CollisionComponent::Create()
     {
         mCurrentPosition = &mEntity->mPosition;
-    }
-
-    void CollisionComponent::Update()
-    {
-    }
-
-    void CollisionComponent::Dispose()
-    {
     }
 
     void CollisionComponent::PhysicsUpdate(float32 deltaTime)

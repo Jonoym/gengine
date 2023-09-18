@@ -9,7 +9,7 @@ namespace Gengine
 
         mInputHandler.HandleInput();
         mTimeManager.Tick();
-        mPhysicsService.Update(mTimeManager.GetDeltaTime());
+        mPhysicsService.Update();
         mEntityService.Update();
         mRenderService.Update();
 
@@ -20,9 +20,9 @@ namespace Gengine
 
     void ServiceManager::Dispose() {
         L_INFO("[SERVICES]", "Disposing Services");
-        mEntityService.Dispose();
         mRenderService.Dispose();
         mPhysicsService.Dispose();
+        mEntityService.Dispose();
     }
 
     EntityService& ServiceManager::GetEntityService() {
@@ -39,6 +39,10 @@ namespace Gengine
 
     PhysicsService& ServiceManager::GetPhysicsService() {
         return mPhysicsService;
+    }
+
+    TimeManager& ServiceManager::GetTimeManager() {
+        return mTimeManager;
     }
 
 }

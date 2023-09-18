@@ -1,11 +1,15 @@
 #include <core/Logger.h>
 #include <entities/Entity.h>
 #include <physics/components/MovementComponent.h>
+#include <services/ServiceManager.h>
 
 namespace Gengine
 {
     MovementComponent::MovementComponent()
-        : mMovementSpeed(Vector2D(1.0f, 1.0f)), mMoveDirection(Vector2D()) {}
+        : mMovementSpeed(Vector2D(1.0f, 1.0f)), mMoveDirection(Vector2D())
+    {
+        ServiceManager::GetServiceManager().GetPhysicsService().Register(this);
+    }
 
     MovementComponent::~MovementComponent() {}
 
@@ -20,17 +24,10 @@ namespace Gengine
         mEntity->mEventHandler.AddListener("moveUpEnd", std::bind(&Gengine::MovementComponent::MoveUpEnd, this));
         mEntity->mEventHandler.AddListener("moveDownEnd", std::bind(&Gengine::MovementComponent::MoveDownEnd, this));
     }
-    void MovementComponent::Update()
-    {
-    }
-
-    void MovementComponent::Dispose()
-    {
-    }
-
+    
     void MovementComponent::PhysicsUpdate(float32 deltaTime)
     {
-        Vector2D multiplier = (mDirections.mLeft || mDirections.mRight) && (mDirections.mUp || mDirections.mDown) ? Vector2D(0.707f, 0.707f) : Vector2D(1.0f, 1.0f); 
+        Vector2D multiplier = (mDirections.mLeft || mDirections.mRight) && (mDirections.mUp || mDirections.mDown) ? Vector2D(0.707f, 0.707f) : Vector2D(1.0f, 1.0f);
 
         mEntity->mPosition += mMoveDirection * mMovementSpeed * multiplier * deltaTime;
     }

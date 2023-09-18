@@ -17,7 +17,7 @@ namespace Gengine
         void OrderTextures() override;
         void Render(const std::string &assetName, const Vector2D& size, const Vector2D &position) override;
         void RegisterAsset(const std::string &assetName, const std::string &path) override;
-        void Register(const std::shared_ptr<Component> component) override;
+        void Register(RenderComponent* component) override;
 
     private:
         SDL_Renderer* mRenderer;
