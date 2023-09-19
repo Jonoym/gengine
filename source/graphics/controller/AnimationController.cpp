@@ -11,10 +11,10 @@ namespace Gengine
 
     AnimationController::~AnimationController() {}
 
-    void AnimationController::AddAnimation(const std::string& animationName, uint32 delayTime)
+    void AnimationController::AddAnimation(const std::string& animationName, uint32 delayTime, AnimationPlaythrough playthrough)
     {
         L_INFO("[ANIMATION CONTROLLER]", "Adding Animation with the Name: '%s'", animationName.c_str());
-        mAnimateComponent.AddAnimation(animationName, delayTime);
+        mAnimateComponent.AddAnimation(animationName, delayTime, playthrough);
     }
 
     void AnimationController::Create()

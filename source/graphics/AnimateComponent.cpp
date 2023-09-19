@@ -10,51 +10,24 @@ namespace Gengine
         L_INFO("[ANIMATE COMPONENT]", "Creating Animate Component with Asset Name: '%s' at Texture Path: '%s' Atlas Path: '%s' ", assetName.c_str(), texturePath.c_str(), atlasPath.c_str());
         ServiceManager::GetServiceManager().GetRenderService().Register(this);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, texturePath);
-        Load(atlasPath);
+        ServiceManager::GetServiceManager().GetRenderService().RegisterAnimation(assetName, atlasPath);
     }
     AnimateComponent::AnimateComponent(const AnimateComponent &other) {}
 
     AnimateComponent::~AnimateComponent() {}
 
-    void AnimateComponent::Load(const std::string &atlasPath)
+    void AnimateComponent::AddAnimation(const std::string &animationName, uint32 delayTime, AnimationPlaythrough playthrough)
     {
-        std::vector<AtlasRegion> atlasRegions = AtlasReader::ParseAtlasFile(atlasPath);
+        L_INFO("[ANIMATE COMPONENT]", "Adding Animation with Name: '%s' and Delay Time: { %d } ", animationName.c_str(), delayTime);
 
-        std::sort(atlasRegions.begin(), atlasRegions.end(), [](const AtlasRegion &a, const AtlasRegion &b)
-                  { return (a.mAnimationName != b.mAnimationName) ? a.mAnimationName < b.mAnimationName : a.mIndex < b.mIndex; });
+        const auto &animationFrames = ServiceManager::GetServiceManager().GetRenderService().GetAnimation(mAssetName, animationName);
 
-        for (auto &atlasRegion : atlasRegions)
+        if (animationFrames == nullptr)
         {
-            L_INFO("[ANIMATE COMPONENT]", "Atlas Regions with Name: %s, Position: { %d, %d }", atlasRegion.mAnimationName.c_str(), atlasRegion.mLocation.mX, atlasRegion.mLocation.mY);
-            auto it = mAnimations.find(atlasRegion.mAnimationName);
-            if (it == mAnimations.end())
-            {
-                mAnimations.emplace(atlasRegion.mAnimationName, std::make_pair(
-                    100, std::vector<Box2D>({
-                        Box2D(atlasRegion.mLocation.mX, atlasRegion.mLocation.mY, atlasRegion.mSize.mX, atlasRegion.mSize.mY)
-                    })
-                ));
-            }
-            else
-            {
-                it->second.second.push_back(Box2D(atlasRegion.mLocation.mX, atlasRegion.mLocation.mY, atlasRegion.mSize.mX, atlasRegion.mSize.mY));
-            }
+            L_INFO("[ANIMATE COMPONENT]", "Could not add the Animation for: '%s'", animationName.c_str());
         }
-    }
 
-    void AnimateComponent::AddAnimation(const std::string &animationName, uint32 delayTime)
-    {
-        L_INFO("[ANIMATE COMPONENT]", "Adding Animation with Name: '%s' and Delay Time: { %d } ", delayTime);
-        auto it = mAnimations.find(animationName);
-
-        if (it != nullptr)
-        {
-            it->second.first = delayTime;
-        }
-        else
-        {
-            L_INFO("[ANIMATE COMPONENT]", "Failed to Add Animation for the Animation Reference");
-        }
+        mAnimations.emplace(animationName, AnimationPlayInfo{playthrough, delayTime});
     }
 
     void AnimateComponent::StartAnimation(const std::string &animationName, bool force)
@@ -63,17 +36,19 @@ namespace Gengine
         auto it = mAnimations.find(animationName);
         if (it == nullptr)
         {
-            L_INFO("[ANIMATE COMPONENT]", "Failed to Start and Find Animation with Name: %s", animationName.c_str());
+            L_WARN("[ANIMATE COMPONENT]", "Failed to Start and Find Animation with Name: %s", animationName.c_str());
             return;
         }
+
+        const auto &animationFrames = ServiceManager::GetServiceManager().GetRenderService().GetAnimation(mAssetName, animationName);
 
         if (animationName != mCurrentAnimation.mAnimationName || force)
         {
             mCurrentAnimation.mStartTime = ServiceManager::GetServiceManager().GetTimeManager().GetTotalTicks();
             mCurrentAnimation.mFrameIndex = 0;
             mCurrentAnimation.mAnimationName = animationName;
-            mCurrentAnimation.mDelayTime = it->second.first;
-            mCurrentAnimation.mAnimationFrames = &it->second.second;
+            mCurrentAnimation.mAnimationFrames = animationFrames;
+            mCurrentAnimation.mAnimationInfo = it->second;
         }
     }
 
@@ -91,18 +66,22 @@ namespace Gengine
     {
         L_TRACE("[ANIMATE COMPONENT]", "Rendering Component");
         uint32 currentTime = ServiceManager::GetServiceManager().GetTimeManager().GetTotalTicks();
-        L_TRACE("[ANIMATE COMPONENT]", "Current Time: %d", currentTime);
-        L_TRACE("[ANIMATE COMPONENT]", "Delay Time: %d", mCurrentAnimation.mDelayTime);
-        L_TRACE("[ANIMATE COMPONENT]", "Start Time: %d", mCurrentAnimation.mStartTime);
-
-        if (mCurrentAnimation.mStartTime + mCurrentAnimation.mDelayTime < currentTime)
+        if (mCurrentAnimation.mStartTime + mCurrentAnimation.mAnimationInfo.mFrameDelay < currentTime)
         {
             mCurrentAnimation.mStartTime = currentTime;
-            mCurrentAnimation.mFrameIndex = (mCurrentAnimation.mFrameIndex + 1) % mCurrentAnimation.mAnimationFrames->size();
+            switch (mCurrentAnimation.mAnimationInfo.mPlaythrough)
+            {
+            case AnimationPlaythrough::NORMAL:
+                if (mCurrentAnimation.mFrameIndex + 1 == mCurrentAnimation.mAnimationFrames->size())
+                {
+                    break;
+                }
+            case AnimationPlaythrough::LOOP:
+                mCurrentAnimation.mFrameIndex = (mCurrentAnimation.mFrameIndex + 1) % mCurrentAnimation.mAnimationFrames->size();
+                break;
+            }
         }
-
         Box2D boundingRect = mCurrentAnimation.mAnimationFrames->at(mCurrentAnimation.mFrameIndex);
-
         ServiceManager::GetServiceManager().GetRenderService().Render(
             mAssetName, mSize, mEntity->GetPosition(),
             Vector2D(boundingRect.mW, boundingRect.mH),

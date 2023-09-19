@@ -4,14 +4,19 @@
 #include <components/Component.h>
 #include <utils/Vector2D.h>
 #include <utils/Box2D.h>
-#include <utils/AtlasReader.h>
 
 namespace Gengine
 {
-    enum class AnimationDuration
+    enum class AnimationPlaythrough
     {
         LOOP,
         NORMAL
+    };
+
+    struct AnimationPlayInfo
+    {
+        AnimationPlaythrough mPlaythrough = AnimationPlaythrough::NORMAL;
+        uint32 mFrameDelay;
     };
 
     struct AnimationFrame
@@ -19,8 +24,8 @@ namespace Gengine
         std::string mAnimationName = "";
         uint32 mStartTime = 0;
         uint8 mFrameIndex = 0;
-        uint32 mDelayTime = 0;
         std::vector<Box2D>* mAnimationFrames;
+        AnimationPlayInfo mAnimationInfo;
     };
 
     class AnimateComponent : public IRenderableComponent
@@ -30,8 +35,7 @@ namespace Gengine
         AnimateComponent(const AnimateComponent &other);
         ~AnimateComponent();
 
-        void Load(const std::string &atlasPath);
-        void AddAnimation(const std::string &animationName, uint32 delayTime);
+        void AddAnimation(const std::string &animationName, uint32 delayTime, AnimationPlaythrough playthrough);
         void StartAnimation(const std::string &animationName, bool force);
 
         const Vector2D &GetSize() override;
@@ -42,8 +46,7 @@ namespace Gengine
 
     private:
         std::string mAssetName;
-        std::unordered_map<std::string, std::pair<uint32, std::vector<Box2D>>> mAnimations;
-
+        std::unordered_map<std::string, AnimationPlayInfo> mAnimations;
         AnimationFrame mCurrentAnimation;
     };
 }

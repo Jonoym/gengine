@@ -13,7 +13,7 @@ namespace Gengine
         virtual void Create() override;
         virtual void Dispose() override;
 
-        virtual void AddAnimation(const std::string& animationName, uint32 delayTime);
+        virtual void AddAnimation(const std::string& animationName, uint32 delayTime, AnimationPlaythrough playthrough);
     protected:
         AnimateComponent mAnimateComponent;
     };

@@ -117,9 +117,59 @@ namespace Gengine
         mAssets.emplace(assetName, Texture(texture));
     }
 
+    void RenderService::RegisterAnimation(const std::string &assetName, const std::string &path)
+    {
+        L_INFO("[RENDER SERVICE]", "Registering Animation File");
+        std::vector<AtlasRegion> atlasRegions = AtlasReader::ParseAtlasFile(path);
+
+        std::sort(atlasRegions.begin(), atlasRegions.end(), [](const AtlasRegion &a, const AtlasRegion &b)
+                  { return (a.mAnimationName != b.mAnimationName) ? a.mAnimationName < b.mAnimationName : a.mIndex < b.mIndex; });
+
+        std::unordered_map<std::string, std::vector<Box2D>> mAnimationClips;
+
+        for (auto &atlasRegion : atlasRegions)
+        {
+            L_INFO("[RENDER SERVICE]", "Atlas Regions with Name: %s, Position: { %d, %d }", atlasRegion.mAnimationName.c_str(), atlasRegion.mLocation.mX, atlasRegion.mLocation.mY);
+            auto it = mAnimationClips.find(atlasRegion.mAnimationName);
+            if (it == mAnimationClips.end())
+            {
+                mAnimationClips.emplace(
+                    atlasRegion.mAnimationName,
+                    std::vector<Box2D>({Box2D(atlasRegion.mLocation.mX, atlasRegion.mLocation.mY, atlasRegion.mSize.mX, atlasRegion.mSize.mY)}));
+            }
+            else
+            {
+                it->second.push_back(Box2D(atlasRegion.mLocation.mX, atlasRegion.mLocation.mY, atlasRegion.mSize.mX, atlasRegion.mSize.mY));
+            }
+        }
+
+        mSpritesheets.emplace(assetName, mAnimationClips);
+    }
+
+    std::vector<Box2D> *RenderService::GetAnimation(const std::string &assetName, const std::string &animationName)
+    {
+        L_INFO("[RENDER SERVICE]", "Retrieving the Animation frames for Asset: '%s'", assetName.c_str());
+        auto spritesheet = mSpritesheets.find(assetName);
+        if (spritesheet == nullptr)
+        {
+            L_WARN("[RENDER SERVICE]", "Unable to find Spritesheet File with Name: '%s'", assetName.c_str());
+            return nullptr;
+        }
+
+        auto animation = spritesheet->second.find(animationName);
+
+        if (animation == nullptr)
+        {
+            L_WARN("[RENDER SERVICE]", "Unable to find Animation with Name: '%s'", animationName.c_str());
+            return nullptr;
+        }
+
+        return &animation->second;
+    }
+
     void RenderService::Register(IRenderableComponent *component)
     {
-        L_INFO("[INPUT HANDLER]", "Registering Render Component");
+        L_INFO("[RENDER SERVICE]", "Registering Render Component");
         mRenderComponents.push_back(component);
     }
 }
