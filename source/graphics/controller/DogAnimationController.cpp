@@ -3,8 +3,8 @@
 
 namespace Gengine
 {
-    DogAnimationController::DogAnimationController(const std::string& assetName, const std::string& path, const Vector2D& size)
-        : AnimationController(assetName, path, size)
+    DogAnimationController::DogAnimationController(const std::string& assetName, const std::string& texturePath, const std::string& atlasPath, const Vector2D& size)
+        : AnimationController(assetName, texturePath, atlasPath, size)
         {}
 
     void DogAnimationController::Create()

@@ -18,10 +18,22 @@ namespace Gengine
         L_INFO("[MAP]", "Initialising Map Area");
 
         std::unique_ptr<Entity> entity = std::make_unique<Entity>();
-        entity->AddComponent(std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", Vector2D(400.0f, 400.0f)));
         entity->AddComponent(std::make_shared<InputMovementComponent>());
         entity->AddComponent(std::make_shared<MovementComponent>());
         entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 150.0f));
+
+        std::shared_ptr<DogAnimationController> aniController = std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", "assets/bear.atlas", Vector2D(400.0f, 400.0f));
+        aniController->AddAnimation("moveLeftStart", 10);
+        aniController->AddAnimation("moveRightStart", 10);
+        aniController->AddAnimation("moveUpStart", 10);
+        aniController->AddAnimation("moveDownStart", 10);
+        aniController->AddAnimation("defaultLeft", 10);
+        aniController->AddAnimation("defaultRight", 10);
+        aniController->AddAnimation("defaultDown", 10);
+        aniController->AddAnimation("defaultUp", 10);
+        entity->AddComponent(aniController);
+        
+
         SpawnEntityAt(std::move(entity), Vector2D(0.0f, 0.0f));
 
         // std::unique_ptr<Entity> entity = std::make_unique<Entity>();

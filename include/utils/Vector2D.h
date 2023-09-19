@@ -7,6 +7,12 @@
 
 namespace Gengine
 {
+    struct Coord
+    {
+        int32 mX;
+        int32 mY;
+    };
+
     class Vector2D {
 
     public:

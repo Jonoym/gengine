@@ -3,13 +3,19 @@
 
 namespace Gengine
 {
-    AnimationController::AnimationController(const std::string& assetName, const std::string& path, const Vector2D& size)
-        : mAnimateComponent(assetName, path, size)
+    AnimationController::AnimationController(const std::string& assetName, const std::string& texturePath, const std::string& atlasPath, const Vector2D& size)
+        : mAnimateComponent(assetName, texturePath, atlasPath, size)
     {
         L_INFO("[ANIMATION CONTROLLER]", "Constructing Animation Controller Component");
     }
 
     AnimationController::~AnimationController() {}
+
+    void AnimationController::AddAnimation(const std::string& animationName, uint32 delayTime)
+    {
+        L_INFO("[ANIMATION CONTROLLER]", "Adding Animation with the Name: '%s'", animationName.c_str());
+        mAnimateComponent.AddAnimation(animationName, delayTime);
+    }
 
     void AnimationController::Create()
     {

@@ -4,70 +4,47 @@
 
 namespace Gengine
 {
-    AnimateComponent::AnimateComponent(const std::string &assetName, const std::string &path, const Vector2D &size)
+    AnimateComponent::AnimateComponent(const std::string &assetName, const std::string &texturePath, const std::string &atlasPath, const Vector2D &size)
         : mAssetName(assetName), mSize(size)
     {
-        L_INFO("[ANIMATE COMPONENT]", "Creating Animate Component with Asset Name: %s at Path: %s", assetName.c_str(), path.c_str());
-        Load(assetName, path);
+        L_INFO("[ANIMATE COMPONENT]", "Creating Animate Component with Asset Name: '%s' at Texture Path: '%s' Atlas Path: '%s' ", assetName.c_str(), texturePath.c_str(), atlasPath.c_str());
+        ServiceManager::GetServiceManager().GetRenderService().Register(this);
+        ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, texturePath);
+        Load(atlasPath);
     }
     AnimateComponent::AnimateComponent(const AnimateComponent &other) {}
 
     AnimateComponent::~AnimateComponent() {}
 
-    void AnimateComponent::Load(const std::string &assetName, const std::string &path)
+    void AnimateComponent::Load(const std::string &atlasPath)
     {
+        std::vector<AtlasRegion> atlasRegions = AtlasReader::ParseAtlasFile(atlasPath);
 
-        ServiceManager::GetServiceManager().GetRenderService().Register(this);
-        ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, path);
+        std::sort(atlasRegions.begin(), atlasRegions.end(), [](const AtlasRegion &a, const AtlasRegion &b)
+                  { return (a.mAnimationName != b.mAnimationName) ? a.mAnimationName < b.mAnimationName : a.mIndex < b.mIndex; });
 
-        mAnimations.emplace("default", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 16, 16, 16, false, false)
-        }));
-        mAnimations.emplace("defaultLeft", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 0, 16, 16, false, false)
-        }));
-
-        mAnimations.emplace("moveLeftStart", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 0, 16, 16, false, false),
-            Box2D(16, 0, 16, 16, false, false),
-            Box2D(32, 0, 16, 16, false, false),
-            Box2D(48, 0, 16, 16, false, false)
-        }));
-        mAnimations.emplace("defaultRight", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 16, 16, 16, false, false)
-        }));
-        mAnimations.emplace("moveRightStart", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 16, 16, 16, false, false),
-            Box2D(16, 16, 16, 16, false, false),
-            Box2D(32, 16, 16, 16, false, false),
-            Box2D(48, 16, 16, 16, false, false)
-        }));
-
-        mAnimations.emplace("defaultDown", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 32, 16, 16, false, false)
-        }));
-        mAnimations.emplace("moveDownStart", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 32, 16, 16, false, false),
-            Box2D(16, 32, 16, 16, false, false),
-            Box2D(32, 32, 16, 16, false, false),
-            Box2D(48, 32, 16, 16, false, false)
-        }));
-
-        mAnimations.emplace("defaultUp", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 48, 16, 16, false, false)
-        }));
-        mAnimations.emplace("moveUpStart", std::make_pair(100, std::vector<Box2D>{
-            Box2D(0, 48, 16, 16, false, false),
-            Box2D(16, 48, 16, 16, false, false),
-            Box2D(32, 48, 16, 16, false, false),
-            Box2D(48, 48, 16, 16, false, false)
-        }));
+        for (auto &atlasRegion : atlasRegions)
+        {
+            L_INFO("[ANIMATE COMPONENT]", "Atlas Regions with Name: %s, Position: { %d, %d }", atlasRegion.mAnimationName.c_str(), atlasRegion.mLocation.mX, atlasRegion.mLocation.mY);
+            auto it = mAnimations.find(atlasRegion.mAnimationName);
+            if (it == mAnimations.end())
+            {
+                mAnimations.emplace(atlasRegion.mAnimationName, std::make_pair(
+                    100, std::vector<Box2D>({
+                        Box2D(atlasRegion.mLocation.mX, atlasRegion.mLocation.mY, atlasRegion.mSize.mX, atlasRegion.mSize.mY)
+                    })
+                ));
+            }
+            else
+            {
+                it->second.second.push_back(Box2D(atlasRegion.mLocation.mX, atlasRegion.mLocation.mY, atlasRegion.mSize.mX, atlasRegion.mSize.mY));
+            }
+        }
     }
 
     void AnimateComponent::AddAnimation(const std::string &animationName, uint32 delayTime)
     {
-
-        L_INFO("[ANIMATE COMPONENT]", "Adding Animation");
+        L_INFO("[ANIMATE COMPONENT]", "Adding Animation with Name: '%s' and Delay Time: { %d } ", delayTime);
         auto it = mAnimations.find(animationName);
 
         if (it != nullptr)
@@ -129,7 +106,6 @@ namespace Gengine
         ServiceManager::GetServiceManager().GetRenderService().Render(
             mAssetName, mSize, mEntity->GetPosition(),
             Vector2D(boundingRect.mW, boundingRect.mH),
-            Vector2D(boundingRect.mX, boundingRect.mY)
-        );
+            Vector2D(boundingRect.mX, boundingRect.mY));
     }
 }

@@ -4,9 +4,16 @@
 #include <components/Component.h>
 #include <utils/Vector2D.h>
 #include <utils/Box2D.h>
+#include <utils/AtlasReader.h>
 
 namespace Gengine
 {
+    enum class AnimationDuration
+    {
+        LOOP,
+        NORMAL
+    };
+
     struct AnimationFrame
     {
         std::string mAnimationName = "";
@@ -19,11 +26,11 @@ namespace Gengine
     class AnimateComponent : public IRenderableComponent
     {
     public:
-        AnimateComponent(const std::string &assetName, const std::string &path, const Vector2D &size);
+        AnimateComponent(const std::string &assetName, const std::string& texturePath, const std::string &atlasPath, const Vector2D &size);
         AnimateComponent(const AnimateComponent &other);
         ~AnimateComponent();
 
-        void Load(const std::string &assetName, const std::string &path);
+        void Load(const std::string &atlasPath);
         void AddAnimation(const std::string &animationName, uint32 delayTime);
         void StartAnimation(const std::string &animationName, bool force);
 

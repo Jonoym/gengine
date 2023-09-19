@@ -7,7 +7,7 @@ namespace Gengine
     class DogAnimationController : public AnimationController
     {
     public:
-        DogAnimationController(const std::string& assetName, const std::string& path, const Vector2D& size);
+        DogAnimationController(const std::string& assetName, const std::string& texturePath, const std::string& atlasPath, const Vector2D& size);
 
         void Create() override;
     private:
