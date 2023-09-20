@@ -35,7 +35,7 @@ namespace Gengine
             return false;
         }
 
-        mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
         if (!mRenderer)
         {
             L_FATAL("[INTERFACE]", "Failed to Initialise Renderer SDL: %s", SDL_GetError());

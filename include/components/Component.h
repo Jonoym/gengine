@@ -12,7 +12,7 @@ namespace Gengine
         virtual void Update() {}
         virtual void Dispose() {}
 
-        void Attach(Entity* entity) {
+        virtual void Attach(Entity* entity) {
             mEntity = entity;
         }
 

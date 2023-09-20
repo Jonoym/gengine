@@ -68,6 +68,7 @@ namespace Gengine
         uint32 currentTime = ServiceManager::GetServiceManager().GetTimeManager().GetTotalTicks();
         if (mCurrentAnimation.mStartTime + mCurrentAnimation.mAnimationInfo.mFrameDelay < currentTime)
         {
+            L_TRACE("[ANIMATE COMPONENT]", "Updating Current Frame");
             mCurrentAnimation.mStartTime = currentTime;
             switch (mCurrentAnimation.mAnimationInfo.mPlaythrough)
             {
@@ -81,6 +82,7 @@ namespace Gengine
                 break;
             }
         }
+        L_TRACE("[ANIMATE COMPONENT]", "Rendering Current Frame");
         Box2D boundingRect = mCurrentAnimation.mAnimationFrames->at(mCurrentAnimation.mFrameIndex);
         ServiceManager::GetServiceManager().GetRenderService().Render(
             mAssetName, mSize, mEntity->GetPosition(),

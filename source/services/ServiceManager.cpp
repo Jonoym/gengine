@@ -7,6 +7,9 @@ namespace Gengine
     bool ServiceManager::Update() {
         L_TRACE("[SERVICES]", "Starting Service Updates");
 
+        uint32 currentTicks = mTimeManager.GetTotalTicks();
+
+        L_TRACE("[SERVICES]", "Current Ticks: %d", currentTicks);
         mInputHandler.HandleInput();
         mTimeManager.Tick();
         mPhysicsService.Update();
@@ -14,6 +17,9 @@ namespace Gengine
         mRenderService.Update();
 
         bool shouldQuit = mInputHandler.ShouldQuit();
+        uint32 finalTicks = mTimeManager.GetTotalTicks();
+        L_TRACE("[SERVICES]", "Final Ticks: %d", finalTicks);
+        L_TRACE("[SERVICES]", "Difference: %d", finalTicks - currentTicks);
 
         return shouldQuit;
     }

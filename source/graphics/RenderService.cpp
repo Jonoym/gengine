@@ -74,6 +74,8 @@ namespace Gengine
             }
             else
             {
+                L_TRACE("[RENDER SERVICE]", "Successfully Rendering Clip Texture Clip Size: { w: %f, h: %f }, Clip Position: { x: %f, y: %f }",
+                        clipPosition.mX, clipPosition.mY, clipSize.mX, clipSize.mY);
                 Box2D clipRect(clipPosition.mX, clipPosition.mY, clipSize.mX, clipSize.mY, false, false);
 
                 SDL_Rect clip = {
@@ -81,9 +83,6 @@ namespace Gengine
                     static_cast<int>(clipRect.mY),
                     static_cast<int>(clipRect.mW),
                     static_cast<int>(clipRect.mH)};
-
-                L_TRACE("[RENDER SERVICE]", "Successfully Rendering Clip Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f } Texture Clip SIze: { w: %f, h: %f }, Clip Position: { x: %f, y: %f }",
-                        boundingRect.mW, boundingRect.mH, boundingRect.mX, boundingRect.mY, clipRect.mW, clipRect.mH, clipRect.mX, clipRect.mY);
 
                 SDL_RenderCopy(mRenderer, asset->second.GetTexture(), &clip, &dest);
             }

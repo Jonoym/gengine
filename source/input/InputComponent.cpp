@@ -12,6 +12,6 @@ namespace Gengine
 
     void InputComponent::HandleInput(const Input &input)
     {
-        L_INFO("[INPUT COMPONENT]", "Receiving Input");
+        L_TRACE("[INPUT COMPONENT]", "Receiving Input");
     }
 }

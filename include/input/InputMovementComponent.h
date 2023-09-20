@@ -1,8 +1,5 @@
 #pragma once
 
-#include <components/Component.h>
-#include <core/KeyCodes.h>
-#include <input/Input.h>
 #include <input/KeyInput.h>
 #include <input/InputComponent.h>
 

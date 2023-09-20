@@ -10,7 +10,7 @@ namespace Gengine
 
     void InputMovementComponent::HandleInput(const Input &input)
     {
-        L_INFO("[MOVEMENT INPUT COMPONENT]", "Receiving Input");
+        L_TRACE("[MOVEMENT INPUT COMPONENT]", "Receiving Input of Type: { %d }", input.GetInputType());
         switch (input.GetInputType())
         {
         case InputType::KEY_PRESSED:

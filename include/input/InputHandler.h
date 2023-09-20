@@ -18,6 +18,9 @@ namespace Gengine
         void Register(InputComponent* component) override;
 
     private:
+
+        MouseCode ConvertMouseButton(uint8 buttonInput);
+
         bool mQuit;
     };
 }

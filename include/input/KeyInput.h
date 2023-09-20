@@ -1,7 +1,6 @@
 #pragma once
 
 #include <input/Input.h>
-#include <core/KeyCodes.h>
 
 namespace Gengine
 {
@@ -10,7 +9,7 @@ namespace Gengine
     public:
         KeyCode GetKeyCode() const { return mKeyCode; }
 
-		EVENT_CLASS_CATEGORY(INPUT_CATEGORY_KEYBOARD | INPUT_CATEGORY_INPUT)
+		INPUT_CLASS_CATEGORY(INPUT_CATEGORY_KEYBOARD | INPUT_CATEGORY_INPUT)
 
     protected:
         KeyInput(const KeyCode keyCode) : mKeyCode(keyCode) {}
@@ -32,7 +31,7 @@ namespace Gengine
 			return ss.str();
 		}
 
-		EVENT_CLASS_TYPE(KEY_PRESSED)
+		INPUT_CLASS_TYPE(KEY_PRESSED)
 
 	private:
 		bool mIsRepeat;
@@ -51,7 +50,7 @@ class KeyReleasedInput : public KeyInput
 			return ss.str();
 		}
 
-		EVENT_CLASS_TYPE(KEY_RELEASED)
+		INPUT_CLASS_TYPE(KEY_RELEASED)
 	};
 
 	class KeyTypedInput : public KeyInput
@@ -67,7 +66,7 @@ class KeyReleasedInput : public KeyInput
 			return ss.str();
 		}
 
-		EVENT_CLASS_TYPE(KEY_TYPED)
+		INPUT_CLASS_TYPE(KEY_TYPED)
 
 	};
 }

@@ -1,0 +1,40 @@
+buttonSprites.png
+size: 60, 28
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+default
+  rotate: false
+  xy: 30, 0
+  size: 30, 14
+  orig: 30, 14
+  offset: 0, 0
+  index: 0
+hoverStart
+  rotate: false
+  xy: 0, 0
+  size: 30, 14
+  orig: 30, 14
+  offset: 0, 0
+  index: 0
+onClick
+  rotate: false
+  xy: 0, 14
+  size: 30, 14
+  orig: 30, 14
+  offset: 0, 0
+  index: 0
+onClick
+  rotate: false
+  xy: 0, 0
+  size: 30, 14
+  orig: 30, 14
+  offset: 0, 0
+  index: 1
+hoverEnd
+  rotate: false
+  xy: 30, 0
+  size: 30, 14
+  orig: 30, 14
+  offset: 0, 0
+  index: 0

@@ -3,11 +3,27 @@
 #include <Types.h>
 #include <SDL2/SDL.h> // Include SDL for SDL keycodes
 
-namespace Gengine {
+namespace Gengine
+{
     using KeyCode = int32;
 
-    namespace Key {
-        enum : KeyCode {
+    using MouseCode = int8;
+
+    namespace Mouse
+    {
+        enum : MouseCode
+        {
+            None = 100,
+            Left = SDL_BUTTON_LEFT,
+            Middle = SDL_BUTTON_MIDDLE,
+            Right = SDL_BUTTON_RIGHT,
+        };
+    }
+
+    namespace Key
+    {
+        enum : KeyCode
+        {
             MySpace = 2000,
             MyApostrophe,
             MyComma,
@@ -51,7 +67,7 @@ namespace Gengine {
             Y = SDLK_y,
             Z = SDLK_z,
 
-			// Numeric keys
+            // Numeric keys
             D0 = SDLK_0,
             D1 = SDLK_1,
             D2 = SDLK_2,
@@ -134,7 +150,6 @@ namespace Gengine {
             PageDown = SDLK_PAGEDOWN,
             Home = SDLK_HOME,
             End = SDLK_END,
-
 
             // Mouse buttons (custom mappings)
             LeftMouseButton = 1000,
