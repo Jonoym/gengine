@@ -35,7 +35,11 @@ namespace Gengine
         std::sort(mRenderComponents.begin(), mRenderComponents.end(),
                   [](IRenderableComponent *a, IRenderableComponent *b)
                   {
+                    if (a->mPriority == b->mPriority) {
                       return (b->mEntity->mPosition.mY + b->GetSize().mY / 2) > (a->mEntity->mPosition.mY + a->GetSize().mY / 2);
+                    } else {
+                        return a->mPriority < b->mPriority;
+                    }
                   });
     }
 
@@ -147,7 +151,7 @@ namespace Gengine
 
     std::vector<Box2D> *RenderService::GetAnimation(const std::string &assetName, const std::string &animationName)
     {
-        L_INFO("[RENDER SERVICE]", "Retrieving the Animation frames for Asset: '%s'", assetName.c_str());
+        L_TRACE("[RENDER SERVICE]", "Retrieving the Animation frames for Asset: '%s'", assetName.c_str());
         auto spritesheet = mSpritesheets.find(assetName);
         if (spritesheet == nullptr)
         {

@@ -3,63 +3,88 @@
 
 namespace Gengine
 {
-    DogAnimationController::DogAnimationController(const std::string& assetName, const std::string& texturePath, const std::string& atlasPath, const Vector2D& size)
-        : AnimationController(assetName, texturePath, atlasPath, size)
-        {}
+    DogAnimationController::DogAnimationController(const std::string &assetName, const std::string &texturePath, const std::string &atlasPath, const Vector2D &size)
+        : AnimationController(assetName, texturePath, atlasPath, size, RenderPriority::ENTITY)
+    {
+    }
 
     void DogAnimationController::Create()
     {
         AnimationController::Create();
 
-        mEntity->mEventHandler.AddListener("moveLeftStart", std::bind(&Gengine::DogAnimationController::MoveLeftStart, this));
-        mEntity->mEventHandler.AddListener("moveRightStart", std::bind(&Gengine::DogAnimationController::MoveRightStart, this));
-        mEntity->mEventHandler.AddListener("moveUpStart", std::bind(&Gengine::DogAnimationController::MoveUpStart, this));
-        mEntity->mEventHandler.AddListener("moveDownStart", std::bind(&Gengine::DogAnimationController::MoveDownStart, this));
-        mEntity->mEventHandler.AddListener("moveLeftEnd", std::bind(&Gengine::DogAnimationController::MoveLeftEnd, this));
-        mEntity->mEventHandler.AddListener("moveRightEnd", std::bind(&Gengine::DogAnimationController::MoveRightEnd, this));
-        mEntity->mEventHandler.AddListener("moveUpEnd", std::bind(&Gengine::DogAnimationController::MoveUpEnd, this));
-        mEntity->mEventHandler.AddListener("moveDownEnd", std::bind(&Gengine::DogAnimationController::MoveDownEnd, this));
+        mEntity->mEventHandler.AddListener("animateLeftStart", [this](Event *event)
+                                           { MoveLeftStart(event); });
+        mEntity->mEventHandler.AddListener("animateRightStart", [this](Event *event)
+                                           { MoveRightStart(event); });
+        mEntity->mEventHandler.AddListener("animateUpStart", [this](Event *event)
+                                           { MoveUpStart(event); });
+        mEntity->mEventHandler.AddListener("animateDownStart", [this](Event *event)
+                                           { MoveDownStart(event); });
+        mEntity->mEventHandler.AddListener("animateLeftEnd", [this](Event *event)
+                                           { MoveLeftEnd(event); });
+        mEntity->mEventHandler.AddListener("animateRightEnd", [this](Event *event)
+                                           { MoveRightEnd(event); });
+        mEntity->mEventHandler.AddListener("animateUpEnd", [this](Event *event)
+                                           { MoveUpEnd(event); });
+        mEntity->mEventHandler.AddListener("animateDownEnd", [this](Event *event)
+                                           { MoveDownEnd(event); });
 
         mAnimateComponent.StartAnimation("default", false);
     }
 
-    void DogAnimationController::MoveLeftStart()
+    void DogAnimationController::MoveLeftStart(Event *event)
     {
-        mAnimateComponent.StartAnimation("moveLeftStart", false);
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
+            mAnimateComponent.StartAnimation("moveLeftStart", false);
     }
 
-    void DogAnimationController::MoveRightStart()
+    void DogAnimationController::MoveRightStart(Event *event)
     {
-        mAnimateComponent.StartAnimation("moveRightStart", false);
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
+            mAnimateComponent.StartAnimation("moveRightStart", false);
     }
 
-    void DogAnimationController::MoveUpStart()
+    void DogAnimationController::MoveUpStart(Event *event)
     {
-        mAnimateComponent.StartAnimation("moveUpStart", false);
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
+            mAnimateComponent.StartAnimation("moveUpStart", false);
     }
 
-    void DogAnimationController::MoveDownStart()
+    void DogAnimationController::MoveDownStart(Event *event)
     {
-        mAnimateComponent.StartAnimation("moveDownStart", false);
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
+            mAnimateComponent.StartAnimation("moveDownStart", false);
     }
 
-    void DogAnimationController::MoveLeftEnd()
+    void DogAnimationController::MoveLeftEnd(Event *event)
     {
-        mAnimateComponent.StartAnimation("defaultLeft", false);
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
+            mAnimateComponent.StartAnimation("defaultLeft", false);
     }
 
-    void DogAnimationController::MoveRightEnd()
+    void DogAnimationController::MoveRightEnd(Event *event)
     {
-        mAnimateComponent.StartAnimation("defaultRight", false);
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
+            mAnimateComponent.StartAnimation("defaultRight", false);
     }
 
-    void DogAnimationController::MoveUpEnd()
+    void DogAnimationController::MoveUpEnd(Event *event)
     {
-        mAnimateComponent.StartAnimation("defaultUp", false);
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
+            mAnimateComponent.StartAnimation("defaultUp", false);
     }
 
-    void DogAnimationController::MoveDownEnd()
+    void DogAnimationController::MoveDownEnd(Event *event)
     {
-        mAnimateComponent.StartAnimation("defaultDown", false);
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
+            mAnimateComponent.StartAnimation("defaultDown", false);
     }
 }

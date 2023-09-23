@@ -4,6 +4,7 @@
 #include <input/KeyInput.h>
 #include <input/MouseInput.h>
 #include <core/Logger.h>
+#include <entities/Entity.h>
 
 namespace Gengine
 {
@@ -50,10 +51,23 @@ namespace Gengine
     void InputHandler::DispatchInputEvent(const Input &input)
     {
         L_TRACE("[INPUT HANDLER]", "Dispatching Input Events");
+        OrderInputComponents();
         for (auto &inputListener : mInputComponents)
         {
-            inputListener->HandleInput(input);
+            bool handled = inputListener->HandleInput(input);
+
+            if (handled) break;
         }
+    }
+
+
+    void InputHandler::OrderInputComponents()
+    {
+        std::sort(mInputComponents.begin(), mInputComponents.end(),
+                  [](InputComponent *a, InputComponent *b)
+                  {
+                      return (b->mEntity->mPosition.mY) < (a->mEntity->mPosition.mY );
+                  });
     }
 
     bool InputHandler::ShouldQuit()

@@ -15,21 +15,35 @@ namespace Gengine
 
     void MovementComponent::Create()
     {
-        mEntity->mEventHandler.AddListener("moveLeftStart", std::bind(&Gengine::MovementComponent::MoveLeftStart, this));
-        mEntity->mEventHandler.AddListener("moveRightStart", std::bind(&Gengine::MovementComponent::MoveRightStart, this));
-        mEntity->mEventHandler.AddListener("moveUpStart", std::bind(&Gengine::MovementComponent::MoveUpStart, this));
-        mEntity->mEventHandler.AddListener("moveDownStart", std::bind(&Gengine::MovementComponent::MoveDownStart, this));
-        mEntity->mEventHandler.AddListener("moveLeftEnd", std::bind(&Gengine::MovementComponent::MoveLeftEnd, this));
-        mEntity->mEventHandler.AddListener("moveRightEnd", std::bind(&Gengine::MovementComponent::MoveRightEnd, this));
-        mEntity->mEventHandler.AddListener("moveUpEnd", std::bind(&Gengine::MovementComponent::MoveUpEnd, this));
-        mEntity->mEventHandler.AddListener("moveDownEnd", std::bind(&Gengine::MovementComponent::MoveDownEnd, this));
+        mEntity->mEventHandler.AddListener("moveLeftStart", [this](Event *event)
+                                           { MoveLeftStart(event); });
+        mEntity->mEventHandler.AddListener("moveRightStart", [this](Event *event)
+                                           { MoveRightStart(event); });
+        mEntity->mEventHandler.AddListener("moveUpStart", [this](Event *event)
+                                           { MoveUpStart(event); });
+        mEntity->mEventHandler.AddListener("moveDownStart", [this](Event *event)
+                                           { MoveDownStart(event); });
+        mEntity->mEventHandler.AddListener("moveLeftEnd", [this](Event *event)
+                                           { MoveLeftEnd(event); });
+        mEntity->mEventHandler.AddListener("moveRightEnd", [this](Event *event)
+                                           { MoveRightEnd(event); });
+        mEntity->mEventHandler.AddListener("moveUpEnd", [this](Event *event)
+                                           { MoveUpEnd(event); });
+        mEntity->mEventHandler.AddListener("moveDownEnd", [this](Event *event)
+                                           { MoveDownEnd(event); });
     }
-    
+
     void MovementComponent::PhysicsUpdate(float32 deltaTime)
     {
         Vector2D multiplier = (mDirections.mLeft || mDirections.mRight) && (mDirections.mUp || mDirections.mDown) ? Vector2D(0.707f, 0.707f) : Vector2D(1.0f, 1.0f);
 
         mEntity->mPosition += mMoveDirection * mMovementSpeed * multiplier * deltaTime;
+
+        if (mLastMoveDirection != mMoveDirection)
+        {
+            TriggerAnimation();
+        }
+        mLastMoveDirection = mMoveDirection;
     }
 
     void MovementComponent::UpdateMultipier(const Vector2D &movementSpeed)
@@ -37,80 +51,159 @@ namespace Gengine
         mMovementSpeed = movementSpeed;
     }
 
-    void MovementComponent::MoveLeftStart()
+    void MovementComponent::MoveLeftStart(Event *event)
     {
         L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Left");
-        if (!mDirections.mLeft)
+        MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
+        if (movementEvent != nullptr)
         {
-            mMoveDirection += Vector2D::LEFT;
-            mDirections.mLeft = true;
+            if (!mDirections.mLeft)
+            {
+                mMoveDirection += Vector2D::LEFT;
+                mDirections.mLeft = true;
+            }
         }
     }
 
-    void MovementComponent::MoveRightStart()
+    void MovementComponent::MoveRightStart(Event *event)
     {
         L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Right");
-        if (!mDirections.mRight)
+        MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
+        if (movementEvent != nullptr)
         {
-            mMoveDirection += Vector2D::RIGHT;
-            mDirections.mRight = true;
+            if (!mDirections.mRight)
+            {
+                mMoveDirection += Vector2D::RIGHT;
+                mDirections.mRight = true;
+            }
         }
     }
 
-    void MovementComponent::MoveUpStart()
+    void MovementComponent::MoveUpStart(Event *event)
     {
         L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Up");
-        if (!mDirections.mUp)
+        MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
+        if (movementEvent != nullptr)
         {
-            mMoveDirection += Vector2D::UP;
-            mDirections.mUp = true;
+            if (!mDirections.mUp)
+            {
+                mMoveDirection += Vector2D::UP;
+                mDirections.mUp = true;
+            }
         }
     }
 
-    void MovementComponent::MoveDownStart()
+    void MovementComponent::MoveDownStart(Event *event)
     {
         L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Down");
-        if (!mDirections.mDown)
+        MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
+        if (movementEvent != nullptr)
         {
-            mMoveDirection += Vector2D::DOWN;
-            mDirections.mDown = true;
+            if (!mDirections.mDown)
+            {
+                mMoveDirection += Vector2D::DOWN;
+                mDirections.mDown = true;
+            }
         }
     }
 
-    void MovementComponent::MoveLeftEnd()
+    void MovementComponent::MoveLeftEnd(Event *event)
     {
         L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Left");
-        if (mDirections.mLeft)
+        MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
+        if (movementEvent != nullptr)
         {
-            mMoveDirection -= Vector2D::LEFT;
-            mDirections.mLeft = false;
+            if (mDirections.mLeft)
+            {
+                mMoveDirection -= Vector2D::LEFT;
+                mDirections.mLeft = false;
+            }
         }
     }
-    void MovementComponent::MoveRightEnd()
+    void MovementComponent::MoveRightEnd(Event *event)
     {
         L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Right");
-        if (mDirections.mRight)
+        MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
+        if (movementEvent != nullptr)
         {
-            mMoveDirection -= Vector2D::RIGHT;
-            mDirections.mRight = false;
+            if (mDirections.mRight)
+            {
+                mMoveDirection -= Vector2D::RIGHT;
+                mDirections.mRight = false;
+            }
         }
     }
-    void MovementComponent::MoveUpEnd()
+    void MovementComponent::MoveUpEnd(Event *event)
     {
         L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Up");
-        if (mDirections.mUp)
+        MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
+        if (movementEvent != nullptr)
         {
-            mMoveDirection -= Vector2D::UP;
-            mDirections.mUp = false;
+            if (mDirections.mUp)
+            {
+                mMoveDirection -= Vector2D::UP;
+                mDirections.mUp = false;
+            }
         }
     }
-    void MovementComponent::MoveDownEnd()
+    void MovementComponent::MoveDownEnd(Event *event)
     {
         L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Down");
-        if (mDirections.mDown)
+        MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
+        if (movementEvent != nullptr)
         {
-            mMoveDirection -= Vector2D::DOWN;
-            mDirections.mDown = false;
+            if (mDirections.mDown)
+            {
+                mMoveDirection -= Vector2D::DOWN;
+                mDirections.mDown = false;
+            }
+        }
+    }
+
+    void MovementComponent::TriggerAnimation()
+    {
+        AnimateEvent event;
+        if (mMoveDirection.mX != 0 || mMoveDirection.mY != 0)
+            AnimateMoveDirection(mLastMoveDirection);
+        else
+            AnimateEndDirection(mLastMoveDirection);
+    }
+
+    void MovementComponent::AnimateMoveDirection(const Vector2D direction)
+    {
+        AnimateEvent event;
+        if (mMoveDirection.mY != 0)
+        {
+            if (mMoveDirection.mY > 0)
+                mEntity->mEventHandler.Trigger("animateDownStart", event);
+            else
+                mEntity->mEventHandler.Trigger("animateUpStart", event);
+        }
+        else
+        {
+            if (mMoveDirection.mX > 0)
+                mEntity->mEventHandler.Trigger("animateRightStart", event);
+            else
+                mEntity->mEventHandler.Trigger("animateLeftStart", event);
+        }
+    }
+
+    void MovementComponent::AnimateEndDirection(const Vector2D direction)
+    {
+        AnimateEvent event;
+        if (mLastMoveDirection.mY != 0)
+        {
+            if (mLastMoveDirection.mY > 0)
+                mEntity->mEventHandler.Trigger("animateDownEnd", event);
+            else
+                mEntity->mEventHandler.Trigger("animateUpEnd", event);
+        }
+        else
+        {
+            if (mLastMoveDirection.mX > 0)
+                mEntity->mEventHandler.Trigger("animateRightEnd", event);
+            else
+                mEntity->mEventHandler.Trigger("animateLeftEnd", event);
         }
     }
 }

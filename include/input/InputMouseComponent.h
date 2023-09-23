@@ -11,10 +11,10 @@ namespace Gengine
         InputMouseComponent();
         ~InputMouseComponent();
 
-        void HandleInput(const Input &input) override;
+        bool HandleInput(const Input &input) override;
     protected:
-        virtual void HandleMouseMoved(const Input &input) = 0;
-        virtual void HandleMouseButtonPressed(const Input &input) = 0;
-        virtual void HandleMouseButtonReleased(const Input &input) = 0;
+        virtual bool HandleMouseMoved(const Input &input) = 0;
+        virtual bool HandleMouseButtonPressed(const Input &input) = 0;
+        virtual bool HandleMouseButtonReleased(const Input &input) = 0;
     };
 }

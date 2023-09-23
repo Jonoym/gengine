@@ -12,6 +12,7 @@ namespace Gengine
         InputHandler();
         ~InputHandler();
         void HandleInput();
+        void OrderInputComponents();
         void DispatchInputEvent(const Input& e);
         bool ShouldQuit();
 

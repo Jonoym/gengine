@@ -11,9 +11,9 @@ namespace Gengine
         InputMovementComponent();
         ~InputMovementComponent();
 
-        void HandleInput(const Input &input) override;
+        bool HandleInput(const Input &input) override;
     private:
-        void HandleKeyPressed(const Input &input);
-        void HandleKeyReleased(const Input &input);
+        bool HandleKeyPressed(const Input &input);
+        bool HandleKeyReleased(const Input &input);
     };
 }

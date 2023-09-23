@@ -2,6 +2,7 @@
 
 #include <physics/components/PhysicsComponent.h>
 #include <utils/Vector2D.h>
+#include <events/Event.h>
 
 namespace Gengine
 {
@@ -24,15 +25,20 @@ namespace Gengine
         void UpdateMultipier(const Vector2D& multiplier);
 
     private:
-        void MoveLeftStart();
-        void MoveRightStart();
-        void MoveUpStart();
-        void MoveDownStart();
-        void MoveLeftEnd();
-        void MoveRightEnd();
-        void MoveUpEnd();
-        void MoveDownEnd();
+        void MoveLeftStart(Event* event);
+        void MoveRightStart(Event* event);
+        void MoveUpStart(Event* event);
+        void MoveDownStart(Event* event);
+        void MoveLeftEnd(Event* event);
+        void MoveRightEnd(Event* event);
+        void MoveUpEnd(Event* event);
+        void MoveDownEnd(Event* event);
 
+        void TriggerAnimation();
+        void AnimateMoveDirection(const Vector2D direction);
+        void AnimateEndDirection(const Vector2D direction);
+
+        Vector2D mLastMoveDirection;
         Vector2D mMoveDirection;
         Vector2D mMovementSpeed;
 

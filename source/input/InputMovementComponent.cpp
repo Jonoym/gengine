@@ -4,69 +4,77 @@
 
 namespace Gengine
 {
-    InputMovementComponent::InputMovementComponent() {}
+    InputMovementComponent::InputMovementComponent() {
+    }
 
     InputMovementComponent::~InputMovementComponent() {}
 
-    void InputMovementComponent::HandleInput(const Input &input)
+    bool InputMovementComponent::HandleInput(const Input &input)
     {
         L_TRACE("[MOVEMENT INPUT COMPONENT]", "Receiving Input of Type: { %d }", input.GetInputType());
         switch (input.GetInputType())
         {
         case InputType::KEY_PRESSED:
         {
-            HandleKeyPressed(input);
-            break;
+            return HandleKeyPressed(input);
         }
         case InputType::KEY_RELEASED:
         {
-            HandleKeyReleased(input);
-            break;
+            return HandleKeyReleased(input);
         }
         }
+
+        return false;
     }
 
-    void InputMovementComponent::HandleKeyPressed(const Input &input)
+    bool InputMovementComponent::HandleKeyPressed(const Input &input)
     {
         const KeyInput &keyInput = dynamic_cast<const KeyInput &>(input);
         L_INFO("[MOVEMENT INPUT COMPONENT]", "Key Pressed: %s", keyInput.ToString().c_str());
 
+        MovementEvent event;
+
         switch (keyInput.GetKeyCode())
         {
-        case Key::Left:
-            mEntity->mEventHandler.Trigger("moveLeftStart");
-            break;
-        case Key::Right:
-            mEntity->mEventHandler.Trigger("moveRightStart");
-            break;
-        case Key::Up:
-            mEntity->mEventHandler.Trigger("moveUpStart");
-            break;
-        case Key::Down:
-            mEntity->mEventHandler.Trigger("moveDownStart");
-            break;
+        case Key::A:
+            mEntity->mEventHandler.Trigger("moveLeftStart", event);
+            return true;
+        case Key::D:
+            mEntity->mEventHandler.Trigger("moveRightStart", event);
+            return true;
+        case Key::W:
+            mEntity->mEventHandler.Trigger("moveUpStart", event);
+            return true;
+        case Key::S:
+            mEntity->mEventHandler.Trigger("moveDownStart", event);
+            return true;
         }
+        return false;
     }
 
-    void InputMovementComponent::HandleKeyReleased(const Input &input)
+    bool InputMovementComponent::HandleKeyReleased(const Input &input)
     {
+
         const KeyInput &keyInput = dynamic_cast<const KeyInput &>(input);
         L_INFO("[MOVEMENT INPUT COMPONENT]", "Key Released: %s", keyInput.ToString().c_str());
+        
+        MovementEvent event;
 
         switch (keyInput.GetKeyCode())
         {
-        case Key::Left:
-            mEntity->mEventHandler.Trigger("moveLeftEnd");
-            break;
-        case Key::Right:
-            mEntity->mEventHandler.Trigger("moveRightEnd");
-            break;
-        case Key::Up:
-            mEntity->mEventHandler.Trigger("moveUpEnd");
-            break;
-        case Key::Down:
-            mEntity->mEventHandler.Trigger("moveDownEnd");
-            break;
+        case Key::A:
+            mEntity->mEventHandler.Trigger("moveLeftEnd", event);
+            return true;
+        case Key::D:
+            mEntity->mEventHandler.Trigger("moveRightEnd", event);
+            return true;
+        case Key::W:
+            mEntity->mEventHandler.Trigger("moveUpEnd", event);
+            return true;
+        case Key::S:
+            mEntity->mEventHandler.Trigger("moveDownEnd", event);
+            return true;
         }
+        return false;
     }
 }

@@ -17,6 +17,7 @@ namespace Gengine
         , mDeltaTime(0.0f)
     {
         L_INFO("[TIMER]", "Initialising Time Manager");
+        Start();
     }
 
     void TimeManager::Start()

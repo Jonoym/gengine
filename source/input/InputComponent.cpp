@@ -10,8 +10,9 @@ namespace Gengine
 
     InputComponent::~InputComponent() {}
 
-    void InputComponent::HandleInput(const Input &input)
+    bool InputComponent::HandleInput(const Input &input)
     {
         L_TRACE("[INPUT COMPONENT]", "Receiving Input");
+        return false;
     }
 }

@@ -1,20 +1,25 @@
 #include <graphics/controller/AnimationController.h>
+#include <events/Event.h>
 #include <core/Logger.h>
 
 namespace Gengine
 {
-    AnimationController::AnimationController(const std::string& assetName, const std::string& texturePath, const std::string& atlasPath, const Vector2D& size)
-        : mAnimateComponent(assetName, texturePath, atlasPath, size)
+    AnimationController::AnimationController(const std::string &assetName,
+                                             const std::string &texturePath,
+                                             const std::string &atlasPath,
+                                             const Vector2D &size,
+                                             RenderPriority priority)
+        : mAnimateComponent(assetName, texturePath, atlasPath, size, priority)
     {
         L_INFO("[ANIMATION CONTROLLER]", "Constructing Animation Controller Component");
     }
 
     AnimationController::~AnimationController() {}
 
-    void AnimationController::AddAnimation(const std::string& animationName, uint32 delayTime, AnimationPlaythrough playthrough)
+    void AnimationController::AddAnimation(const std::string &animationName, AnimationPlaythrough playthrough, AnimationCompletion completion,  uint32 delayTime)
     {
         L_INFO("[ANIMATION CONTROLLER]", "Adding Animation with the Name: '%s'", animationName.c_str());
-        mAnimateComponent.AddAnimation(animationName, delayTime, playthrough);
+        mAnimateComponent.AddAnimation(animationName, playthrough, completion, delayTime);
     }
 
     void AnimationController::Create()

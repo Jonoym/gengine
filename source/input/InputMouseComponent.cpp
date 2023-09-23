@@ -8,29 +8,27 @@ namespace Gengine
 
     InputMouseComponent::~InputMouseComponent() {}
 
-    void InputMouseComponent::HandleInput(const Input &input)
+    bool InputMouseComponent::HandleInput(const Input &input)
     {
-        L_INFO("[MOUSE INPUT COMPONENT]", "Receiving Input of Type: { %d }", input.GetInputType());
+        L_TRACE("[MOUSE INPUT COMPONENT]", "Receiving Input of Type: { %d }", input.GetInputType());
         switch (input.GetInputType())
         {
         case InputType::MOUSE_MOVED:
         {
             L_TRACE("[MOUSE INPUT COMPONENT]", "Handling Mouse Button Moved");
-            HandleMouseMoved(input);
-            break;
+            return HandleMouseMoved(input);
         }
         case InputType::MOUSE_BUTTON_PRESSED:
         {
             L_INFO("[MOUSE INPUT COMPONENT]", "Handling Mouse Button Pressed");
-            HandleMouseButtonPressed(input);
-            break;
+            return HandleMouseButtonPressed(input);
         }
         case InputType::MOUSE_BUTTON_RELEASED:
         {
-            L_TRACE("[MOUSE INPUT COMPONENT]", "Handling Mouse Button Released");
-            HandleMouseButtonReleased(input);
-            break;
+            L_INFO("[MOUSE INPUT COMPONENT]", "Handling Mouse Button Released");
+            return HandleMouseButtonReleased(input);
         }
         }
+        return false;
     }
 }

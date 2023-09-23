@@ -4,19 +4,23 @@
 
 namespace Gengine
 {
-    AnimateComponent::AnimateComponent(const std::string &assetName, const std::string &texturePath, const std::string &atlasPath, const Vector2D &size)
-        : mAssetName(assetName), mSize(size)
+    AnimateComponent::AnimateComponent(const std::string &assetName, const std::string &texturePath, const std::string &atlasPath, const Vector2D &size, RenderPriority priority)
+        : IRenderableComponent(priority)
+        , mAssetName(assetName)
+        , mSize(size)
     {
         L_INFO("[ANIMATE COMPONENT]", "Creating Animate Component with Asset Name: '%s' at Texture Path: '%s' Atlas Path: '%s' ", assetName.c_str(), texturePath.c_str(), atlasPath.c_str());
         ServiceManager::GetServiceManager().GetRenderService().Register(this);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, texturePath);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAnimation(assetName, atlasPath);
     }
-    AnimateComponent::AnimateComponent(const AnimateComponent &other) {}
+    AnimateComponent::AnimateComponent(const AnimateComponent &other)
+        : IRenderableComponent(other.mPriority)
+    {}
 
     AnimateComponent::~AnimateComponent() {}
 
-    void AnimateComponent::AddAnimation(const std::string &animationName, uint32 delayTime, AnimationPlaythrough playthrough)
+    void AnimateComponent::AddAnimation(const std::string &animationName, AnimationPlaythrough playthrough, AnimationCompletion completion, uint32 delayTime)
     {
         L_INFO("[ANIMATE COMPONENT]", "Adding Animation with Name: '%s' and Delay Time: { %d } ", animationName.c_str(), delayTime);
 
@@ -27,12 +31,12 @@ namespace Gengine
             L_INFO("[ANIMATE COMPONENT]", "Could not add the Animation for: '%s'", animationName.c_str());
         }
 
-        mAnimations.emplace(animationName, AnimationPlayInfo{playthrough, delayTime});
+        mAnimations.emplace(animationName, AnimationPlayInfo{playthrough, completion, delayTime});
     }
 
     void AnimateComponent::StartAnimation(const std::string &animationName, bool force)
     {
-        L_INFO("[ANIMATE COMPONENT]", "Starting Animation with Name: %s", animationName.c_str());
+        L_TRACE("[ANIMATE COMPONENT]", "Attempting to Start Animation with Name: %s", animationName.c_str());
         auto it = mAnimations.find(animationName);
         if (it == nullptr)
         {
@@ -42,13 +46,18 @@ namespace Gengine
 
         const auto &animationFrames = ServiceManager::GetServiceManager().GetRenderService().GetAnimation(mAssetName, animationName);
 
-        if (animationName != mCurrentAnimation.mAnimationName || force)
+        AnimationCompletion completion = mCurrentAnimation.mAnimationInfo.mCompletion;
+
+        if (force || (completion == AnimationCompletion::COMPLETE && mCurrentAnimation.mComplete)
+            || (completion != AnimationCompletion::COMPLETE && animationName != mCurrentAnimation.mAnimationName))
         {
-            mCurrentAnimation.mStartTime = ServiceManager::GetServiceManager().GetTimeManager().GetTotalTicks();
+            L_TRACE("[ANIMATE COMPONENT]", "Starting Animation with Name: %s", animationName.c_str());
+            mCurrentAnimation.mStartTime = ServiceManager::GetServiceManager().GetTimeManager().GetTicks();
             mCurrentAnimation.mFrameIndex = 0;
             mCurrentAnimation.mAnimationName = animationName;
             mCurrentAnimation.mAnimationFrames = animationFrames;
             mCurrentAnimation.mAnimationInfo = it->second;
+            mCurrentAnimation.mComplete = false;
         }
     }
 
@@ -65,7 +74,7 @@ namespace Gengine
     void AnimateComponent::Render()
     {
         L_TRACE("[ANIMATE COMPONENT]", "Rendering Component");
-        uint32 currentTime = ServiceManager::GetServiceManager().GetTimeManager().GetTotalTicks();
+        uint32 currentTime = ServiceManager::GetServiceManager().GetTimeManager().GetTicks();
         if (mCurrentAnimation.mStartTime + mCurrentAnimation.mAnimationInfo.mFrameDelay < currentTime)
         {
             L_TRACE("[ANIMATE COMPONENT]", "Updating Current Frame");
@@ -75,6 +84,7 @@ namespace Gengine
             case AnimationPlaythrough::NORMAL:
                 if (mCurrentAnimation.mFrameIndex + 1 == mCurrentAnimation.mAnimationFrames->size())
                 {
+                    mCurrentAnimation.mComplete = true;
                     break;
                 }
             case AnimationPlaythrough::LOOP:

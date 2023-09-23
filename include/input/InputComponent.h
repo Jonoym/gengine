@@ -11,6 +11,6 @@ namespace Gengine
         InputComponent();
         ~InputComponent();
 
-        virtual void HandleInput(const Input &input);
+        virtual bool HandleInput(const Input &input);
     };
 }

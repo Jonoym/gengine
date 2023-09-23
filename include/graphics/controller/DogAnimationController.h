@@ -11,13 +11,13 @@ namespace Gengine
 
         void Create() override;
     private:
-        void MoveLeftStart();
-        void MoveRightStart();
-        void MoveUpStart();
-        void MoveDownStart();
-        void MoveLeftEnd();
-        void MoveRightEnd();
-        void MoveUpEnd();
-        void MoveDownEnd();
+        void MoveLeftStart(Event* event);
+        void MoveRightStart(Event* event);
+        void MoveUpStart(Event* event);
+        void MoveDownStart(Event* event);
+        void MoveLeftEnd(Event* event);
+        void MoveRightEnd(Event* event);
+        void MoveUpEnd(Event* event);
+        void MoveDownEnd(Event* event);
     };
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <events/Event.h>
 #include <components/Component.h>
 #include <graphics/AnimateComponent.h>
 
@@ -8,12 +9,18 @@ namespace Gengine
     class AnimationController : public Component
     {
     public:
-        AnimationController(const std::string& assetName, const std::string& texturePath, const std::string& atlasPath, const Vector2D& size);
+        AnimationController(const std::string &assetName,
+                            const std::string &texturePath,
+                            const std::string &atlasPath,
+                            const Vector2D &size,
+                            RenderPriority priority);
         virtual ~AnimationController();
         virtual void Create() override;
         virtual void Dispose() override;
 
-        virtual void AddAnimation(const std::string& animationName, uint32 delayTime, AnimationPlaythrough playthrough);
+        virtual void AddAnimation(const std::string &animationName, AnimationPlaythrough playthrough,
+                                  AnimationCompletion completion, uint32 delayTime);
+
     protected:
         AnimateComponent mAnimateComponent;
     };

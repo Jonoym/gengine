@@ -6,10 +6,10 @@
 
 namespace Gengine
 {
-    class RenderComponent : public IRenderableComponent
+    class RenderComponent : protected IRenderableComponent
     {
     public:
-        RenderComponent(std::string assetName, std::string path, const Vector2D &size);
+        RenderComponent(std::string assetName, std::string path, const Vector2D &size, RenderPriority priority);
         RenderComponent(const RenderComponent &other);
         ~RenderComponent();
 

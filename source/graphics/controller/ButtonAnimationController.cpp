@@ -1,13 +1,13 @@
 #include <graphics/controller/ButtonAnimationController.h>
 #include <entities/Entity.h>
-void OnHover();
-void OnSelect();
-void OnHoverExit();
 
 namespace Gengine
 {
-    ButtonAnimationController::ButtonAnimationController(const std::string &assetName, const std::string &texturePath, const std::string &atlasPath, const Vector2D &size)
-        : AnimationController(assetName, texturePath, atlasPath, size)
+    ButtonAnimationController::ButtonAnimationController(const std::string &assetName,
+                                                         const std::string &texturePath,
+                                                         const std::string &atlasPath,
+                                                         const Vector2D &size)
+        : AnimationController(assetName, texturePath, atlasPath, size, RenderPriority::OVERLAY)
     {
     }
 
@@ -15,16 +15,19 @@ namespace Gengine
     {
         AnimationController::Create();
 
-        mEntity->mEventHandler.AddListener("hoverStart", std::bind(&Gengine::ButtonAnimationController::OnHoverStart, this));
-        mEntity->mEventHandler.AddListener("onClick", std::bind(&Gengine::ButtonAnimationController::OnClick, this));
-        mEntity->mEventHandler.AddListener("hoverEnd", std::bind(&Gengine::ButtonAnimationController::OnHoverExit, this));
+        mEntity->mEventHandler.AddListener("hoverStart", [this](Event *event)
+                                           { OnHoverStart(); });
+        mEntity->mEventHandler.AddListener("onClick", [this](Event *event)
+                                           { OnClick(); });
+        mEntity->mEventHandler.AddListener("hoverEnd", [this](Event *event)
+                                           { OnHoverExit(); });
 
         mAnimateComponent.StartAnimation("default", false);
     }
 
     void ButtonAnimationController::OnHoverStart()
     {
-        mAnimateComponent.StartAnimation("hoverStart", true);
+        mAnimateComponent.StartAnimation("hoverStart", false);
     }
 
     void ButtonAnimationController::OnClick()
@@ -34,7 +37,7 @@ namespace Gengine
 
     void ButtonAnimationController::OnHoverExit()
     {
-        mAnimateComponent.StartAnimation("hoverEnd", true);
+        mAnimateComponent.StartAnimation("hoverEnd", false);
     }
 
 }
