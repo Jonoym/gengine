@@ -5,11 +5,17 @@
 
 namespace Gengine
 {
+    enum class PhysicsBody
+    {
+        STATIC,
+        RIGID
+    };
+
     class CollisionComponent : public PhysicsComponent
     {
     public:
         CollisionComponent();
-        CollisionComponent(const float32 mass, const float32 radius);
+        CollisionComponent(const float32 mass, const float32 radius, PhysicsBody body);
         ~CollisionComponent();
 
         void Create() override;
@@ -17,6 +23,7 @@ namespace Gengine
         void PhysicsUpdate(float32 deltaTime) override;
         float32 mMass;
         float32 mRadius;
+        PhysicsBody mPhysicsBody;
         
     private:
 

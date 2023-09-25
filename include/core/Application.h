@@ -19,8 +19,8 @@ namespace Gengine
         void Run();
 
     private:
-        IInterface* mScreen = nullptr;
-        std::unique_ptr<IGame> mGame = nullptr;
+        IInterface* mInterface = nullptr;
+        std::unique_ptr<Game> mGame = nullptr;
     };
 
 }

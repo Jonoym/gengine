@@ -52,11 +52,13 @@ namespace Gengine
     {
         L_TRACE("[INPUT HANDLER]", "Dispatching Input Events");
         OrderInputComponents();
+        bool handled = false;
         for (auto &inputListener : mInputComponents)
         {
-            bool handled = inputListener->HandleInput(input);
-
-            if (handled) break;
+            if (!handled)
+                handled = inputListener->HandleInput(input);
+            else
+                inputListener->HandleInactive();
         }
     }
 

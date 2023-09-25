@@ -6,6 +6,7 @@ namespace Gengine
 {
     ButtonComponent::ButtonComponent(const Vector2D &size)
         : mSize(size)
+        , mActive(false)
     {
     }
     ButtonComponent::~ButtonComponent() {}
@@ -20,13 +21,15 @@ namespace Gengine
         {
             L_TRACE("[BUTTON COMPONENT]", "Active");
             mEntity->mEventHandler.Trigger("hoverStart", event);
-
+            
+            mActive = true;
             return true;
         }
         else
         {
             L_TRACE("[BUTTON COMPONENT]", "Inactive");
             mEntity->mEventHandler.Trigger("hoverEnd", event);
+            mActive = false;
 
             return false;
         }
@@ -38,10 +41,11 @@ namespace Gengine
 
         if (IsActive(mouseInput.mMouseX, mouseInput.mMouseY))
         {
-            AnimateEvent event;
             L_INFO("[BUTTON COMPONENT]", "Active");
+            AnimateEvent event;
             mEntity->mEventHandler.Trigger("onClick", event);
 
+            mActive = true;
             return true;
         }
 
@@ -65,5 +69,15 @@ namespace Gengine
                 x <= mBounds.mX + mBounds.mW &&
                 y >= mBounds.mY &&
                 y <= mBounds.mY + mBounds.mH);
+    }
+
+    void ButtonComponent::HandleInactive()
+    {
+        if (mActive)
+        {
+            mActive = false;
+            AnimateEvent event;
+            mEntity->mEventHandler.Trigger("hoverEnd", event);
+        }
     }
 }

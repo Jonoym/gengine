@@ -6,7 +6,7 @@
 namespace Gengine
 {
     MovementComponent::MovementComponent()
-        : mMovementSpeed(Vector2D(1.0f, 1.0f)), mMoveDirection(Vector2D())
+        : mMovementSpeed(Vector2D(0.5f, 0.5f)), mMoveDirection(Vector2D())
     {
         ServiceManager::GetServiceManager().GetPhysicsService().Register(this);
     }
@@ -15,6 +15,8 @@ namespace Gengine
 
     void MovementComponent::Create()
     {
+        L_INFO("[MOVEMENT COMPONENT]", "");
+
         mEntity->mEventHandler.AddListener("moveLeftStart", [this](Event *event)
                                            { MoveLeftStart(event); });
         mEntity->mEventHandler.AddListener("moveRightStart", [this](Event *event)

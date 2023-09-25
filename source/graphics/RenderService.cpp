@@ -36,7 +36,7 @@ namespace Gengine
                   [](IRenderableComponent *a, IRenderableComponent *b)
                   {
                     if (a->mPriority == b->mPriority) {
-                      return (b->mEntity->mPosition.mY + b->GetSize().mY / 2) > (a->mEntity->mPosition.mY + a->GetSize().mY / 2);
+                      return (b->mEntity->mPosition.mY + b->mSize.mY / 2) > (a->mEntity->mPosition.mY + a->mSize.mY / 2);
                     } else {
                         return a->mPriority < b->mPriority;
                     }
@@ -57,7 +57,7 @@ namespace Gengine
 
     void RenderService::Render(const std::string &assetName, const Vector2D &size, const Vector2D &position, const Vector2D &clipSize, const Vector2D &clipPosition)
     {
-        L_TRACE("[RENDER SERVICE]", "Attempting to Render Asset: { '%s' }", assetName.c_str());
+        L_TRACE("[RENDER SERVICE]", "Attempting to Render Asset: { '%s' } with Size: { w: %f, h: %f } at Position: { x: %f, y: %f }", assetName.c_str(), size.mX, size.mY, position.mX, position.mY);
         auto asset = mAssets.find(assetName);
         if (asset != mAssets.end())
         {

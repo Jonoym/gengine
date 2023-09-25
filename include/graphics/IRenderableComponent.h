@@ -8,21 +8,23 @@ namespace Gengine
     enum class RenderPriority
     {
         BACKGROUND = 0,
-        ENTITY = 1,
-        OVERLAY = 2
+        PARTICLE = 1,
+        ENTITY = 2,
+        OVERLAY = 3
     };
 
     class IRenderableComponent : public Component
     {
     public:
-        IRenderableComponent(RenderPriority priority)
+        IRenderableComponent(RenderPriority priority, const Vector2D size)
             : mPriority(priority)
+            , mSize(size)
         {
         }
         IRenderableComponent(const IRenderableComponent& other) {}
         virtual void Render() = 0;
-        virtual const Vector2D &GetSize() = 0;
         RenderPriority GetPriority() { return mPriority; }
         RenderPriority mPriority;
+        Vector2D mSize;
     };
 }

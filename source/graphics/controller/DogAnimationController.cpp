@@ -28,63 +28,61 @@ namespace Gengine
                                            { MoveUpEnd(event); });
         mEntity->mEventHandler.AddListener("animateDownEnd", [this](Event *event)
                                            { MoveDownEnd(event); });
-
-        mAnimateComponent.StartAnimation("default", false);
     }
 
     void DogAnimationController::MoveLeftStart(Event *event)
     {
         AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
         if (animateEvent != nullptr)
-            mAnimateComponent.StartAnimation("moveLeftStart", false);
+            mAnimationComponent.StartAnimation("moveLeftStart", false);
     }
 
     void DogAnimationController::MoveRightStart(Event *event)
     {
         AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
         if (animateEvent != nullptr)
-            mAnimateComponent.StartAnimation("moveRightStart", false);
+            mAnimationComponent.StartAnimation("moveRightStart", false);
     }
 
     void DogAnimationController::MoveUpStart(Event *event)
     {
         AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
         if (animateEvent != nullptr)
-            mAnimateComponent.StartAnimation("moveUpStart", false);
+            mAnimationComponent.StartAnimation("moveUpStart", false);
     }
 
     void DogAnimationController::MoveDownStart(Event *event)
     {
         AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
         if (animateEvent != nullptr)
-            mAnimateComponent.StartAnimation("moveDownStart", false);
+            mAnimationComponent.StartAnimation("moveDownStart", false);
     }
 
     void DogAnimationController::MoveLeftEnd(Event *event)
     {
         AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
         if (animateEvent != nullptr)
-            mAnimateComponent.StartAnimation("defaultLeft", false);
+            mAnimationComponent.StartAnimation("defaultLeft", false);
     }
 
     void DogAnimationController::MoveRightEnd(Event *event)
     {
         AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
         if (animateEvent != nullptr)
-            mAnimateComponent.StartAnimation("defaultRight", false);
+            mAnimationComponent.StartAnimation("defaultRight", false);
     }
 
     void DogAnimationController::MoveUpEnd(Event *event)
     {
         AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
         if (animateEvent != nullptr)
-            mAnimateComponent.StartAnimation("defaultUp", false);
+            mAnimationComponent.StartAnimation("defaultUp", false);
     }
 
     void DogAnimationController::MoveDownEnd(Event *event)
     {
         AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
         if (animateEvent != nullptr)
-            mAnimateComponent.StartAnimation("defaultDown", false);
+            mAnimationComponent.StartAnimation("defaultDown", false);
     }
 }

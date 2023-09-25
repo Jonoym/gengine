@@ -1,26 +1,41 @@
-#include <graphics/AnimateComponent.h>
+#include <graphics/AnimationComponent.h>
 #include <services/ServiceManager.h>
 #include <core/Logger.h>
 
 namespace Gengine
 {
-    AnimateComponent::AnimateComponent(const std::string &assetName, const std::string &texturePath, const std::string &atlasPath, const Vector2D &size, RenderPriority priority)
-        : IRenderableComponent(priority)
+        AnimationComponent::AnimationComponent(const std::string &assetName,
+                           const std::string &texturePath,
+                           const std::string &atlasPath,
+                           const Vector2D &size,
+                           RenderPriority priority,
+                           const Vector2D &offset,
+                           const std::string &defaultName)
+        : IRenderableComponent(priority, size)
         , mAssetName(assetName)
-        , mSize(size)
+        , mOffset(offset)
+        , mDefaultName(defaultName)
     {
         L_INFO("[ANIMATE COMPONENT]", "Creating Animate Component with Asset Name: '%s' at Texture Path: '%s' Atlas Path: '%s' ", assetName.c_str(), texturePath.c_str(), atlasPath.c_str());
         ServiceManager::GetServiceManager().GetRenderService().Register(this);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, texturePath);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAnimation(assetName, atlasPath);
+
+        AddAnimation(defaultName, AnimationPlaythrough::NORMAL, AnimationCompletion::CANCELLABLE, 1000);
     }
-    AnimateComponent::AnimateComponent(const AnimateComponent &other)
-        : IRenderableComponent(other.mPriority)
+    AnimationComponent::AnimationComponent(const AnimationComponent &other)
+        : IRenderableComponent(other.mPriority, other.mSize)
     {}
 
-    AnimateComponent::~AnimateComponent() {}
+    AnimationComponent::~AnimationComponent() {}
 
-    void AnimateComponent::AddAnimation(const std::string &animationName, AnimationPlaythrough playthrough, AnimationCompletion completion, uint32 delayTime)
+    void AnimationComponent::Create()
+    {
+        L_INFO("[ANIMATE COMPONENT]", "Starting Animation with Name: '%s'", mDefaultName.c_str());
+        StartAnimation(mDefaultName, false);
+    }
+
+    void AnimationComponent::AddAnimation(const std::string &animationName, AnimationPlaythrough playthrough, AnimationCompletion completion, uint32 delayTime)
     {
         L_INFO("[ANIMATE COMPONENT]", "Adding Animation with Name: '%s' and Delay Time: { %d } ", animationName.c_str(), delayTime);
 
@@ -34,7 +49,7 @@ namespace Gengine
         mAnimations.emplace(animationName, AnimationPlayInfo{playthrough, completion, delayTime});
     }
 
-    void AnimateComponent::StartAnimation(const std::string &animationName, bool force)
+    void AnimationComponent::StartAnimation(const std::string &animationName, bool force)
     {
         L_TRACE("[ANIMATE COMPONENT]", "Attempting to Start Animation with Name: %s", animationName.c_str());
         auto it = mAnimations.find(animationName);
@@ -61,19 +76,23 @@ namespace Gengine
         }
     }
 
-    void AnimateComponent::UpdateSize(const Vector2D &size)
-    {
-        mSize = size;
-    }
-
-    const Vector2D &AnimateComponent::GetSize()
-    {
-        return mSize;
-    }
-
-    void AnimateComponent::Render()
+    void AnimationComponent::Render()
     {
         L_TRACE("[ANIMATE COMPONENT]", "Rendering Component");
+
+        UpdateAnimation();
+
+        L_TRACE("[ANIMATE COMPONENT]", "Rendering Current Frame");
+        Box2D boundingRect = mCurrentAnimation.mAnimationFrames->at(mCurrentAnimation.mFrameIndex);
+        L_TRACE("[ANIMATE COMPONENT]", "Bounding Rectangle for Animation: { x: %d, y: %d, w: %d, h: %d }", boundingRect.mX, boundingRect.mY, boundingRect.mW, boundingRect.mH);
+        ServiceManager::GetServiceManager().GetRenderService().Render(
+            mAssetName, mSize, mEntity->GetPosition() + mOffset,
+            Vector2D(boundingRect.mW, boundingRect.mH),
+            Vector2D(boundingRect.mX, boundingRect.mY));
+    }
+
+    void AnimationComponent::UpdateAnimation()
+    {
         uint32 currentTime = ServiceManager::GetServiceManager().GetTimeManager().GetTicks();
         if (mCurrentAnimation.mStartTime + mCurrentAnimation.mAnimationInfo.mFrameDelay < currentTime)
         {
@@ -92,11 +111,5 @@ namespace Gengine
                 break;
             }
         }
-        L_TRACE("[ANIMATE COMPONENT]", "Rendering Current Frame");
-        Box2D boundingRect = mCurrentAnimation.mAnimationFrames->at(mCurrentAnimation.mFrameIndex);
-        ServiceManager::GetServiceManager().GetRenderService().Render(
-            mAssetName, mSize, mEntity->GetPosition(),
-            Vector2D(boundingRect.mW, boundingRect.mH),
-            Vector2D(boundingRect.mX, boundingRect.mY));
     }
 }

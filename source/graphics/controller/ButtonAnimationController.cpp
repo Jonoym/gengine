@@ -21,23 +21,21 @@ namespace Gengine
                                            { OnClick(); });
         mEntity->mEventHandler.AddListener("hoverEnd", [this](Event *event)
                                            { OnHoverExit(); });
-
-        mAnimateComponent.StartAnimation("default", false);
     }
 
     void ButtonAnimationController::OnHoverStart()
     {
-        mAnimateComponent.StartAnimation("hoverStart", false);
+        mAnimationComponent.StartAnimation("hoverStart", false);
     }
 
     void ButtonAnimationController::OnClick()
     {
-        mAnimateComponent.StartAnimation("onClick", true);
+        mAnimationComponent.StartAnimation("onClick", true);
     }
 
     void ButtonAnimationController::OnHoverExit()
     {
-        mAnimateComponent.StartAnimation("hoverEnd", false);
+        mAnimationComponent.StartAnimation("hoverEnd", false);
     }
 
 }

@@ -73,8 +73,10 @@ namespace Gengine
                     const Vector2D strength = collisionAxis / distance;
 
                     const float32 delta = collisionRadius - distance;
-                    collider1->mEntity->mPosition += strength * 0.5f * delta / collider1->mMass;
-                    collider2->mEntity->mPosition -= strength * 0.5f * delta / collider2->mMass;
+                    if (collider1->mPhysicsBody == PhysicsBody::RIGID)
+                        collider1->mEntity->mPosition += strength * 0.5f * delta / collider1->mMass;
+                    if (collider2->mPhysicsBody == PhysicsBody::RIGID)
+                        collider2->mEntity->mPosition -= strength * 0.5f * delta / collider2->mMass;
                 }
             }
         }

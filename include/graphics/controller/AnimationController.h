@@ -2,7 +2,7 @@
 
 #include <events/Event.h>
 #include <components/Component.h>
-#include <graphics/AnimateComponent.h>
+#include <graphics/AnimationComponent.h>
 
 namespace Gengine
 {
@@ -22,6 +22,6 @@ namespace Gengine
                                   AnimationCompletion completion, uint32 delayTime);
 
     protected:
-        AnimateComponent mAnimateComponent;
+        AnimationComponent mAnimationComponent;
     };
 }

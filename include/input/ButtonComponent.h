@@ -18,9 +18,12 @@ namespace Gengine
         bool HandleMouseButtonPressed(const Input &input) override;
         bool HandleMouseButtonReleased(const Input &input) override;
 
+        void HandleInactive() override;
+
     private:
         bool IsActive(int32 x, int32 y);
-
+        
+        bool mActive;
         Vector2D mSize;
         Box2D mBounds;
     };

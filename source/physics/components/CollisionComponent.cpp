@@ -5,12 +5,13 @@
 
 namespace Gengine
 {
-    CollisionComponent::CollisionComponent() : CollisionComponent(1.0f, 100.0f) {}
+    CollisionComponent::CollisionComponent() : CollisionComponent(1.0f, 100.0f, PhysicsBody::RIGID) {}
 
-    CollisionComponent::CollisionComponent(const float32 mass, const float32 radius)
+    CollisionComponent::CollisionComponent(const float32 mass, const float32 radius, PhysicsBody body)
         : mCurrentPosition(nullptr)
         , mMass(mass)
         , mRadius(radius)
+        , mPhysicsBody(body)
     {
         ServiceManager::GetServiceManager().GetPhysicsService().RegisterCollider(this);
     }

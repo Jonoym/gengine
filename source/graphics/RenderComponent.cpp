@@ -5,9 +5,8 @@
 namespace Gengine
 {
     RenderComponent::RenderComponent(std::string assetName, std::string path, const Vector2D& size, RenderPriority priority)
-        : IRenderableComponent(priority)
+        : IRenderableComponent(priority, size)
         , mAssetName(assetName)
-        , mSize(size) 
     {
         L_INFO("[RENDER COMPONENT]", "Creating Render Component with Asset Name: %s at Path: %s", assetName.c_str(), path.c_str());
         ServiceManager::GetServiceManager().GetRenderService().Register(this);
@@ -15,19 +14,10 @@ namespace Gengine
     }
 
     RenderComponent::RenderComponent(const RenderComponent &other)
-        : IRenderableComponent(other.mPriority)
+        : IRenderableComponent(other.mPriority, other.mSize)
     {}
 
     RenderComponent::~RenderComponent() {}
-
-    void RenderComponent::UpdateSize(const Vector2D& size) {
-        mSize = size;
-    }
-
-    const Vector2D& RenderComponent::GetSize()
-    {
-        return mSize;
-    }
 
     void RenderComponent::Render() {
         L_TRACE("[RENDER COMPONENT]", "Rendering Component");

@@ -15,4 +15,8 @@ namespace Gengine
         L_TRACE("[INPUT COMPONENT]", "Receiving Input");
         return false;
     }
+
+    void InputComponent::HandleInactive()
+    {
+    }
 }

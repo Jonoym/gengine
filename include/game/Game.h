@@ -1,12 +1,12 @@
 #pragma once
 
 #include <Includes.h>
-#include <game/IGame.h>
+#include <screens/IScreen.h>
 
 namespace Gengine
 {
 
-    class Game : public IGame
+    class Game
     {
 
     public:
@@ -14,14 +14,17 @@ namespace Gengine
         Game();
         ~Game();
 
-        void Initialise() override;
-        void MainLoop() override;
-        void SetScreen(std::unique_ptr<IScreen> screen) override;
+        void Initialise();
+        void MainLoop();
+        void SetScreen(std::unique_ptr<IScreen> screen);
 
-        void Dispose() override;
+        void Dispose();
 
-        void ChangeScreen(const std::string &screenId) override;
-        void AddScreen(const std::string &screenId, const IScreen &screen) override;
+        void ChangeScreen(const std::string &screenId);
+        void AddScreen(const std::string &screenId, const IScreen &screen);
+
+    private:
+        std::unique_ptr<IScreen> mScreen = nullptr;
     };
 
 }

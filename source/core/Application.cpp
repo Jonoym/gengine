@@ -1,8 +1,5 @@
-#include <SDL2/SDL.h>
-
 #include <core/Application.h>
 #include <core/Logger.h>
-
 
 namespace Gengine
 {
@@ -20,7 +17,7 @@ namespace Gengine
         L_INFO("[APPLICATION]", "Initialising Application")
 
         Interface& interface = Interface::GetInterface();
-        mScreen = &interface;
+        mInterface = &interface;
 
         mGame = std::make_unique<Gengine::Game>();
     }
@@ -28,7 +25,7 @@ namespace Gengine
     void Application::Run()
     {
         L_INFO("[APPLICATION]", "Running the Application");
-        if (!mScreen->Initialise()) {
+        if (!mInterface->Initialise()) {
             return;
         }
 
@@ -40,7 +37,7 @@ namespace Gengine
 
         mGame->Dispose();
 
-        mScreen->Exit();
+        mInterface->Exit();
     }
 
 }

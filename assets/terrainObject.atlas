@@ -1,0 +1,33 @@
+terrainObjectSprites.png
+size: 64, 64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+sign
+  rotate: false
+  xy: 0, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+rock
+  rotate: false
+  xy: 0, 16
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+tree
+  rotate: false
+  xy: 16, 0
+  size: 48, 64
+  orig: 48, 64
+  offset: 0, 0
+  index: 0

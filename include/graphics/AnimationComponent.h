@@ -37,24 +37,30 @@ namespace Gengine
         bool mComplete = false;
     };
 
-    class AnimateComponent : public IRenderableComponent
+    class AnimationComponent : public IRenderableComponent
     {
     public:
-        AnimateComponent(const std::string &assetName, const std::string &texturePath, const std::string &atlasPath, const Vector2D &size, RenderPriority priority);
-        AnimateComponent(const AnimateComponent &other);
-        ~AnimateComponent();
+        AnimationComponent(const std::string &assetName,
+                           const std::string &texturePath,
+                           const std::string &atlasPath,
+                           const Vector2D &size,
+                           RenderPriority priority,
+                           const Vector2D &offset = Vector2D(),
+                           const std::string &defaultName = "default");
+        AnimationComponent(const AnimationComponent &other);
+        ~AnimationComponent();
 
+        virtual void Create() override;
         void AddAnimation(const std::string &animationName, AnimationPlaythrough playthrough, AnimationCompletion completion, uint32 delayTime);
         void StartAnimation(const std::string &animationName, bool force);
-
-        const Vector2D &GetSize() override;
-        void UpdateSize(const Vector2D &size);
-
         void Render() override;
-        Vector2D mSize;
 
-    private:
+    protected:
+        void UpdateAnimation();
+
+        Vector2D mOffset;
         std::string mAssetName;
+        std::string mDefaultName;
         std::unordered_map<std::string, AnimationPlayInfo> mAnimations;
         AnimationFrame mCurrentAnimation;
     };
