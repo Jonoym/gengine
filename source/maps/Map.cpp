@@ -7,6 +7,7 @@
 #include <graphics/controller/DogAnimationController.h>
 #include <input/ButtonComponent.h>
 #include <graphics/controller/ButtonAnimationController.h>
+#include <graphics/RenderComponent.h>
 
 #include <core/Logger.h>
 
@@ -26,7 +27,7 @@ namespace Gengine
         std::unique_ptr<Entity> entity = std::make_unique<Entity>();
         entity->AddComponent(std::make_shared<InputMovementComponent>());
         entity->AddComponent(std::make_shared<MovementComponent>());
-        entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 75.0f, PhysicsBody::RIGID));
+        entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 75.0f, PhysicsBody::RIGID, BodyShape::CIRCULAR, Vector2D(0.0f, 10.0f)));
 
         std::shared_ptr<DogAnimationController> aniController =
             std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", "assets/bear.atlas", Vector2D(200.0f, 200.0f));
@@ -49,10 +50,10 @@ namespace Gengine
         // entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 150.0f));
         // SpawnEntityAt(std::move(entity), Vector2D(0.0f, 0.0f));
 
-        // for (float i = 0.0f; i < 2000; i += 200)
-        // {
-        //     for (float j = 0.0f; j < 1000; j += 200)
-        //     {
+        for (float i = 0.0f; i < 2000; i += 200)
+        {
+            for (float j = 0.0f; j < 1000; j += 200)
+            {
 
         //         std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
         //         entity2->AddComponent(std::make_shared<InputMovementComponent>());
@@ -71,13 +72,13 @@ namespace Gengine
         //         aniController2->AddAnimation("default", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
         //         entity2->AddComponent(aniController2);
 
-        //         // std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
-        //         // entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f)));
-        //         // // entity2->AddComponent(std::make_shared<MovementComponent>());
-        //         // entity2->AddComponent(std::make_shared<CollisionComponent>(3.0f, 75.0f));
-        //         SpawnEntityAt(std::move(entity2), Vector2D(400.0f + i, 400.0f + j));
-        //     }
-        // }
+                std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
+                entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
+                // entity2->AddComponent(std::make_shared<MovementComponent>());
+                entity2->AddComponent(std::make_shared<CollisionComponent>(3.0f, 75.0f, PhysicsBody::RIGID));
+                SpawnEntityAt(std::move(entity2), Vector2D(400.0f + i, 400.0f + j));
+            }
+        }
 
         std::unique_ptr<Entity> button = std::make_unique<Entity>();
         button->AddComponent(std::make_shared<ButtonComponent>(Vector2D(300.0f, 140.0f)));

@@ -1,8 +1,7 @@
 #pragma once
 
 #include <graphics/IRenderableComponent.h>
-
-#include <components/Component.h>
+#include <graphics/IDebugRenderableComponent.h>
 #include <utils/Vector2D.h>
 #include <utils/Box2D.h>
 
@@ -37,7 +36,7 @@ namespace Gengine
         bool mComplete = false;
     };
 
-    class AnimationComponent : public IRenderableComponent
+    class AnimationComponent : public IRenderableComponent, IDebugRenderableComponent
     {
     public:
         AnimationComponent(const std::string &assetName,
@@ -54,6 +53,7 @@ namespace Gengine
         void AddAnimation(const std::string &animationName, AnimationPlaythrough playthrough, AnimationCompletion completion, uint32 delayTime);
         void StartAnimation(const std::string &animationName, bool force);
         void Render() override;
+        void RenderDebug() override;
 
     protected:
         void UpdateAnimation();

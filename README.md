@@ -5,6 +5,6 @@
 
 3. Camera Viewport and Positioning
 
-5. Debugging Bounds - physics, rendering, actual position
+collision events
 
-Offsets for Collisions
+create a function to get the offset for a collision -> to be used in the physics service collision handling

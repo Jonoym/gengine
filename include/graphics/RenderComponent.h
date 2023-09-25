@@ -1,12 +1,11 @@
 #pragma once
 
 #include <graphics/IRenderableComponent.h>
-#include <components/Component.h>
-#include <utils/Vector2D.h>
+#include <graphics/IDebugRenderableComponent.h>
 
 namespace Gengine
 {
-    class RenderComponent : protected IRenderableComponent
+    class RenderComponent : public IRenderableComponent, IDebugRenderableComponent
     {
     public:
         RenderComponent(std::string assetName, std::string path, const Vector2D &size, RenderPriority priority);
@@ -14,7 +13,7 @@ namespace Gengine
         ~RenderComponent();
 
         void Render() override;
-        Vector2D mSize;
+        void RenderDebug() override;
 
     private:
         std::string mAssetName;

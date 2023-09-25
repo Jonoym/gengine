@@ -27,6 +27,12 @@ namespace Gengine
             component->Render();
         }
 
+        for (const auto &component : mDebugComponents)
+        {
+            L_TRACE("[RENDER SERVICE]", "Updating Debug Render Component");
+            component->RenderDebug();
+        }
+
         SDL_RenderPresent(mRenderer);
     }
 
@@ -35,11 +41,14 @@ namespace Gengine
         std::sort(mRenderComponents.begin(), mRenderComponents.end(),
                   [](IRenderableComponent *a, IRenderableComponent *b)
                   {
-                    if (a->mPriority == b->mPriority) {
-                      return (b->mEntity->mPosition.mY + b->mSize.mY / 2) > (a->mEntity->mPosition.mY + a->mSize.mY / 2);
-                    } else {
-                        return a->mPriority < b->mPriority;
-                    }
+                      if (a->mPriority == b->mPriority)
+                      {
+                          return (b->mEntity->mPosition.mY + b->mSize.mY / 2) > (a->mEntity->mPosition.mY + a->mSize.mY / 2);
+                      }
+                      else
+                      {
+                          return a->mPriority < b->mPriority;
+                      }
                   });
     }
 
@@ -89,6 +98,70 @@ namespace Gengine
                     static_cast<int>(clipRect.mH)};
 
                 SDL_RenderCopy(mRenderer, asset->second.GetTexture(), &clip, &dest);
+            }
+        }
+    }
+
+    void RenderService::RenderDebug(DebugColour lineColour, BoundType boundType, const Box2D &bounds)
+    {
+        switch (lineColour)
+        {
+        case DebugColour::RED:
+            SDL_SetRenderDrawColor(mRenderer, 0xFF, 0x00, 0x00, 0xFF);
+            break;
+        case DebugColour::GREEN:
+            SDL_SetRenderDrawColor(mRenderer, 0x00, 0xFF, 0x00, 0xFF);
+            break;
+        case DebugColour::BLUE:
+            SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0xFF, 0xFF);
+            break;
+        }
+
+        switch (boundType)
+        {
+        case BoundType::CIRCULAR:
+            RenderCircle(bounds);
+            break;
+        case BoundType::RECTANGLE:
+            SDL_Rect outlineRect = {bounds.mX, bounds.mY, bounds.mW, bounds.mH};
+            SDL_RenderDrawRect(mRenderer, &outlineRect);
+            break;
+        }
+    }
+
+    void RenderService::RenderCircle(const Box2D &bounds)
+    {
+        const int32 diameter = (bounds.mH);
+
+        int32_t x = (diameter / 2 - 1);
+        int32_t y = 0;
+        int32_t tx = 1;
+        int32_t ty = 1;
+        int32_t error = (tx - diameter);
+
+        while (x >= y)
+        {
+            SDL_RenderDrawPoint(mRenderer, bounds.mX + x, bounds.mY - y);
+            SDL_RenderDrawPoint(mRenderer, bounds.mX + x, bounds.mY + y);
+            SDL_RenderDrawPoint(mRenderer, bounds.mX - x, bounds.mY - y);
+            SDL_RenderDrawPoint(mRenderer, bounds.mX - x, bounds.mY + y);
+            SDL_RenderDrawPoint(mRenderer, bounds.mX + y, bounds.mY - x);
+            SDL_RenderDrawPoint(mRenderer, bounds.mX + y, bounds.mY + x);
+            SDL_RenderDrawPoint(mRenderer, bounds.mX - y, bounds.mY - x);
+            SDL_RenderDrawPoint(mRenderer, bounds.mX - y, bounds.mY + x);
+
+            if (error <= 0)
+            {
+                ++y;
+                error += ty;
+                ty += 2;
+            }
+
+            if (error > 0)
+            {
+                --x;
+                tx += 2;
+                error += (tx - diameter);
             }
         }
     }
@@ -175,4 +248,11 @@ namespace Gengine
         L_INFO("[RENDER SERVICE]", "Registering Render Component");
         mRenderComponents.push_back(component);
     }
+
+    void RenderService::RegisterDebug(IDebugRenderableComponent *component)
+    {
+        L_INFO("[RENDER SERVICE]", "Registering Debu Render Component");
+        mDebugComponents.push_back(component);
+    }
+
 }

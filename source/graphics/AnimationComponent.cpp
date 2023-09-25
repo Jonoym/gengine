@@ -12,12 +12,14 @@ namespace Gengine
                            const Vector2D &offset,
                            const std::string &defaultName)
         : IRenderableComponent(priority, size)
+        , IDebugRenderableComponent(DebugColour::BLUE, BoundType::RECTANGLE)
         , mAssetName(assetName)
         , mOffset(offset)
         , mDefaultName(defaultName)
     {
         L_INFO("[ANIMATE COMPONENT]", "Creating Animate Component with Asset Name: '%s' at Texture Path: '%s' Atlas Path: '%s' ", assetName.c_str(), texturePath.c_str(), atlasPath.c_str());
         ServiceManager::GetServiceManager().GetRenderService().Register(this);
+        ServiceManager::GetServiceManager().GetRenderService().RegisterDebug(this);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, texturePath);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAnimation(assetName, atlasPath);
 
@@ -25,6 +27,7 @@ namespace Gengine
     }
     AnimationComponent::AnimationComponent(const AnimationComponent &other)
         : IRenderableComponent(other.mPriority, other.mSize)
+        , IDebugRenderableComponent(DebugColour::BLUE, BoundType::RECTANGLE)
     {}
 
     AnimationComponent::~AnimationComponent() {}
@@ -111,5 +114,12 @@ namespace Gengine
                 break;
             }
         }
+    }
+
+    void AnimationComponent::RenderDebug()
+    {
+        ServiceManager::GetServiceManager().GetRenderService().RenderDebug(
+            mColour, mBoundType, Box2D(mEntity->mPosition, mSize, true, true)
+        );
     }
 }

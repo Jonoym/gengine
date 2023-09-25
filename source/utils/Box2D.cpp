@@ -17,4 +17,10 @@ namespace Gengine
     , mY(yCentered ? static_cast<int>(y - h / 2) : y)
     , mW(w)
     , mH(h) {}
+
+    Box2D::Box2D(const Vector2D& position, const Vector2D& size, bool xCentered, bool yCentered) 
+    : mX(xCentered ? static_cast<int>(position.mX - size.mX / 2) : position.mX)
+    , mY(yCentered ? static_cast<int>(position.mY - size.mY / 2) : position.mY)
+    , mW(size.mX)
+    , mH(size.mY) {}
 }

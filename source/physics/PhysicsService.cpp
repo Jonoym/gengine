@@ -53,12 +53,12 @@ namespace Gengine
         for (uint32 i = 0; i < numColliders; i++)
         {
             auto &collider1 = mColliderComponents.at(i);
-            const Vector2D colliderPosition1 = collider1->mEntity->mPosition;
+            const Vector2D colliderPosition1 = collider1->GetCollisionPosition();
 
             for (uint32 j = i + 1; j < numColliders; j++)
             {
                 auto &collider2 = mColliderComponents.at(j);
-                const Vector2D colliderPosition2 = collider2->mEntity->mPosition;
+                const Vector2D colliderPosition2 = collider2->GetCollisionPosition();
                 
                 const Vector2D collisionAxis = colliderPosition1 - colliderPosition2;
                 const float32 collisionRadius = collider1->mRadius + collider2->mRadius;
@@ -74,9 +74,9 @@ namespace Gengine
 
                     const float32 delta = collisionRadius - distance;
                     if (collider1->mPhysicsBody == PhysicsBody::RIGID)
-                        collider1->mEntity->mPosition += strength * 0.5f * delta / collider1->mMass;
+                        collider1->mEntity->mPosition += strength * delta / collider1->mMass;
                     if (collider2->mPhysicsBody == PhysicsBody::RIGID)
-                        collider2->mEntity->mPosition -= strength * 0.5f * delta / collider2->mMass;
+                        collider2->mEntity->mPosition -= strength * delta / collider2->mMass;
                 }
             }
         }
