@@ -1,15 +1,17 @@
 #pragma once
 
-#include <utils/Vector2D.h>
+#include <events/Event.h>
 #include <graphics/IDebugRenderableComponent.h>
 #include <physics/components/PhysicsComponent.h>
+#include <utils/Vector2D.h>
 
 namespace Gengine
 {
     enum class PhysicsBody
     {
         STATIC,
-        RIGID
+        RIGID,
+        TRANSPARENT
     };
 
     enum class BodyShape
@@ -31,8 +33,11 @@ namespace Gengine
         
         void PhysicsUpdate(float32 deltaTime) override;
 
-        const Vector2D& GetCollisionPosition();
-        
+        Vector2D GetCollisionPosition();
+
+        void OnCollisionStart(Event* event);
+        void OnCollisionEnd(Event* event);
+
         float32 mMass;
         float32 mRadius;
         PhysicsBody mPhysicsBody;

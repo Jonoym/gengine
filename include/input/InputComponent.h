@@ -5,13 +5,22 @@
 
 namespace Gengine
 {
+    enum class InputPriority
+    {
+        BACKGROUND = 0,
+        ENTITY = 1,
+        OVERLAY = 2
+    };
+
     class InputComponent : public Component
     {
     public:
-        InputComponent();
+        InputComponent(InputPriority priority);
         ~InputComponent();
 
         virtual bool HandleInput(const Input &input);
-        virtual void HandleInactive();
+        virtual void HandleInactive(const Input &input);
+
+        InputPriority mInputPriority;
     };
 }

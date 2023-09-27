@@ -24,7 +24,7 @@ namespace Gengine
     {
         L_TRACE("[RENDER COMPONENT]", "Rendering Component");
 
-        ServiceManager::GetServiceManager().GetRenderService().Render(mAssetName, mSize, mEntity->GetPosition());
+        ServiceManager::GetServiceManager().GetRenderService().Render(mAssetName, mSize, mEntity->GetPosition(), mPriority);
     }
 
     void RenderComponent::RenderDebug()

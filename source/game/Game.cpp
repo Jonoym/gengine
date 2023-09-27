@@ -26,13 +26,14 @@ namespace Gengine
         L_INFO("[GAME]", "Starting Game Main Loop");
 
         mScreen->Initialise();
-        
+
         bool running = true;
         while (running)
         {
             bool shouldQuit = mScreen->Update();
 
-            if (shouldQuit) {
+            if (shouldQuit)
+            {
                 L_INFO("[GAME]", "Main Game Loop is Exiting");
                 running = false;
             }
@@ -42,15 +43,13 @@ namespace Gengine
     void Game::Dispose()
     {
         L_INFO("[GAME]", "Disposing Game");
-
-        ServiceManager::GetServiceManager().Dispose();
     }
 
-    void Game::ChangeScreen(const std::string &screenId) {
-
+    void Game::ChangeScreen(const std::string &screenId)
+    {
     }
-    
-    void Game::AddScreen(const std::string &screenId, const IScreen &screen) {
 
+    void Game::AddScreen(const std::string &screenId, const IScreen &screen)
+    {
     }
 }

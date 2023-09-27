@@ -4,7 +4,9 @@
 
 namespace Gengine
 {
-    InputMouseComponent::InputMouseComponent() {}
+    InputMouseComponent::InputMouseComponent()
+        : InputComponent(InputPriority::ENTITY)
+    {}
 
     InputMouseComponent::~InputMouseComponent() {}
 

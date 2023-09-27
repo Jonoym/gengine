@@ -3,7 +3,6 @@
 
 #include <gui/Interface.h>
 #include <graphics/IRenderService.h>
-#include <graphics/Texture.h>
 #include <utils/AtlasReader.h>
 #include <utils/Box2D.h>
 
@@ -15,11 +14,14 @@ namespace Gengine
         RenderService();
         ~RenderService();
 
+        void RegisterCamera(std::shared_ptr<Camera> camera) override;
+        Camera* GetCamera();
+
         void Update() override;
         void Dispose() override;
         void OrderTextures() override;
         
-        void Render(const std::string &assetName, const Vector2D &size, const Vector2D &position, const Vector2D &clipSize = Vector2D(), const Vector2D &clipPosition = Vector2D()) override;
+        void Render(const std::string &assetName, const Vector2D &size, const Vector2D &position, RenderPriority priority, const Vector2D &clipSize = Vector2D(), const Vector2D &clipPosition = Vector2D()) override;
         void RenderDebug(DebugColour lineColour, BoundType boundType, const Box2D& bounds) override;
         void RenderCircle(const Box2D& bounds);
 
@@ -33,7 +35,6 @@ namespace Gengine
     protected:
         SDL_Renderer *mRenderer;
     private:
-        std::unordered_map<std::string, Texture> mAssets;
         std::unordered_map<std::string, std::unordered_map<std::string, std::vector<Box2D>>> mSpritesheets;
     };
 }

@@ -1,6 +1,6 @@
-#include <graphics/controller/AnimationController.h>
-#include <events/Event.h>
 #include <core/Logger.h>
+#include <events/EventTypes.h>
+#include <graphics/controller/AnimationController.h>
 
 namespace Gengine
 {

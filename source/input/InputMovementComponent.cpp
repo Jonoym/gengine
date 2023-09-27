@@ -1,10 +1,13 @@
+#include <core/Logger.h>
+#include <events/EventTypes.h>
 #include <input/InputMovementComponent.h>
 #include <services/ServiceManager.h>
-#include <core/Logger.h>
 
 namespace Gengine
 {
-    InputMovementComponent::InputMovementComponent() {
+    InputMovementComponent::InputMovementComponent()
+        : InputComponent(InputPriority::ENTITY)
+    {
     }
 
     InputMovementComponent::~InputMovementComponent() {}
@@ -30,7 +33,7 @@ namespace Gengine
     bool InputMovementComponent::HandleKeyPressed(const Input &input)
     {
         const KeyInput &keyInput = dynamic_cast<const KeyInput &>(input);
-        L_INFO("[MOVEMENT INPUT COMPONENT]", "Key Pressed: %s", keyInput.ToString().c_str());
+        L_TRACE("[MOVEMENT INPUT COMPONENT]", "Key Pressed: %s", keyInput.ToString().c_str());
 
         MovementEvent event;
 
@@ -56,7 +59,7 @@ namespace Gengine
     {
 
         const KeyInput &keyInput = dynamic_cast<const KeyInput &>(input);
-        L_INFO("[MOVEMENT INPUT COMPONENT]", "Key Released: %s", keyInput.ToString().c_str());
+        L_TRACE("[MOVEMENT INPUT COMPONENT]", "Key Released: %s", keyInput.ToString().c_str());
         
         MovementEvent event;
 

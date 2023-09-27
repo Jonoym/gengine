@@ -1,5 +1,6 @@
 #include <core/Logger.h>
 #include <input/ButtonComponent.h>
+#include <events/EventTypes.h>
 #include <typeinfo>
 
 namespace Gengine
@@ -71,9 +72,9 @@ namespace Gengine
                 y <= mBounds.mY + mBounds.mH);
     }
 
-    void ButtonComponent::HandleInactive()
+    void ButtonComponent::HandleInactive(const Input &input)
     {
-        if (mActive)
+        if (input.GetInputType() == InputType::MOUSE_MOVED && mActive)
         {
             mActive = false;
             AnimateEvent event;

@@ -1,5 +1,6 @@
-#include <graphics/controller/DogAnimationController.h>
 #include <entities/Entity.h>
+#include <events/EventTypes.h>
+#include <graphics/controller/DogAnimationController.h>
 
 namespace Gengine
 {

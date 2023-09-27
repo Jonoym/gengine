@@ -1,5 +1,6 @@
-#include <graphics/controller/ButtonAnimationController.h>
 #include <entities/Entity.h>
+#include <events/EventTypes.h>
+#include <graphics/controller/ButtonAnimationController.h>
 
 namespace Gengine
 {
@@ -16,25 +17,31 @@ namespace Gengine
         AnimationController::Create();
 
         mEntity->mEventHandler.AddListener("hoverStart", [this](Event *event)
-                                           { OnHoverStart(); });
+                                           { OnHoverStart(event); });
         mEntity->mEventHandler.AddListener("onClick", [this](Event *event)
-                                           { OnClick(); });
+                                           { OnClick(event); });
         mEntity->mEventHandler.AddListener("hoverEnd", [this](Event *event)
-                                           { OnHoverExit(); });
+                                           { OnHoverExit(event); });
     }
 
-    void ButtonAnimationController::OnHoverStart()
+    void ButtonAnimationController::OnHoverStart(Event *event)
     {
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
         mAnimationComponent.StartAnimation("hoverStart", false);
     }
 
-    void ButtonAnimationController::OnClick()
+    void ButtonAnimationController::OnClick(Event *event)
     {
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
         mAnimationComponent.StartAnimation("onClick", true);
     }
 
-    void ButtonAnimationController::OnHoverExit()
+    void ButtonAnimationController::OnHoverExit(Event *event)
     {
+        AnimateEvent *animateEvent = dynamic_cast<AnimateEvent *>(event);
+        if (animateEvent != nullptr)
         mAnimationComponent.StartAnimation("hoverEnd", false);
     }
 

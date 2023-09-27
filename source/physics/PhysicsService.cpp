@@ -1,5 +1,6 @@
 #include <core/Logger.h>
 #include <entities/Entity.h>
+#include <events/EventTypes.h>
 #include <physics/PhysicsService.h>
 #include <services/ServiceManager.h>
 
@@ -9,7 +10,8 @@ namespace Gengine
 
     PhysicsService::~PhysicsService() {}
 
-    void PhysicsService::Update() {
+    void PhysicsService::Update()
+    {
         L_TRACE("[PHYSICS SERVICE]", "Simulating Physics Update");
 
         float32 deltaTime = ServiceManager::GetServiceManager().GetTimeManager().GetDeltaTime();
@@ -17,19 +19,20 @@ namespace Gengine
         const uint8 subSteps = 8;
         const float32 subDeltaTime = deltaTime / subSteps;
 
-        for (uint8 i = 0; i < subSteps; i++) {
+        for (uint8 i = 0; i < subSteps; i++)
+        {
             UpdatePositions(subDeltaTime);
             SolveCollisions();
         }
     }
 
-    void PhysicsService::Register(PhysicsComponent* component)
+    void PhysicsService::Register(PhysicsComponent *component)
     {
         L_INFO("[PHYSICS SERVICE]", "Registering Physics Component");
         mPhysicsComponents.push_back(component);
     }
 
-    void PhysicsService::RegisterCollider(CollisionComponent* component)
+    void PhysicsService::RegisterCollider(CollisionComponent *component)
     {
         L_INFO("[PHYSICS SERVICE]", "Registering Physics Collider Component");
         mColliderComponents.push_back(component);
@@ -59,7 +62,7 @@ namespace Gengine
             {
                 auto &collider2 = mColliderComponents.at(j);
                 const Vector2D colliderPosition2 = collider2->GetCollisionPosition();
-                
+
                 const Vector2D collisionAxis = colliderPosition1 - colliderPosition2;
                 const float32 collisionRadius = collider1->mRadius + collider2->mRadius;
 
@@ -69,14 +72,20 @@ namespace Gengine
                 {
                     L_TRACE("[PHYSICS SERVICE]", "Handling Collision Collider1 Position: { x: %f, y: %f }, Collider2 Position: { x: %f, y: %f }",
                         colliderPosition1.mX, colliderPosition1.mY, colliderPosition2.mX, colliderPosition2.mY);
-                        
-                    const Vector2D strength = collisionAxis / distance;
+                    
+                    CollisionEvent event{collider1, collider2};
 
-                    const float32 delta = collisionRadius - distance;
-                    if (collider1->mPhysicsBody == PhysicsBody::RIGID)
-                        collider1->mEntity->mPosition += strength * delta / collider1->mMass;
-                    if (collider2->mPhysicsBody == PhysicsBody::RIGID)
-                        collider2->mEntity->mPosition -= strength * delta / collider2->mMass;
+                    collider1->mEntity->mEventHandler.Trigger("onCollisionStart", event);
+
+                    if (collider1->mPhysicsBody != PhysicsBody::TRANSPARENT) {
+                        const Vector2D strength = collisionAxis / distance;
+
+                        const float32 delta = collisionRadius - distance;
+                        if (collider1->mPhysicsBody == PhysicsBody::RIGID)
+                            collider1->mEntity->mPosition += strength * delta / collider1->mMass;
+                        if (collider2->mPhysicsBody == PhysicsBody::RIGID)
+                            collider2->mEntity->mPosition -= strength * delta / collider2->mMass;
+                    }
                 }
             }
         }

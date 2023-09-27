@@ -89,7 +89,7 @@ namespace Gengine
         Box2D boundingRect = mCurrentAnimation.mAnimationFrames->at(mCurrentAnimation.mFrameIndex);
         L_TRACE("[ANIMATE COMPONENT]", "Bounding Rectangle for Animation: { x: %d, y: %d, w: %d, h: %d }", boundingRect.mX, boundingRect.mY, boundingRect.mW, boundingRect.mH);
         ServiceManager::GetServiceManager().GetRenderService().Render(
-            mAssetName, mSize, mEntity->GetPosition() + mOffset,
+            mAssetName, mSize, mEntity->GetPosition() + mOffset, mPriority,
             Vector2D(boundingRect.mW, boundingRect.mH),
             Vector2D(boundingRect.mX, boundingRect.mY));
     }
@@ -119,7 +119,7 @@ namespace Gengine
     void AnimationComponent::RenderDebug()
     {
         ServiceManager::GetServiceManager().GetRenderService().RenderDebug(
-            mColour, mBoundType, Box2D(mEntity->mPosition, mSize, true, true)
+            mColour, mBoundType, Box2D(mEntity->mPosition + mOffset, mSize, true, true)
         );
     }
 }

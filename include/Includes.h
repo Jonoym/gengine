@@ -8,3 +8,5 @@
 #include <memory>
 #include <sstream>
 #include <functional>
+#include <deque>
+#include <algorithm>

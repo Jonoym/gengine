@@ -16,6 +16,7 @@ namespace Gengine
         ServiceManager& serviceManager = ServiceManager::GetServiceManager();
         mServiceManager = &serviceManager;
 
+        mServiceManager->Initialise();
         mMap->Initialise();
     }
 
@@ -29,6 +30,6 @@ namespace Gengine
 
     void Screen::Dispose() {
         L_INFO("[SCREEN]", "Disposing Screen");
-
+        mServiceManager->Dispose();
     }
 }

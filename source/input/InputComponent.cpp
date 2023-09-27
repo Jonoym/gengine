@@ -4,7 +4,9 @@
 
 namespace Gengine
 {
-    InputComponent::InputComponent() {
+    InputComponent::InputComponent(InputPriority priority)
+        : mInputPriority(priority)
+    {
         ServiceManager::GetServiceManager().GetInputHandler().Register(this);
     }
 
@@ -16,7 +18,7 @@ namespace Gengine
         return false;
     }
 
-    void InputComponent::HandleInactive()
+    void InputComponent::HandleInactive(const Input &input)
     {
     }
 }

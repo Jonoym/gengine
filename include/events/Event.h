@@ -7,16 +7,4 @@ namespace Gengine
     protected:
         virtual ~Event() {}
     };
-
-    class MovementEvent : public Event
-    {
-    };
-
-    class AnimateEvent : public Event
-    {
-    };
-
-    class CollisionEvent : public Event
-    {
-    };
 }

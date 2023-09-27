@@ -22,7 +22,8 @@ namespace Gengine
         while (SDL_PollEvent(&e) != 0)
         {
             L_TRACE("[INPUT HANDLER]", "Handling Input Event");
-            if (e.type == SDL_QUIT) mQuit = true;
+            if (e.type == SDL_QUIT)
+                mQuit = true;
 
             switch (e.type)
             {
@@ -58,17 +59,23 @@ namespace Gengine
             if (!handled)
                 handled = inputListener->HandleInput(input);
             else
-                inputListener->HandleInactive();
+                inputListener->HandleInactive(input);
         }
     }
-
 
     void InputHandler::OrderInputComponents()
     {
         std::sort(mInputComponents.begin(), mInputComponents.end(),
                   [](InputComponent *a, InputComponent *b)
                   {
-                      return (b->mEntity->mPosition.mY) < (a->mEntity->mPosition.mY );
+                      if (a->mInputPriority != b->mInputPriority)
+                      {
+                          return a->mInputPriority > b->mInputPriority;
+                      }
+                      else
+                      {
+                          return (b->mEntity->mPosition.mY) > (a->mEntity->mPosition.mY);
+                      }
                   });
     }
 

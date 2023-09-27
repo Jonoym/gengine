@@ -1,5 +1,6 @@
 #include <core/Logger.h>
 #include <entities/Entity.h>
+#include <events/EventTypes.h>
 #include <physics/components/MovementComponent.h>
 #include <services/ServiceManager.h>
 
@@ -15,7 +16,7 @@ namespace Gengine
 
     void MovementComponent::Create()
     {
-        L_INFO("[MOVEMENT COMPONENT]", "");
+        L_INFO("[MOVEMENT COMPONENT]", "Creating and Input Component and Adding Listeners");
 
         mEntity->mEventHandler.AddListener("moveLeftStart", [this](Event *event)
                                            { MoveLeftStart(event); });
@@ -55,7 +56,7 @@ namespace Gengine
 
     void MovementComponent::MoveLeftStart(Event *event)
     {
-        L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Left");
+        L_TRACE("[MOVEMENT COMPONENT]", "Moving Entity Left");
         MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
         if (movementEvent != nullptr)
         {
@@ -69,7 +70,7 @@ namespace Gengine
 
     void MovementComponent::MoveRightStart(Event *event)
     {
-        L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Right");
+        L_TRACE("[MOVEMENT COMPONENT]", "Moving Entity Right");
         MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
         if (movementEvent != nullptr)
         {
@@ -83,7 +84,7 @@ namespace Gengine
 
     void MovementComponent::MoveUpStart(Event *event)
     {
-        L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Up");
+        L_TRACE("[MOVEMENT COMPONENT]", "Moving Entity Up");
         MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
         if (movementEvent != nullptr)
         {
@@ -97,7 +98,7 @@ namespace Gengine
 
     void MovementComponent::MoveDownStart(Event *event)
     {
-        L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Down");
+        L_TRACE("[MOVEMENT COMPONENT]", "Moving Entity Down");
         MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
         if (movementEvent != nullptr)
         {
@@ -111,7 +112,7 @@ namespace Gengine
 
     void MovementComponent::MoveLeftEnd(Event *event)
     {
-        L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Left");
+        L_TRACE("[MOVEMENT COMPONENT]", "Moving Entity Left");
         MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
         if (movementEvent != nullptr)
         {
@@ -124,7 +125,7 @@ namespace Gengine
     }
     void MovementComponent::MoveRightEnd(Event *event)
     {
-        L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Right");
+        L_TRACE("[MOVEMENT COMPONENT]", "Moving Entity Right");
         MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
         if (movementEvent != nullptr)
         {
@@ -137,7 +138,7 @@ namespace Gengine
     }
     void MovementComponent::MoveUpEnd(Event *event)
     {
-        L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Up");
+        L_TRACE("[MOVEMENT COMPONENT]", "Moving Entity Up");
         MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
         if (movementEvent != nullptr)
         {
@@ -150,7 +151,7 @@ namespace Gengine
     }
     void MovementComponent::MoveDownEnd(Event *event)
     {
-        L_INFO("[MOVEMENT COMPONENT]", "Moving Entity Down");
+        L_TRACE("[MOVEMENT COMPONENT]", "Moving Entity Down");
         MovementEvent *movementEvent = dynamic_cast<MovementEvent *>(event);
         if (movementEvent != nullptr)
         {

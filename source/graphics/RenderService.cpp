@@ -13,6 +13,17 @@ namespace Gengine
 
     RenderService::~RenderService() {}
 
+    void RenderService::RegisterCamera(std::shared_ptr<Camera> camera)
+    {
+        mCamera = camera;
+    }
+
+    Camera *RenderService::GetCamera()
+    {
+        L_TRACE("[RENDER SERVICE]", "Retrieving Camera");
+        return mCamera.get();
+    }
+
     void RenderService::Update()
     {
         L_TRACE("[RENDER SERVICE]", "Updating all Render Components");
@@ -27,11 +38,11 @@ namespace Gengine
             component->Render();
         }
 
-        for (const auto &component : mDebugComponents)
-        {
-            L_TRACE("[RENDER SERVICE]", "Updating Debug Render Component");
-            component->RenderDebug();
-        }
+        // for (const auto &component : mDebugComponents)
+        // {
+        //     L_TRACE("[RENDER SERVICE]", "Updating Debug Render Component");
+        //     component->RenderDebug();
+        // }
 
         SDL_RenderPresent(mRenderer);
     }
@@ -64,25 +75,27 @@ namespace Gengine
         mAssets.clear();
     }
 
-    void RenderService::Render(const std::string &assetName, const Vector2D &size, const Vector2D &position, const Vector2D &clipSize, const Vector2D &clipPosition)
+    void RenderService::Render(const std::string &assetName, const Vector2D &size, const Vector2D &position, RenderPriority priority, const Vector2D &clipSize, const Vector2D &clipPosition)
     {
         L_TRACE("[RENDER SERVICE]", "Attempting to Render Asset: { '%s' } with Size: { w: %f, h: %f } at Position: { x: %f, y: %f }", assetName.c_str(), size.mX, size.mY, position.mX, position.mY);
         auto asset = mAssets.find(assetName);
         if (asset != mAssets.end())
         {
-
+            const Box2D cameraBounds = mCamera->GetWindowPosition();
             Box2D boundingRect(position.mX, position.mY, size.mX, size.mY, true, true);
 
-            SDL_Rect dest = {
-                static_cast<int>(boundingRect.mX),
-                static_cast<int>(boundingRect.mY),
+            SDL_Rect dest =
+            {
+                priority == RenderPriority::OVERLAY ? static_cast<int>(boundingRect.mX) : static_cast<int>(boundingRect.mX - cameraBounds.mX),
+                priority == RenderPriority::OVERLAY ? static_cast<int>(boundingRect.mY) : static_cast<int>(boundingRect.mY - cameraBounds.mY),
                 static_cast<int>(boundingRect.mW),
-                static_cast<int>(boundingRect.mH)};
+                static_cast<int>(boundingRect.mH)
+            };
 
             if (clipSize == Vector2D(0, 0) && clipPosition == Vector2D(0, 0))
             {
                 L_TRACE("[RENDER SERVICE]", "Successfully Rendering Asset Size: { w: %f, h: %f }, Position: { x: %f, y: %f }",
-                        boundingRect.mW, boundingRect.mH, boundingRect.mX, boundingRect.mY);
+                        boundingRect.mW, boundingRect.mH, boundingRect.mX - cameraBounds.mX, boundingRect.mY - cameraBounds.mY);
                 SDL_RenderCopy(mRenderer, asset->second.GetTexture(), NULL, &dest);
             }
             else

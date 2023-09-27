@@ -5,6 +5,7 @@
 #include <physics/components/MovementComponent.h>
 #include <physics/components/CollisionComponent.h>
 #include <graphics/controller/DogAnimationController.h>
+#include <graphics/camera/CameraFocusComponent.h>
 #include <input/ButtonComponent.h>
 #include <graphics/controller/ButtonAnimationController.h>
 #include <graphics/RenderComponent.h>
@@ -22,12 +23,21 @@ namespace Gengine
     {
         L_INFO("[MAP]", "Initialising Map Area");
 
+        L_TRACE("[RENDER SERVICE]", "Initialising Camera");
+        std::unique_ptr<Entity> cameraEntity = std::make_unique<Entity>();
+        std::shared_ptr<Camera> camera = std::make_unique<Camera>();
+        cameraEntity->AddComponent(camera);
+
+        ServiceManager::GetServiceManager().GetEntityService().RegisterEntity(std::move(cameraEntity));
+        ServiceManager::GetServiceManager().GetRenderService().RegisterCamera(camera);
+
         mTerrain.GenerateTerrain("Not Specified Yet");
 
         std::unique_ptr<Entity> entity = std::make_unique<Entity>();
         entity->AddComponent(std::make_shared<InputMovementComponent>());
         entity->AddComponent(std::make_shared<MovementComponent>());
-        entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 75.0f, PhysicsBody::RIGID, BodyShape::CIRCULAR, Vector2D(0.0f, 10.0f)));
+        entity->AddComponent(std::make_shared<CameraFocusComponent>(true, CameraState::TRACKING_SMOOTH));
+        entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 40.0f, PhysicsBody::RIGID, BodyShape::CIRCULAR, Vector2D(0.0f, 20.0f)));
 
         std::shared_ptr<DogAnimationController> aniController =
             std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", "assets/bear.atlas", Vector2D(200.0f, 200.0f));
@@ -75,7 +85,7 @@ namespace Gengine
                 std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
                 entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
                 // entity2->AddComponent(std::make_shared<MovementComponent>());
-                entity2->AddComponent(std::make_shared<CollisionComponent>(3.0f, 75.0f, PhysicsBody::RIGID));
+                entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f, PhysicsBody::RIGID));
                 SpawnEntityAt(std::move(entity2), Vector2D(400.0f + i, 400.0f + j));
             }
         }

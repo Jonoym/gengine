@@ -4,6 +4,10 @@
 namespace Gengine
 {
 
+    void ServiceManager::Initialise()
+    {
+    }
+
     bool ServiceManager::Update() {
         L_TRACE("[SERVICES]", "Starting Service Updates");
 
@@ -18,8 +22,7 @@ namespace Gengine
 
         bool shouldQuit = mInputHandler.ShouldQuit();
         uint32 finalTicks = mTimeManager.GetTotalTicks();
-        L_TRACE("[SERVICES]", "Final Ticks: %d", finalTicks);
-        L_TRACE("[SERVICES]", "Difference: %d", finalTicks - currentTicks);
+        L_TRACE("[SERVICES]", "Final Ticks: %d and Tick Difference: %d", finalTicks, finalTicks - currentTicks);
 
         return shouldQuit;
     }

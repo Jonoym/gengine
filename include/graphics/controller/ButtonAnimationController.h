@@ -11,8 +11,8 @@ namespace Gengine
 
         void Create() override;
     private:
-        void OnHoverStart();
-        void OnClick();
-        void OnHoverExit();
+        void OnHoverStart(Event *event);
+        void OnClick(Event *event);
+        void OnHoverExit(Event *event);
     };
 }

@@ -23,6 +23,7 @@ namespace Gengine
         ServiceManager (const ServiceManager&) = delete;
         ServiceManager& operator=(const ServiceManager&) = delete;
 
+        void Initialise();
         bool Update();
         void Dispose();
 
