@@ -56,7 +56,7 @@ namespace Gengine
         L_TRACE("[COLLISION COMPONENT]", "Rendering Collision Component Debug Bounds");
 
         ServiceManager::GetServiceManager().GetRenderService().RenderDebug(
-            mColour, mBoundType, Box2D(mEntity->mPosition + mOffset, Vector2D(mRadius * 2, mRadius * 2)));
+            mColour, mBoundType, Box2D(mEntity->mPosition + mOffset, Vector2D(mRadius * 2, mRadius * 2)), RenderPriority::ENTITY);
     }
 
     void CollisionComponent::OnCollisionStart(Event *event)
@@ -64,7 +64,7 @@ namespace Gengine
         CollisionEvent *collisionEvent = dynamic_cast<CollisionEvent *>(event);
         if (collisionEvent != nullptr)
         {
-            L_TRACE("[COLLISION COMPONENT]", "Collision Start");
+            L_INFO("[COLLISION COMPONENT]", "Collision Start");
         }
     }
 
@@ -73,7 +73,7 @@ namespace Gengine
         CollisionEvent *collisionEvent = dynamic_cast<CollisionEvent *>(event);
         if (collisionEvent != nullptr)
         {
-            L_TRACE("[COLLISION COMPONENT]", "Collision End");
+            L_INFO("[COLLISION COMPONENT]", "Collision End");
         }
     }
 }

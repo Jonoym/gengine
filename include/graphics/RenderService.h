@@ -22,7 +22,7 @@ namespace Gengine
         void OrderTextures() override;
         
         void Render(const std::string &assetName, const Vector2D &size, const Vector2D &position, RenderPriority priority, const Vector2D &clipSize = Vector2D(), const Vector2D &clipPosition = Vector2D()) override;
-        void RenderDebug(DebugColour lineColour, BoundType boundType, const Box2D& bounds) override;
+        void RenderDebug(DebugColour lineColour, BoundType boundType, const Box2D& bounds, RenderPriority priority) override;
         void RenderCircle(const Box2D& bounds);
 
         void RegisterAsset(const std::string &assetName, const std::string &path) override;

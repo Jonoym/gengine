@@ -21,10 +21,9 @@ namespace Gengine
     void Camera::Update()
     {
         mPositions.push_front(mTrackingEntity->mPosition);
-        Vector2D removed = mPositions.back();
+        Vector2D removedPosition = mPositions.back();
         mPositions.pop_back();
-
-        mAverage += ((mTrackingEntity->mPosition - removed) / BUFFER_SIZE);
+        mAverage += ((mTrackingEntity->mPosition - removedPosition) / BUFFER_SIZE);
     }
 
     void Camera::SetAnchor(const Vector2D &anchorPosition)

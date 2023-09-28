@@ -50,6 +50,7 @@
         "ctime": "cpp",
         "sstream": "cpp",
         "variant": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "unordered_set": "cpp"
     }
 }

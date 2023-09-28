@@ -38,11 +38,11 @@ namespace Gengine
             component->Render();
         }
 
-        // for (const auto &component : mDebugComponents)
-        // {
-        //     L_TRACE("[RENDER SERVICE]", "Updating Debug Render Component");
-        //     component->RenderDebug();
-        // }
+        for (const auto &component : mDebugComponents)
+        {
+            L_TRACE("[RENDER SERVICE]", "Updating Debug Render Component");
+            component->RenderDebug();
+        }
 
         SDL_RenderPresent(mRenderer);
     }
@@ -85,12 +85,11 @@ namespace Gengine
             Box2D boundingRect(position.mX, position.mY, size.mX, size.mY, true, true);
 
             SDL_Rect dest =
-            {
-                priority == RenderPriority::OVERLAY ? static_cast<int>(boundingRect.mX) : static_cast<int>(boundingRect.mX - cameraBounds.mX),
-                priority == RenderPriority::OVERLAY ? static_cast<int>(boundingRect.mY) : static_cast<int>(boundingRect.mY - cameraBounds.mY),
-                static_cast<int>(boundingRect.mW),
-                static_cast<int>(boundingRect.mH)
-            };
+                {
+                    priority == RenderPriority::OVERLAY ? static_cast<int>(boundingRect.mX) : static_cast<int>(boundingRect.mX - cameraBounds.mX),
+                    priority == RenderPriority::OVERLAY ? static_cast<int>(boundingRect.mY) : static_cast<int>(boundingRect.mY - cameraBounds.mY),
+                    static_cast<int>(boundingRect.mW),
+                    static_cast<int>(boundingRect.mH)};
 
             if (clipSize == Vector2D(0, 0) && clipPosition == Vector2D(0, 0))
             {
@@ -115,7 +114,7 @@ namespace Gengine
         }
     }
 
-    void RenderService::RenderDebug(DebugColour lineColour, BoundType boundType, const Box2D &bounds)
+    void RenderService::RenderDebug(DebugColour lineColour, BoundType boundType, const Box2D &bounds, RenderPriority priority)
     {
         switch (lineColour)
         {
@@ -129,14 +128,19 @@ namespace Gengine
             SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0xFF, 0xFF);
             break;
         }
+        const Box2D cameraBounds = mCamera->GetWindowPosition();
+
+        Box2D correctedBounds = priority == RenderPriority::OVERLAY ? bounds : Box2D(
+            bounds.mX - cameraBounds.mX, bounds.mY - cameraBounds.mY, bounds.mW, bounds.mH
+        );
 
         switch (boundType)
         {
         case BoundType::CIRCULAR:
-            RenderCircle(bounds);
+            RenderCircle(correctedBounds);
             break;
         case BoundType::RECTANGLE:
-            SDL_Rect outlineRect = {bounds.mX, bounds.mY, bounds.mW, bounds.mH};
+            SDL_Rect outlineRect = {correctedBounds.mX, correctedBounds.mY, correctedBounds.mW, correctedBounds.mH};
             SDL_RenderDrawRect(mRenderer, &outlineRect);
             break;
         }

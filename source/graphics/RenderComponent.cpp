@@ -30,7 +30,7 @@ namespace Gengine
     void RenderComponent::RenderDebug()
     {
         ServiceManager::GetServiceManager().GetRenderService().RenderDebug(
-            mColour, mBoundType, Box2D(mEntity->mPosition, mSize, true, true)
+            mColour, mBoundType, Box2D(mEntity->mPosition, mSize, true, true), mPriority
         );
     }
 }

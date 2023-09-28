@@ -29,7 +29,7 @@ namespace Gengine
         CameraState mState;
         Entity *mTrackingEntity = nullptr;
 
-        int16 BUFFER_SIZE = 50;
+        int16 BUFFER_SIZE = 25;
         std::deque<Vector2D> mPositions;
         Vector2D mAverage;
     };

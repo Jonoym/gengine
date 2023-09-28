@@ -19,11 +19,38 @@ namespace Gengine
         const uint8 subSteps = 8;
         const float32 subDeltaTime = deltaTime / subSteps;
 
+        mCollided.clear();
+
         for (uint8 i = 0; i < subSteps; i++)
         {
             UpdatePositions(subDeltaTime);
             SolveCollisions();
         }
+
+        // All of the collisions that has happened on this time update
+        for (const auto& colliders : mCollided)
+        {
+            // If it was not part of the previous ones, the collision starts for the first time
+            if (!mPreviousCollided.contains(colliders))
+            {
+                CollisionEvent event{colliders.first, colliders.second};
+                colliders.first->mEntity->mEventHandler.Trigger("onCollisionStart", event);
+                colliders.second->mEntity->mEventHandler.Trigger("onCollisionStart", event);
+            }
+        }
+
+        for (const auto& colliders : mPreviousCollided)
+        {
+            if (!mCollided.contains(colliders))
+            {
+                CollisionEvent event{colliders.first, colliders.second};
+                colliders.first->mEntity->mEventHandler.Trigger("onCollisionEnd", event);
+                colliders.second->mEntity->mEventHandler.Trigger("onCollisionEnd", event);
+            }
+        }
+
+        mPreviousCollided = mCollided;
+
     }
 
     void PhysicsService::Register(PhysicsComponent *component)
@@ -72,12 +99,10 @@ namespace Gengine
                 {
                     L_TRACE("[PHYSICS SERVICE]", "Handling Collision Collider1 Position: { x: %f, y: %f }, Collider2 Position: { x: %f, y: %f }",
                         colliderPosition1.mX, colliderPosition1.mY, colliderPosition2.mX, colliderPosition2.mY);
-                    
-                    CollisionEvent event{collider1, collider2};
 
-                    collider1->mEntity->mEventHandler.Trigger("onCollisionStart", event);
+                    mCollided.insert(std::make_pair(collider1, collider2));
 
-                    if (collider1->mPhysicsBody != PhysicsBody::TRANSPARENT) {
+                    if (collider1->mPhysicsBody != PhysicsBody::TRANSPARENT && collider2->mPhysicsBody != PhysicsBody::TRANSPARENT) {
                         const Vector2D strength = collisionAxis / distance;
 
                         const float32 delta = collisionRadius - distance;

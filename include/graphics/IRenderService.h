@@ -22,7 +22,7 @@ namespace Gengine
         virtual void OrderTextures() = 0;
 
         virtual void Render(const std::string &assetName, const Vector2D &size, const Vector2D &position, RenderPriority priority, const Vector2D &clipSize, const Vector2D &clipPosition) = 0;
-        virtual void RenderDebug(DebugColour lineColour, BoundType boundType, const Box2D &bounds) = 0;
+        virtual void RenderDebug(DebugColour lineColour, BoundType boundType, const Box2D &bounds, RenderPriority priority) = 0;
 
         virtual void RegisterAsset(const std::string &assetName, const std::string &path) = 0;
         virtual void RegisterAnimation(const std::string &assetName, const std::string &path) = 0;

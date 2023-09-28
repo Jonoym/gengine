@@ -119,7 +119,7 @@ namespace Gengine
     void AnimationComponent::RenderDebug()
     {
         ServiceManager::GetServiceManager().GetRenderService().RenderDebug(
-            mColour, mBoundType, Box2D(mEntity->mPosition + mOffset, mSize, true, true)
+            mColour, mBoundType, Box2D(mEntity->mPosition + mOffset, mSize, true, true), mPriority
         );
     }
 }

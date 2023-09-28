@@ -14,7 +14,8 @@
 
 namespace Gengine
 {
-    Map::Map() {
+    Map::Map()
+    {
     }
 
     Map::~Map() {}
@@ -37,7 +38,7 @@ namespace Gengine
         entity->AddComponent(std::make_shared<InputMovementComponent>());
         entity->AddComponent(std::make_shared<MovementComponent>());
         entity->AddComponent(std::make_shared<CameraFocusComponent>(true, CameraState::TRACKING_SMOOTH));
-        entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 40.0f, PhysicsBody::RIGID, BodyShape::CIRCULAR, Vector2D(0.0f, 20.0f)));
+        entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 200.0f, PhysicsBody::RIGID, BodyShape::CIRCULAR, Vector2D(0.0f, 20.0f)));
 
         std::shared_ptr<DogAnimationController> aniController =
             std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", "assets/bear.atlas", Vector2D(200.0f, 200.0f));
@@ -60,27 +61,33 @@ namespace Gengine
         // entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 150.0f));
         // SpawnEntityAt(std::move(entity), Vector2D(0.0f, 0.0f));
 
+        // std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
+        // entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
+        // // entity2->AddComponent(std::make_shared<MovementComponent>());
+        // entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f, PhysicsBody::TRANSPARENT));
+        // SpawnEntityAt(std::move(entity2), Vector2D(400.0f, 400.0f));
+
         for (float i = 0.0f; i < 2000; i += 200)
         {
             for (float j = 0.0f; j < 1000; j += 200)
             {
 
-        //         std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
-        //         entity2->AddComponent(std::make_shared<InputMovementComponent>());
-        //         entity2->AddComponent(std::make_shared<MovementComponent>());
-        //         entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f));
+                //         std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
+                //         entity2->AddComponent(std::make_shared<InputMovementComponent>());
+                //         entity2->AddComponent(std::make_shared<MovementComponent>());
+                //         entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f));
 
-        //         std::shared_ptr<DogAnimationController> aniController2 = std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", "assets/bear.atlas", Vector2D(200.0f, 200.0f));
-        //         aniController2->AddAnimation("moveLeftStart", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         aniController2->AddAnimation("moveRightStart", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         aniController2->AddAnimation("moveUpStart", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         aniController2->AddAnimation("defaultUp", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         aniController2->AddAnimation("moveDownStart", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         aniController2->AddAnimation("defaultLeft", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         aniController2->AddAnimation("defaultRight", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         aniController2->AddAnimation("defaultDown", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         aniController2->AddAnimation("default", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
-        //         entity2->AddComponent(aniController2);
+                //         std::shared_ptr<DogAnimationController> aniController2 = std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", "assets/bear.atlas", Vector2D(200.0f, 200.0f));
+                //         aniController2->AddAnimation("moveLeftStart", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         aniController2->AddAnimation("moveRightStart", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         aniController2->AddAnimation("moveUpStart", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         aniController2->AddAnimation("defaultUp", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         aniController2->AddAnimation("moveDownStart", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         aniController2->AddAnimation("defaultLeft", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         aniController2->AddAnimation("defaultRight", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         aniController2->AddAnimation("defaultDown", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         aniController2->AddAnimation("default", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
+                //         entity2->AddComponent(aniController2);
 
                 std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
                 entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
@@ -101,7 +108,6 @@ namespace Gengine
         button->AddComponent(buttonController);
 
         SpawnEntityAt(std::move(button), Vector2D(200.0f, 120.0f));
-        
 
         // std::unique_ptr<Entity> button2 = std::make_unique<Entity>();
         // button2->AddComponent(std::make_shared<ButtonComponent>(Vector2D(600.0f, 280.0f)));
