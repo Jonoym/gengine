@@ -18,5 +18,6 @@ namespace Gengine
 
     private:
         std::vector<std::unique_ptr<Entity>> mEntities;
+        std::vector<std::unique_ptr<Entity>> mRegisterEntities;
     };
 }

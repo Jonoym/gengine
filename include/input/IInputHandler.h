@@ -12,6 +12,7 @@ namespace Gengine
         virtual void HandleInput() = 0;
         virtual void DispatchInputEvent(const Input& input) = 0;
         virtual void Register(InputComponent* component) = 0;
+        virtual void Deregister(InputComponent* component) = 0;
 
         std::vector<InputComponent*> mInputComponents;
     };

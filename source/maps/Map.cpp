@@ -9,6 +9,7 @@
 #include <input/ButtonComponent.h>
 #include <graphics/controller/ButtonAnimationController.h>
 #include <graphics/RenderComponent.h>
+#include <combat/ProjectileSpawnerComponent.h>
 
 #include <core/Logger.h>
 
@@ -39,6 +40,8 @@ namespace Gengine
         entity->AddComponent(std::make_shared<MovementComponent>());
         entity->AddComponent(std::make_shared<CameraFocusComponent>(true, CameraState::TRACKING_SMOOTH));
         entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 200.0f, PhysicsBody::RIGID, BodyShape::CIRCULAR, Vector2D(0.0f, 20.0f)));
+        entity->AddComponent(std::make_shared<InputMouseComponent>());
+        entity->AddComponent(std::make_shared<ProjectileSpawnerComponent>(300.0f, "", "", "", Vector2D()));
 
         std::shared_ptr<DogAnimationController> aniController =
             std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", "assets/bear.atlas", Vector2D(200.0f, 200.0f));
@@ -89,25 +92,25 @@ namespace Gengine
                 //         aniController2->AddAnimation("default", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
                 //         entity2->AddComponent(aniController2);
 
-                std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
-                entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
-                // entity2->AddComponent(std::make_shared<MovementComponent>());
-                entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f, PhysicsBody::RIGID));
-                SpawnEntityAt(std::move(entity2), Vector2D(400.0f + i, 400.0f + j));
+                // std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
+                // entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
+                // // entity2->AddComponent(std::make_shared<MovementComponent>());
+                // entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f, PhysicsBody::RIGID));
+                // SpawnEntityAt(std::move(entity2), Vector2D(400.0f + i, 400.0f + j));
             }
         }
 
-        std::unique_ptr<Entity> button = std::make_unique<Entity>();
-        button->AddComponent(std::make_shared<ButtonComponent>(Vector2D(300.0f, 140.0f)));
+        // std::unique_ptr<Entity> button = std::make_unique<Entity>();
+        // button->AddComponent(std::make_shared<ButtonComponent>(Vector2D(300.0f, 140.0f)));
 
-        std::shared_ptr<ButtonAnimationController> buttonController =
-            std::make_shared<ButtonAnimationController>("button", "assets/buttonSprites.png", "assets/button.atlas", Vector2D(300.0f, 140.0f));
-        buttonController->AddAnimation("hoverStart", AnimationPlaythrough::NORMAL, AnimationCompletion::CANCELLABLE, 100);
-        buttonController->AddAnimation("onClick", AnimationPlaythrough::NORMAL, AnimationCompletion::COMPLETE, 200);
-        buttonController->AddAnimation("hoverEnd", AnimationPlaythrough::NORMAL, AnimationCompletion::CANCELLABLE, 100);
-        button->AddComponent(buttonController);
+        // std::shared_ptr<ButtonAnimationController> buttonController =
+        //     std::make_shared<ButtonAnimationController>("button", "assets/buttonSprites.png", "assets/button.atlas", Vector2D(300.0f, 140.0f));
+        // buttonController->AddAnimation("hoverStart", AnimationPlaythrough::NORMAL, AnimationCompletion::CANCELLABLE, 100);
+        // buttonController->AddAnimation("onClick", AnimationPlaythrough::NORMAL, AnimationCompletion::COMPLETE, 200);
+        // buttonController->AddAnimation("hoverEnd", AnimationPlaythrough::NORMAL, AnimationCompletion::CANCELLABLE, 100);
+        // button->AddComponent(buttonController);
 
-        SpawnEntityAt(std::move(button), Vector2D(200.0f, 120.0f));
+        // SpawnEntityAt(std::move(button), Vector2D(200.0f, 120.0f));
 
         // std::unique_ptr<Entity> button2 = std::make_unique<Entity>();
         // button2->AddComponent(std::make_shared<ButtonComponent>(Vector2D(600.0f, 280.0f)));

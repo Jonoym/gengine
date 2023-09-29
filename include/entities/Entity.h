@@ -22,10 +22,14 @@ namespace Gengine
         const Vector2D &GetPosition();
 
         void Update();
+        void PrepareDisposal();
+        bool ShouldDispose();
         void Dispose();
 
         Vector2D mPosition;
         EventHandler mEventHandler;
         std::vector<std::shared_ptr<Component>> mComponents;
+    private:
+        bool mDispose;
     };
 }

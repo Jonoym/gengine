@@ -38,6 +38,7 @@ namespace Gengine
         Vector2D operator- (const Vector2D& other) const;
 
         const float32 Length() const;
+        const Vector2D Normalise() const;
     
         float32 mX;
         float32 mY;

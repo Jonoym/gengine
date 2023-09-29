@@ -105,4 +105,16 @@ namespace Gengine
         mInputComponents.push_back(component);
     }
 
+    void InputHandler::Deregister(InputComponent *component)
+    {
+        L_INFO("[INPUT HANDLER]", "Registering Input Component");
+        for (auto inputComponent : mInputComponents)
+        {
+            if (inputComponent == component)
+            {
+
+            }
+        }
+    }
+
 }

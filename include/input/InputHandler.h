@@ -17,6 +17,7 @@ namespace Gengine
         bool ShouldQuit();
 
         void Register(InputComponent* component) override;
+        void Deregister(InputComponent* component) override;
 
     private:
 

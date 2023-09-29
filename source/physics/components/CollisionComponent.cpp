@@ -65,6 +65,7 @@ namespace Gengine
         if (collisionEvent != nullptr)
         {
             L_INFO("[COLLISION COMPONENT]", "Collision Start");
+            HandleCollisionStart(collisionEvent);
         }
     }
 
@@ -74,6 +75,7 @@ namespace Gengine
         if (collisionEvent != nullptr)
         {
             L_INFO("[COLLISION COMPONENT]", "Collision End");
+            HandleCollisionEnd(collisionEvent);
         }
     }
 }

@@ -38,10 +38,9 @@ namespace Gengine
 
     void MovementComponent::PhysicsUpdate(float32 deltaTime)
     {
-        Vector2D multiplier = (mDirections.mLeft || mDirections.mRight) && (mDirections.mUp || mDirections.mDown) ? Vector2D(0.707f, 0.707f) : Vector2D(1.0f, 1.0f);
-
-        mEntity->mPosition += mMoveDirection * mMovementSpeed * multiplier * deltaTime;
-
+        if (mMoveDirection != Vector2D::ZERO) {
+            mEntity->mPosition += mMoveDirection.Normalise() * mMovementSpeed * deltaTime;
+        }
         if (mLastMoveDirection != mMoveDirection)
         {
             TriggerAnimation();

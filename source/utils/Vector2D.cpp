@@ -92,4 +92,9 @@ namespace Gengine
         return std::sqrt(mX * mX + mY * mY);
     }
 
+    const Vector2D Vector2D::Normalise() const
+    {
+        return Vector2D(mX / Length(), mY / Length());
+    }
+
 }

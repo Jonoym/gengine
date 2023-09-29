@@ -23,4 +23,14 @@ namespace Gengine
         CollisionComponent *mCollider;
         CollisionComponent *mOtherCollider;
     };
+
+    class MouseEvent : public Event
+    {
+    public:
+        MouseEvent(int32 x, int32 y)
+            : mX(x), mY(y) {}
+
+        int32 mX;
+        int32 mY;
+    };
 }

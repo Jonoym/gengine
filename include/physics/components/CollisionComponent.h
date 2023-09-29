@@ -38,6 +38,9 @@ namespace Gengine
         void OnCollisionStart(Event* event);
         void OnCollisionEnd(Event* event);
 
+        virtual void HandleCollisionStart(Event* event) {}
+        virtual void HandleCollisionEnd(Event* event) {}
+
         float32 mMass;
         float32 mRadius;
         PhysicsBody mPhysicsBody;

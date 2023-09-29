@@ -213,6 +213,10 @@ namespace Gengine
     void RenderService::RegisterAnimation(const std::string &assetName, const std::string &path)
     {
         L_INFO("[RENDER SERVICE]", "Registering Animation File");
+
+        const auto& it = mSpritesheets.find(assetName);
+        if (it != nullptr) return;
+
         std::vector<AtlasRegion> atlasRegions = AtlasReader::ParseAtlasFile(path);
 
         std::sort(atlasRegions.begin(), atlasRegions.end(), [](const AtlasRegion &a, const AtlasRegion &b)
@@ -268,7 +272,7 @@ namespace Gengine
 
     void RenderService::RegisterDebug(IDebugRenderableComponent *component)
     {
-        L_INFO("[RENDER SERVICE]", "Registering Debu Render Component");
+        L_INFO("[RENDER SERVICE]", "Registering Debug Render Component");
         mDebugComponents.push_back(component);
     }
 

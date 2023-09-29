@@ -5,10 +5,13 @@
 namespace Gengine
 {
     Entity::Entity()
-        : mPosition(Vector2D(0.0f, 0.0f)) {}
+        : mPosition(Vector2D(0.0f, 0.0f))
+        , mDispose(false)
+        {}
 
     Entity::Entity(const Entity &other)
         : mPosition(Vector2D(other.mPosition.mX, other.mPosition.mY))
+        , mDispose(false)
     {
         this->mEventHandler = other.mEventHandler;
 
@@ -46,6 +49,18 @@ namespace Gengine
         {
             component->Update();
         }
+    }
+
+    void Entity::PrepareDisposal()
+    {
+        L_INFO("[ENTITY]", "Preparing Entity for Disposal");
+        mDispose = true;
+    }
+
+    bool Entity::ShouldDispose()
+    {
+        L_TRACE("[ENTITY]", "Preparing Entity for Disposal");
+        return mDispose;
     }
 
     void Entity::Dispose()
