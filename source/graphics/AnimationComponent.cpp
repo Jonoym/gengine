@@ -23,7 +23,7 @@ namespace Gengine
         ServiceManager::GetServiceManager().GetRenderService().RegisterAsset(assetName, texturePath);
         ServiceManager::GetServiceManager().GetRenderService().RegisterAnimation(assetName, atlasPath);
 
-        AddAnimation(defaultName, AnimationPlaythrough::NORMAL, AnimationCompletion::CANCELLABLE, 1000);
+        AddAnimation(defaultName, AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
     }
     AnimationComponent::AnimationComponent(const AnimationComponent &other)
         : IRenderableComponent(other.mPriority, other.mSize)
@@ -31,6 +31,12 @@ namespace Gengine
     {}
 
     AnimationComponent::~AnimationComponent() {}
+
+    void AnimationComponent::Dispose()
+    {
+        ServiceManager::GetServiceManager().GetRenderService().Deregister(this);
+        ServiceManager::GetServiceManager().GetRenderService().DeregisterDebug(this);
+    }
 
     void AnimationComponent::Create()
     {

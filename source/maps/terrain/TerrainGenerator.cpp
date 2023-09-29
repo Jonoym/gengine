@@ -35,30 +35,30 @@ namespace Gengine
             }
         }
 
-        {
-            std::unique_ptr<Entity> terrainEntity2 = std::make_unique<Entity>();
-            std::shared_ptr<AnimationComponent> tile2 =
-                std::make_shared<AnimationComponent>("terrainObject", "assets/terrainObjectSprites.png", "assets/terrainObject.atlas",
-                                                     Vector2D(100.0f, 100.0f), RenderPriority::ENTITY, Vector2D(), "rock");
+        // {
+        //     std::unique_ptr<Entity> terrainEntity2 = std::make_unique<Entity>();
+        //     std::shared_ptr<AnimationComponent> tile2 =
+        //         std::make_shared<AnimationComponent>("terrainObject", "assets/terrainObjectSprites.png", "assets/terrainObject.atlas",
+        //                                              Vector2D(100.0f, 100.0f), RenderPriority::ENTITY, Vector2D(), "rock");
 
-            terrainEntity2->AddComponent(tile2);
-            terrainEntity2->AddComponent(std::make_shared<CollisionComponent>(100.0f, 50.0f, PhysicsBody::STATIC));
+        //     terrainEntity2->AddComponent(tile2);
+        //     terrainEntity2->AddComponent(std::make_shared<CollisionComponent>(100.0f, 50.0f, PhysicsBody::STATIC));
 
-            terrainEntity2->mPosition = Vector2D(1000.0f, 500.0f);
-            ServiceManager::GetServiceManager().GetEntityService().RegisterEntity(std::move(terrainEntity2));
-        }
-        {
-            std::unique_ptr<Entity> terrainEntity3 = std::make_unique<Entity>();
-            std::shared_ptr<AnimationComponent> tile3 =
-                std::make_shared<AnimationComponent>("terrainObject", "assets/terrainObjectSprites.png", "assets/terrainObject.atlas",
-                                                     Vector2D(300.0f, 400.0f), RenderPriority::ENTITY, Vector2D(), "tree");
+        //     terrainEntity2->mPosition = Vector2D(1000.0f, 500.0f);
+        //     ServiceManager::GetServiceManager().GetEntityService().RegisterEntity(std::move(terrainEntity2));
+        // }
+        // {
+        //     std::unique_ptr<Entity> terrainEntity3 = std::make_unique<Entity>();
+        //     std::shared_ptr<AnimationComponent> tile3 =
+        //         std::make_shared<AnimationComponent>("terrainObject", "assets/terrainObjectSprites.png", "assets/terrainObject.atlas",
+        //                                              Vector2D(300.0f, 400.0f), RenderPriority::ENTITY, Vector2D(), "tree");
 
-            terrainEntity3->AddComponent(tile3);
-            terrainEntity3->AddComponent(std::make_shared<CollisionComponent>(100.0f, 50.0f, PhysicsBody::STATIC));
+        //     terrainEntity3->AddComponent(tile3);
+        //     terrainEntity3->AddComponent(std::make_shared<CollisionComponent>(100.0f, 50.0f, PhysicsBody::STATIC));
 
-            terrainEntity3->mPosition = Vector2D(1200.0f, 800.0f);
-            ServiceManager::GetServiceManager().GetEntityService().RegisterEntity(std::move(terrainEntity3));
-        }
+        //     terrainEntity3->mPosition = Vector2D(1200.0f, 800.0f);
+        //     ServiceManager::GetServiceManager().GetEntityService().RegisterEntity(std::move(terrainEntity3));
+        // }
         // {
         //     std::unique_ptr<Entity> terrainEntity3 = std::make_unique<Entity>();
         //     std::shared_ptr<AnimationComponent> tile3 =

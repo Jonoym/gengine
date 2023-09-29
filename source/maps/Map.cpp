@@ -10,6 +10,7 @@
 #include <graphics/controller/ButtonAnimationController.h>
 #include <graphics/RenderComponent.h>
 #include <combat/ProjectileSpawnerComponent.h>
+#include <combat/DamageableComponent.h>
 
 #include <core/Logger.h>
 
@@ -41,7 +42,7 @@ namespace Gengine
         entity->AddComponent(std::make_shared<CameraFocusComponent>(true, CameraState::TRACKING_SMOOTH));
         entity->AddComponent(std::make_shared<CollisionComponent>(10.0f, 200.0f, PhysicsBody::RIGID, BodyShape::CIRCULAR, Vector2D(0.0f, 20.0f)));
         entity->AddComponent(std::make_shared<InputMouseComponent>());
-        entity->AddComponent(std::make_shared<ProjectileSpawnerComponent>(300.0f, "", "", "", Vector2D()));
+        entity->AddComponent(std::make_shared<ProjectileSpawnerComponent>(300.0f, "energyBall", "assets/energyBall.png", "assets/energyBall.atlas", Vector2D()));
 
         std::shared_ptr<DogAnimationController> aniController =
             std::make_shared<DogAnimationController>("bearAnimation", "assets/bearSprites.png", "assets/bear.atlas", Vector2D(200.0f, 200.0f));
@@ -66,8 +67,8 @@ namespace Gengine
 
         // std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
         // entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
-        // // entity2->AddComponent(std::make_shared<MovementComponent>());
-        // entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f, PhysicsBody::TRANSPARENT));
+        // // entity2->AddComponent(std::make_shared<DamageableComponent>(75.0f));
+        // entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f, PhysicsBody::RIGID));
         // SpawnEntityAt(std::move(entity2), Vector2D(400.0f, 400.0f));
 
         for (float i = 0.0f; i < 2000; i += 200)
@@ -92,11 +93,11 @@ namespace Gengine
                 //         aniController2->AddAnimation("default", AnimationPlaythrough::LOOP, AnimationCompletion::CANCELLABLE, 100);
                 //         entity2->AddComponent(aniController2);
 
-                // std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
-                // entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
-                // // entity2->AddComponent(std::make_shared<MovementComponent>());
+                std::unique_ptr<Entity> entity2 = std::make_unique<Entity>();
+                entity2->AddComponent(std::make_shared<RenderComponent>("sheep", "assets/sheep.png", Vector2D(200.0f, 200.0f), RenderPriority::ENTITY));
+                entity2->AddComponent(std::make_shared<DamageableComponent>(75.0f));
                 // entity2->AddComponent(std::make_shared<CollisionComponent>(1.0f, 75.0f, PhysicsBody::RIGID));
-                // SpawnEntityAt(std::move(entity2), Vector2D(400.0f + i, 400.0f + j));
+                SpawnEntityAt(std::move(entity2), Vector2D(400.0f + i, 400.0f + j));
             }
         }
 

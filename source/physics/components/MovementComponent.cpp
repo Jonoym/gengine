@@ -14,6 +14,11 @@ namespace Gengine
 
     MovementComponent::~MovementComponent() {}
 
+    void MovementComponent::Dispose()
+    {
+        ServiceManager::GetServiceManager().GetPhysicsService().Deregister(this);
+    }
+
     void MovementComponent::Create()
     {
         L_INFO("[MOVEMENT COMPONENT]", "Creating and Input Component and Adding Listeners");

@@ -101,20 +101,14 @@ namespace Gengine
 
     void InputHandler::Register(InputComponent *component)
     {
-        L_INFO("[INPUT HANDLER]", "Registering Input Component");
+        L_TRACE("[INPUT HANDLER]", "Registering Input Component");
         mInputComponents.push_back(component);
     }
 
     void InputHandler::Deregister(InputComponent *component)
     {
-        L_INFO("[INPUT HANDLER]", "Registering Input Component");
-        for (auto inputComponent : mInputComponents)
-        {
-            if (inputComponent == component)
-            {
-
-            }
-        }
+        L_TRACE("[INPUT HANDLER]", "Deregistering Input Component");
+        mInputComponents.erase(std::remove(mInputComponents.begin(), mInputComponents.end(), component), mInputComponents.end());        
     }
 
 }

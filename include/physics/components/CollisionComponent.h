@@ -23,12 +23,11 @@ namespace Gengine
     class CollisionComponent : public PhysicsComponent, IDebugRenderableComponent
     {
     public:
-        CollisionComponent();
         CollisionComponent(const float32 mass, const float32 radius, PhysicsBody body, BodyShape shape = BodyShape::CIRCULAR, const Vector2D& offset = Vector2D());
         ~CollisionComponent();
 
         void Create() override;
-
+        void Dispose() override;
         void RenderDebug() override;
         
         void PhysicsUpdate(float32 deltaTime) override;

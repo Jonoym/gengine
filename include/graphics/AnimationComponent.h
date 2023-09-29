@@ -50,6 +50,8 @@ namespace Gengine
         ~AnimationComponent();
 
         virtual void Create() override;
+        void Dispose() override;
+        
         void AddAnimation(const std::string &animationName, AnimationPlaythrough playthrough, AnimationCompletion completion, uint32 delayTime);
         void StartAnimation(const std::string &animationName, bool force);
         void Render() override;

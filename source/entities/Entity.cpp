@@ -53,7 +53,7 @@ namespace Gengine
 
     void Entity::PrepareDisposal()
     {
-        L_INFO("[ENTITY]", "Preparing Entity for Disposal");
+        L_TRACE("[ENTITY]", "Preparing Entity for Disposal");
         mDispose = true;
     }
 
@@ -65,10 +65,11 @@ namespace Gengine
 
     void Entity::Dispose()
     {
-        L_INFO("[ENTITY]", "Disposing Entity Components");
+        L_TRACE("[ENTITY]", "Disposing Entity Components");
         for (auto& component : mComponents)
         {
             component->Dispose();
         }
+        mComponents.clear();
     }
 }

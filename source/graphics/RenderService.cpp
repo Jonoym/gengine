@@ -266,14 +266,26 @@ namespace Gengine
 
     void RenderService::Register(IRenderableComponent *component)
     {
-        L_INFO("[RENDER SERVICE]", "Registering Render Component");
+        L_TRACE("[RENDER SERVICE]", "Registering Renderable Component");
         mRenderComponents.push_back(component);
     }
 
     void RenderService::RegisterDebug(IDebugRenderableComponent *component)
     {
-        L_INFO("[RENDER SERVICE]", "Registering Debug Render Component");
+        L_TRACE("[RENDER SERVICE]", "Registering Debug Renderable Component");
         mDebugComponents.push_back(component);
+    }
+
+    void RenderService::Deregister(IRenderableComponent *component)
+    {
+        L_TRACE("[RENDER SERVICE]", "Deregistering Renderable Component");
+        mRenderComponents.erase(std::remove(mRenderComponents.begin(), mRenderComponents.end(), component), mRenderComponents.end());        
+    }
+
+    void RenderService::DeregisterDebug(IDebugRenderableComponent *component)
+    {
+        L_TRACE("[RENDER SERVICE]", "Deregistering Debug Renderable Component");
+        mDebugComponents.erase(std::remove(mDebugComponents.begin(), mDebugComponents.end(), component), mDebugComponents.end());        
     }
 
 }

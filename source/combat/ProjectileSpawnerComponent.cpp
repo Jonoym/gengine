@@ -56,12 +56,12 @@ namespace Gengine
 
     void ProjectileSpawnerComponent::SpawnProjectile()
     {
-        L_INFO("[PROJECTILE SPAWNER COMPONENT]", "Spawning Projectile at Position: { x: %f, y: %f }", mEntity->mPosition.mX, mEntity->mPosition.mY);
+        L_TRACE("[PROJECTILE SPAWNER COMPONENT]", "Spawning Projectile at Position: { x: %f, y: %f }", mEntity->mPosition.mX, mEntity->mPosition.mY);
 
         const Box2D& screenProperties =  ServiceManager::GetServiceManager().GetRenderService().GetCamera()->GetWindowPosition();
         Vector2D direction = (mMouseLocation - Vector2D(screenProperties.mW / 2, screenProperties.mH / 2)).Normalise();
 
-        L_INFO("[PROJECTILE SPAWNER COMPONENT]", "Spawning Projectile with Direction: { x: %f, y: %f }", direction.mX, direction.mY);
+        L_TRACE("[PROJECTILE SPAWNER COMPONENT]", "Spawning Projectile with Direction: { x: %f, y: %f }", direction.mX, direction.mY);
 
         std::unique_ptr<Entity> projectileEntity = ProjectileFactory::CreateProjectile(mEntity->mPosition, direction, mRange, mAssetName, mTexturePath, mAtlasPath, mSize);
 

@@ -12,6 +12,11 @@ namespace Gengine
 
     InputComponent::~InputComponent() {}
 
+    void InputComponent::Dispose()
+    {
+        ServiceManager::GetServiceManager().GetInputHandler().Deregister(this);
+    }
+
     bool InputComponent::HandleInput(const Input &input)
     {
         L_TRACE("[INPUT COMPONENT]", "Receiving Input");

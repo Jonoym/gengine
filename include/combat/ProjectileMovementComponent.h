@@ -13,6 +13,7 @@ namespace Gengine
             ~ProjectileMovementComponent();
 
             void Create() override;
+            void Dispose() override;
             void PhysicsUpdate(float32 deltaTime) override;
 
         private:

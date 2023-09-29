@@ -20,6 +20,11 @@ namespace Gengine
         mEntity->mPosition = mStartPosition;
     }
 
+    void ProjectileMovementComponent::Dispose()
+    {
+        ServiceManager::GetServiceManager().GetPhysicsService().Deregister(this);
+    }
+
     void ProjectileMovementComponent::PhysicsUpdate(float32 deltaTime)
     {
         L_TRACE("[PROJECTILE MOVEMENT COMPONENT]", "Updating Position of Projectile by Direction: { x: %f, y: %f}", mDirection.mX, mDirection.mY);
@@ -29,7 +34,7 @@ namespace Gengine
 
         if (distanceTravelled.Length() > mRange)
         {
-            // mEntity->PrepareDisposal();
+            mEntity->PrepareDisposal();
         }
     }
 }

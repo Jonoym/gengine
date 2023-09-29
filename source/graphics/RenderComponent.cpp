@@ -19,6 +19,14 @@ namespace Gengine
     }
 
     RenderComponent::~RenderComponent() {}
+
+    void RenderComponent::Dispose()
+    {
+        L_INFO("[RENDER COMPONENT]", "Disposing Render Component");
+
+        ServiceManager::GetServiceManager().GetRenderService().Deregister(this);
+        ServiceManager::GetServiceManager().GetRenderService().DeregisterDebug(this);
+    }
     
     void RenderComponent::Render()
     {

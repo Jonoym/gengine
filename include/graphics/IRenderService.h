@@ -29,6 +29,9 @@ namespace Gengine
 
         virtual void Register(IRenderableComponent *component) = 0;
         virtual void RegisterDebug(IDebugRenderableComponent *component) = 0;
+        virtual void Deregister(IRenderableComponent *component) = 0;
+        virtual void DeregisterDebug(IDebugRenderableComponent *component) = 0;
+
 
         std::vector<IRenderableComponent *> mRenderComponents;
         std::vector<IDebugRenderableComponent *> mDebugComponents;

@@ -18,6 +18,8 @@ namespace Gengine
         InputComponent(InputPriority priority);
         ~InputComponent();
 
+        void Dispose() override;
+
         virtual bool HandleInput(const Input &input);
         virtual void HandleInactive(const Input &input);
 

@@ -18,6 +18,8 @@ namespace Gengine
 
         void Register(PhysicsComponent *component);
         void RegisterCollider(CollisionComponent *component);
+        void Deregister(PhysicsComponent *component);
+        void DeregisterCollider(CollisionComponent *component);
 
     private:
         void UpdatePositions(float32 deltaTime);
@@ -25,6 +27,7 @@ namespace Gengine
 
         std::vector<PhysicsComponent *> mPhysicsComponents;
         std::vector<CollisionComponent *> mColliderComponents;
+        std::unordered_set<CollisionComponent *> mDeregisteredColliders;
 
         struct PairPointerHash
         {

@@ -27,42 +27,69 @@ namespace Gengine
             SolveCollisions();
         }
 
+        L_TRACE("[PHYSICS SERVICE]", "Triggering Collision Start Events");
+
         // All of the collisions that has happened on this time update
-        for (const auto& colliders : mCollided)
+        for (const auto &colliders : mCollided)
         {
             // If it was not part of the previous ones, the collision starts for the first time
             if (!mPreviousCollided.contains(colliders))
             {
-                CollisionEvent event{colliders.first, colliders.second};
-                colliders.first->mEntity->mEventHandler.Trigger("onCollisionStart", event);
-                colliders.second->mEntity->mEventHandler.Trigger("onCollisionStart", event);
+                if (!mDeregisteredColliders.contains(colliders.first) && !mDeregisteredColliders.contains(colliders.second))
+                {
+                    CollisionEvent event{colliders.first, colliders.second};
+                    colliders.first->mEntity->mEventHandler.Trigger("onCollisionStart", event);
+                    colliders.second->mEntity->mEventHandler.Trigger("onCollisionStart", event);
+                }
             }
         }
 
-        for (const auto& colliders : mPreviousCollided)
+        L_TRACE("[PHYSICS SERVICE]", "Triggering Collision End Events");
+        for (const auto &colliders : mPreviousCollided)
         {
+        L_TRACE("[PHYSICS SERVICE]", "Finishing Physics Update1");
             if (!mCollided.contains(colliders))
             {
-                CollisionEvent event{colliders.first, colliders.second};
-                colliders.first->mEntity->mEventHandler.Trigger("onCollisionEnd", event);
-                colliders.second->mEntity->mEventHandler.Trigger("onCollisionEnd", event);
+        L_TRACE("[PHYSICS SERVICE]", "Finishing Physics Update2");
+                if (!mDeregisteredColliders.contains(colliders.first) && !mDeregisteredColliders.contains(colliders.second))
+                {
+        L_TRACE("[PHYSICS SERVICE]", "Finishing Physics Update3");
+                    CollisionEvent event{colliders.first, colliders.second};
+        L_TRACE("[PHYSICS SERVICE]", "Finishing Physics Update4");
+                    colliders.first->mEntity->mEventHandler.Trigger("onCollisionEnd", event);
+                    colliders.second->mEntity->mEventHandler.Trigger("onCollisionEnd", event);
+        L_TRACE("[PHYSICS SERVICE]", "Finishing Physics Update6");
+                }
             }
         }
-
+        L_TRACE("[PHYSICS SERVICE]", "Finishing Physics Update");
+        mDeregisteredColliders.clear();
         mPreviousCollided = mCollided;
-
+        L_TRACE("[PHYSICS SERVICE]", "Finishing Physics Update");
     }
 
     void PhysicsService::Register(PhysicsComponent *component)
     {
-        L_INFO("[PHYSICS SERVICE]", "Registering Physics Component");
+        L_TRACE("[PHYSICS SERVICE]", "Registering Physics Component");
         mPhysicsComponents.push_back(component);
     }
 
     void PhysicsService::RegisterCollider(CollisionComponent *component)
     {
-        L_INFO("[PHYSICS SERVICE]", "Registering Physics Collider Component");
+        L_TRACE("[PHYSICS SERVICE]", "Registering Physics Collider Component");
         mColliderComponents.push_back(component);
+    }
+    void PhysicsService::Deregister(PhysicsComponent *component)
+    {
+        L_TRACE("[PHYSICS SERVICE]", "Deregistering Physics Component");
+        mPhysicsComponents.erase(std::remove(mPhysicsComponents.begin(), mPhysicsComponents.end(), component), mPhysicsComponents.end());
+    }
+
+    void PhysicsService::DeregisterCollider(CollisionComponent *component)
+    {
+        L_TRACE("[PHYSICS SERVICE]", "Deregistering Physics Collider Component");
+        mColliderComponents.erase(std::remove(mColliderComponents.begin(), mColliderComponents.end(), component), mColliderComponents.end());
+        mDeregisteredColliders.insert(component);
     }
 
     void PhysicsService::UpdatePositions(float32 deltaTime)
@@ -98,11 +125,12 @@ namespace Gengine
                 if (distance < collisionRadius)
                 {
                     L_TRACE("[PHYSICS SERVICE]", "Handling Collision Collider1 Position: { x: %f, y: %f }, Collider2 Position: { x: %f, y: %f }",
-                        colliderPosition1.mX, colliderPosition1.mY, colliderPosition2.mX, colliderPosition2.mY);
+                            colliderPosition1.mX, colliderPosition1.mY, colliderPosition2.mX, colliderPosition2.mY);
 
                     mCollided.insert(std::make_pair(collider1, collider2));
 
-                    if (collider1->mPhysicsBody != PhysicsBody::TRANSPARENT && collider2->mPhysicsBody != PhysicsBody::TRANSPARENT) {
+                    if (collider1->mPhysicsBody != PhysicsBody::TRANSPARENT && collider2->mPhysicsBody != PhysicsBody::TRANSPARENT)
+                    {
                         const Vector2D strength = collisionAxis / distance;
 
                         const float32 delta = collisionRadius - distance;

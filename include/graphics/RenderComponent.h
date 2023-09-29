@@ -12,6 +12,7 @@ namespace Gengine
         RenderComponent(const RenderComponent &other);
         ~RenderComponent();
 
+        void Dispose() override;
         void Render() override;
         void RenderDebug() override;
 

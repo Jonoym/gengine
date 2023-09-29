@@ -18,21 +18,21 @@ namespace Gengine
         }
         mRegisterEntities.clear();
 
-        // L_TRACE("[ENTITY SERVICE]", "Deleting Entities for Disposal");
-        // auto deleteIt = mEntities.begin();
-        // while (deleteIt != mEntities.end())
-        // {
-        //     if (deleteIt->get()->ShouldDispose())
-        //     {
-        //         L_TRACE("[ENTITY SERVICE]", "Deleting Entity");
-        //         deleteIt->get()->Dispose();
-        //         deleteIt = mEntities.erase(deleteIt);
-        //     }
-        //     else
-        //     {
-        //         deleteIt++;
-        //     }
-        // }
+        L_TRACE("[ENTITY SERVICE]", "Deleting Entities for Disposal");
+        auto deleteIt = mEntities.begin();
+        while (deleteIt != mEntities.end())
+        {
+            if (deleteIt->get()->ShouldDispose())
+            {
+                L_INFO("[ENTITY SERVICE]", "Deleting Entity");
+                deleteIt->get()->Dispose();
+                deleteIt = mEntities.erase(deleteIt);
+            }
+            else
+            {
+                deleteIt++;
+            }
+        }
 
         L_TRACE("[ENTITY SERVICE]", "Updating all Entities");
         for (auto& entity : mEntities)

@@ -28,13 +28,12 @@ namespace Gengine
 
     void EventHandler::Trigger(const std::string &eventName, Event &event)
     {
-        L_TRACE("[EVENT HANDLER]", "Triggering Event with Name: { '%s' }", eventName.c_str());
-
         auto listeners = mListeners.find(eventName);
         if (listeners != mListeners.end())
         {
             for (auto &listener : listeners->second)
             {
+                L_TRACE("[EVENT HANDLER]", "Triggering Event");
                 listener(&event);
             }
         }

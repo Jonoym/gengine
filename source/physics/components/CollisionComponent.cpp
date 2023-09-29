@@ -6,10 +6,6 @@
 
 namespace Gengine
 {
-    CollisionComponent::CollisionComponent() : CollisionComponent(1.0f, 100.0f, PhysicsBody::RIGID)
-    {
-    }
-
     CollisionComponent::CollisionComponent(const float32 mass, const float32 radius, PhysicsBody body, BodyShape shape, const Vector2D &offset)
         : IDebugRenderableComponent(DebugColour::RED, BoundType::CIRCULAR), mCurrentPosition(nullptr), mMass(mass), mRadius(radius), mPhysicsBody(body), mBodyShape(shape), mOffset(offset)
     {
@@ -28,6 +24,12 @@ namespace Gengine
                                            { OnCollisionStart(event); });
         mEntity->mEventHandler.AddListener("onCollisionEnd", [this](Event *event)
                                            { OnCollisionEnd(event); });
+    }
+
+    void CollisionComponent::Dispose()
+    {
+        ServiceManager::GetServiceManager().GetPhysicsService().DeregisterCollider(this);
+        ServiceManager::GetServiceManager().GetRenderService().DeregisterDebug(this);
     }
 
     void CollisionComponent::PhysicsUpdate(float32 deltaTime)
